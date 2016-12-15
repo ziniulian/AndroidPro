@@ -205,7 +205,6 @@ LZR.getClassName.lzrClass_ = LZR;
 
 // 删除一个对象的属性
 LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
-	var note;
 	delete obj[proName];
 };
 LZR.del.lzrClass_ = LZR;
@@ -1608,7 +1607,7 @@ LZR.HTML.Util.Evt.prototype.version_ = "1.0";
 LZR.load(null, "LZR.HTML.Util.Evt");
 
 // 鼠标按键状态常量
-LZR.HTML.Util.Evt.prototype.MouseStat = {lk: 1, rk: 2, mid: 4};	/*as:Object*/
+LZR.HTML.Util.Evt.prototype.MouseStat = {nan: 0, lk: 1, rk: 2, mid: 4, touch:128};	/*as:Object*/
 
 // 构造器
 LZR.HTML.Util.Evt.prototype.init_ = function (obj/*as:Object*/) {
@@ -1677,27 +1676,40 @@ LZR.HTML.Util.Evt.prototype.getMousePosition.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 解析鼠标按键状态
 LZR.HTML.Util.Evt.prototype.parseMouseKey = function (evt/*as:Object*/)/*as:string*/ {
-	var k = this.getEvent(evt).button;
-	if ("\v" != "v") {
-		// 非 IE 6、7、8 版 rotate
-		switch (k) {
-			case 0:
-				k = this.MouseStat.lk;
-				break;
-			case 1:
-				k = this.MouseStat.mid;
-				break;
-		}
-	}
-	switch (k) {
-		case this.MouseStat.lk:
-			return "lk";
-		case this.MouseStat.rk:
-			return "rk";
-		case this.MouseStat.mid:
-			return "mid";
+	var e = this.getEvent(evt);
+	var en = LZR.getClassName(e);
+	var k;
+	switch (en) {
+		case "TouchEvent":
+			return "touch";
+			break;
+		case "MouseEvent":
+			k = this.getEvent(evt).button;
+			if ("\v" != "v") {
+				// 非 IE 6、7、8 版 rotate
+				switch (k) {
+					case 0:
+						k = this.MouseStat.lk;
+						break;
+					case 1:
+						k = this.MouseStat.mid;
+						break;
+				}
+			}
+			switch (k) {
+				case this.MouseStat.lk:
+					return "lk";
+				case this.MouseStat.rk:
+					return "rk";
+				case this.MouseStat.mid:
+					return "mid";
+				default:
+					return "nan";
+			}
+			break;
 		default:
-			return "";
+			return "nan";
+			break;
 	}
 };
 LZR.HTML.Util.Evt.prototype.parseMouseKey.lzrClass_ = LZR.HTML.Util.Evt;
@@ -2781,7 +2793,7 @@ LZR.Base.Time.prototype.getTim.lzrClass_ = LZR.Base.Time;
 类名：Btn
 说明：按钮
 创建日期：27-七月-2016 12:30:02
-版本号：1.0
+版本号：1.1
 *************************************************/
 
 LZR.load([
@@ -2859,9 +2871,16 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
+// 处理触摸按下事件
+LZR.HTML.Base.Ctrl.Btn.prototype.hdTouchDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.hdDown(doeo, true, evt);
+};
+LZR.HTML.Base.Ctrl.Btn.prototype.hdTouchDown.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
+
 // 处理按下事件
-LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	if (this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
+LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, isTouch/*as:boolean*/, evt/*as:Object*/) {
+	if (isTouch || this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
 		doeo.addCss(this.css);
 
 		// 触发按下事件
@@ -2955,102 +2974,29 @@ LZR.HTML.Base.Ctrl.Btn.prototype.onUp.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
-	doeo.addEvt ("mouseup",  this.utLzr.bind(this, this.hdUp, doeo), this.className_);
-	doeo.addEvt ("mouseout",  this.utLzr.bind(this, this.hdOut, doeo), this.className_);
+	var up = this.utLzr.bind(this, this.hdUp, doeo);
+	var out = this.utLzr.bind(this, this.hdOut, doeo);
+	// doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
+	// doeo.addEvt ("mouseup",  up, this.className_);
+	// doeo.addEvt ("mouseout",  out, this.className_);
+	doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
+	doeo.addEvt ("touchend", up, this.className_);
+	doeo.addEvt ("touchcancel",  out, this.className_);
+	doeo.addEvt ("toucheleave",  out, this.className_);
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.delEvt ("mousedown", this.className_);
-	doeo.delEvt ("mouseup", this.className_);
-	doeo.delEvt ("mouseout", this.className_);
-};
-LZR.HTML.Base.Ctrl.Btn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
-
-/*************************************************
-作者：子牛连
-类名：TouchBtn
-说明：触控按钮
-创建日期：10-12月-2016 12:52:26
-版本号：1.0
-*************************************************/
-
-LZR.load([
-	"LZR.HTML.Base.Ctrl",
-	"LZR.HTML.Base.Doe",
-	"LZR.HTML.Base.Ctrl.Btn"
-], "LZR.HTML.Base.Ctrl.TouchBtn");
-LZR.HTML.Base.Ctrl.TouchBtn = function (obj) /*bases:LZR.HTML.Base.Ctrl.Btn*/ {
-	LZR.initSuper(this, obj);
-
-	if (obj && obj.lzrGeneralization_) {
-		obj.lzrGeneralization_.prototype.init_.call(this);
-	} else {
-		this.init_(obj);
-	}
-};
-LZR.HTML.Base.Ctrl.TouchBtn.prototype = LZR.clone (LZR.HTML.Base.Ctrl.Btn.prototype, LZR.HTML.Base.Ctrl.TouchBtn.prototype);
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.super_ = [LZR.HTML.Base.Ctrl.Btn];
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.className_ = "LZR.HTML.Base.Ctrl.TouchBtn";
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.version_ = "1.0";
-
-LZR.load(null, "LZR.HTML.Base.Ctrl.TouchBtn");
-
-// 构造器
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.TouchBtn;
-
-// 对构造参数的特殊处理
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.TouchBtn;
-
-// ---- 处理按下事件
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	doeo.addCss(this.css);
-
-		// 触发按下事件
-		if (this.onDown(doeo)) {
-			if ((this.dbStat === 2) && ((this.utTim.getTim() - this.tim) < 2*this.dbTim)) {
-				this.dbStat = 3;
-
-				// 删除延时单击
-				clearTimeout(this.timeout);
-
-				// 触发双击事件
-				this.onDbclick(doeo);
-				return;
-			} else {
-				this.tim = this.utTim.getTim();
-			}
-		}
-		this.dbStat = 1;
-};
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.hdDown.lzrClass_ = LZR.HTML.Base.Ctrl.TouchBtn;
-
-// ---- 给元素添加事件集
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
-	doeo.addEvt ("touchend",  this.utLzr.bind(this, this.hdUp, doeo), this.className_);
-	doeo.addEvt ("touchcancel",  this.utLzr.bind(this, this.hdOut, doeo), this.className_);
-};
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TouchBtn;
-
-// ---- 移除元素的事件集
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	// doeo.delEvt ("mousedown", this.className_);
+	// doeo.delEvt ("mouseup", this.className_);
+	// doeo.delEvt ("mouseout", this.className_);
 	doeo.delEvt ("touchstart", this.className_);
 	doeo.delEvt ("touchend", this.className_);
 	doeo.delEvt ("touchcancel", this.className_);
+	doeo.delEvt ("toucheleave", this.className_);
 };
-LZR.HTML.Base.Ctrl.TouchBtn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TouchBtn;
+LZR.HTML.Base.Ctrl.Btn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 
 /*************************************************
@@ -3245,7 +3191,7 @@ LZR.HTML.Base.Ajax.prototype.abort = function () {
 };
 LZR.HTML.Base.Ajax.prototype.abort.lzrClass_ = LZR.HTML.Base.Ajax;
 
-var r = {root:LZR,obj:{},Doe:LZR.HTML.Base.Doe,Btn:LZR.HTML.Base.Ctrl.TouchBtn,ajx:new LZR.HTML.Base.Ajax(),ut:LZR.getSingleton(LZR.Util)};r.obj.tools=r;
+var r = {root:LZR,obj:{},Doe:LZR.HTML.Base.Doe,Btn:LZR.HTML.Base.Ctrl.Btn,ajx:new LZR.HTML.Base.Ajax(),ut:LZR.getSingleton(LZR.Util)};r.obj.tools=r;
 var fun = function (obj) {
 			/* 参数说明：
 				{
@@ -3299,8 +3245,10 @@ var fun = function (obj) {
 			this.getCb = function (text, status) {
 				this.txt.doe.innerHTML += text;
 				this.txt.doe.innerHTML += "</br></br>";
+				this.txt.matchParent("b", "l");
 				this.callAdr (text);
 			};
+
 
 			// 调用安卓函数
 			this.callAdr = function (text) {

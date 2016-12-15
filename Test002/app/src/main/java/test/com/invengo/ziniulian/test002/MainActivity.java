@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
 		// 设置默认字体
 		settings.setDefaultTextEncodingName("UTF-8");
 
-		// 设置滚动条风格
-		wv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+		// 设置滚动条风格，隐藏滚动条
+		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 
 		// 传入安卓对象
 		wv.addJavascriptInterface(new AdrObj(context), "myAdrObj");
