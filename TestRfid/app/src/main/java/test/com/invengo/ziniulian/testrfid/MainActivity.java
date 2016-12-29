@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
 	private ATRfidReader reader = null;
 
+	private StringBuilder readTags = new StringBuilder();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 			wv.addJavascriptInterface(new RfidJsObj(), "rfidObj");
 
 			// 加载页面
-			wv.loadUrl("file:///android_asset/demo01/index.html");
+			wv.loadUrl("file:///android_asset/demo02/index.html");
 		}
 
 	}
@@ -108,24 +110,31 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		public void onReaderStateChanged(ATRfidReader atRfidReader, ConnectionState connectionState) {
-			Log.i("----------", "state changed");
+//			Log.i("----------", "state changed");
 		}
 
 		@Override
 		public void onReaderActionChanged(ATRfidReader atRfidReader, ActionState actionState) {
-			Log.i("----------", "action changed");
+//			Log.i("----------", "action changed");
 		}
 
 		@Override
 		public void onReaderReadTag(ATRfidReader atRfidReader, String s, float v, float v1) {
-			Log.i("----------", "read tag ：" + s + " , " + Float.toString(v) + " , " + Float.toString(v1));
+//			Log.i("----------", "read tag ：" + s + " , " + Float.toString(v) + " , " + Float.toString(v1));
+//			wv.loadUrl("javascript: hwo.adr.hdScanning('" + s + "')");
+			appendReadTag(s);
 		}
 
 		@Override
 		public void onReaderResult(ATRfidReader atRfidReader, ResultCode resultCode, ActionState actionState, String s, String s1, float v, float v1) {
-			Log.i("----------", "result ：" + s + " , " + s1 + " , " + Float.toString(v) + " , " + Float.toString(v1));
+//			Log.i("----------", "result ：" + s + " , " + s1 + " , " + Float.toString(v) + " , " + Float.toString(v1));
 //			Log.i("---------- result: ", s1);
-			wv.loadUrl("javascript: hwo.testAlert('" + s1 + "')");
+			wv.loadUrl("javascript: hwo.adr.hdWr('" + s + "', '" + s1 + "')");
+		}
+
+		private synchronized void appendReadTag (String t) {
+			readTags.append(",");
+			readTags.append(t);
 		}
 	}
 
@@ -133,26 +142,53 @@ public class MainActivity extends AppCompatActivity {
 	private class RfidJsObj implements InfRfidJsObj {
 		@Override
 		@JavascriptInterface
-		public void readTag() {
-			reader.readMemory6c(BankType.EPC, 2, 6);	// 3000E2001021411101280440E384;
-//			reader.readMemory6c(BankType.TID, 0, 12);	// E20034120137F9000097E3842A1D013670055FFBFFFFDC50
-//			reader.readMemory6c(BankType.User, 0, 32);
-//			reader.readMemory6c(BankType.Reserved, 0, 4);
+		public void read(String bankNam, int offset, int len) {
+			reader.readMemory6c(getBankTyp(bankNam), offset, len);
 		}
 //
 		@Override
 		@JavascriptInterface
-		public void writeTag(String msg) {
-			reader.writeMemory6c(BankType.User, 0, "0");
-//			reader.writeMemory6c(BankType.EPC, 2, "1234567890ABCDEF00000000");
-//			reader.writeMemory6c(BankType.Reserved, 0, "1234567890ABCDEF");
-//			reader.writeMemory6c(BankType.Reserved, 0, "0000000000000000");
+		public void write(String bankNam, int offset, String msg) {
+			reader.writeMemory6c(getBankTyp(bankNam), offset, msg);
+		}
+
+		@Override
+		@JavascriptInterface
+		public void scanning() {
+//			reader.writeMemory6c(getBankTyp("ecp"), 2, "48656c6c6f5f303300000000");
+			readTags.delete(0, readTags.length());
+			reader.inventory6cTag();
+		}
+
+		@Override
+		@JavascriptInterface
+		public synchronized String getScanning() {
+//			Log.i("dd", "----------------------------------");
+			String r = readTags.toString();
+//			Log.i("dd", r);
+			readTags.delete(0, readTags.length());
+			return r;
 		}
 
 		@Override
 		@JavascriptInterface
 		public void stop() {
 			reader.stop();
+		}
+
+		private BankType getBankTyp (String bankNam) {
+			switch (bankNam) {
+				case "ecp":
+					return BankType.EPC;
+				case "tid":
+					return BankType.TID;
+				case "usr":
+					return BankType.User;
+				case "bck":
+					return BankType.Reserved;
+				default:
+					return null;
+			}
 		}
 	}
 

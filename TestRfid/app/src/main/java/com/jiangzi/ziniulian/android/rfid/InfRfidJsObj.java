@@ -9,11 +9,19 @@ import android.webkit.JavascriptInterface;
 public interface InfRfidJsObj {
 	// 读取一个标签
 	@JavascriptInterface
-	public void readTag();
+	public void read(String bankNam, int offset, int len);
 
 	// 写入一个标签
 	@JavascriptInterface
-	public void writeTag(String msg);
+	public void write(String bankNam, int offset, String msg);
+
+	// 扫描标签
+	@JavascriptInterface
+	public void scanning();
+
+	// 获取扫描结果
+	@JavascriptInterface
+	public String getScanning();
 
 	// 停止动作
 	@JavascriptInterface
