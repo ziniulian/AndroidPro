@@ -31,13 +31,13 @@ html, body {
 				overflow: auto;
 			}
 
-			.tag {
+			.tagMod {
 				position: relative;
 				width: 96%;
 				margin: 0 auto 0.2rem auto;
 			}
 
-			.tag .txt {
+			.tagMod .txt {
 				width: 83%;
 				margin: 0 0 0 17%;
 				font-size: 1.5rem;
@@ -47,7 +47,7 @@ html, body {
 				color: #000;
 			}
 
-			.tag .hx {
+			.tagMod .hx {
 				width: 83%;
 				margin: 0 0 0 17%;
 				font-size: 0.8rem;
@@ -57,11 +57,11 @@ html, body {
 				color: #999;
 			}
 
-			.tag:hover {
+			.tagMod:hover {
 				background-color: #0FF;
 			}
 
-			.tag .tim {
+			.tagMod .tim {
 				position: absolute;
 				left: 0;
 				top: 0;
@@ -99,6 +99,151 @@ html, body {
 				width: 98%;
 				margin: 0 auto;
 			}
+
+			.tagOut {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+			}
+
+			.chgScd {
+				width: 10%;
+				/*margin: 0 0 0 90%;*/
+				height: 5%;
+				cursor: pointer;
+				text-align: center;
+				font-weight: bolder;
+				line-height: 1.3;
+				color: blue;
+			}
+
+			.content {
+				position: relative;
+				height: 95%;
+			}
+
+			.tag {
+				position: relative;
+				width: 96%;
+				margin: 1rem auto 0 auto;
+			}
+
+			.tag .txt {
+				width: 80%;
+				margin: 0 10%;
+				font-size: 1.5rem;
+				line-height: 1.3;
+				font-weight: bold;
+				overflow: hidden;
+				color: #000;
+			}
+
+			.tag .hx {
+				width: 80%;
+				margin: 0 10%;
+				font-size: 0.8rem;
+				line-height: 1.2;
+				font-style: italic;
+				overflow: hidden;
+				color: #999;
+			}
+
+			.tag .readBtn {
+				cursor: pointer;
+				display: inline-block;
+				width: 80%;
+				font-size: 1.5rem;
+				line-height: 1.3;
+				font-weight: bold;
+				color: #000;
+			}
+
+			.tag .readBtn span {
+				font-size: 0.8rem;
+				font-style: italic;
+				line-height: 1.5;
+				color: #999;
+			}
+
+			.tag .writeBtn {
+				cursor: pointer;
+				position: absolute;
+				right: 0;
+				display: inline-block;
+				padding: 0 5%;
+				font-size: 1em;
+				line-height: 1.5;
+				text-align: center;
+				background-color: yellow;
+			}
+
+			.stop {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 3;
+				background-color: rgba(255, 0, 0, 0.3);
+			}
+
+			.stopBtn {
+				width: 50%;
+				/*margin: 10rem auto;*/
+				margin: 6rem auto;
+				cursor: pointer;
+				text-align: center;
+				font-size: 3rem;
+				line-height: 2;
+				color: #000;
+				font-weight: bold;
+				background-color: rgba(200, 255, 0, 0.7);
+			}
+
+			.write {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 2;
+				background-color: rgba(100, 100, 100, 0.8);
+			}
+
+			.write .titl {
+				width: 60%;
+				margin: 1rem auto 0 auto;
+				font-size: 1.5rem;
+				font-weight: bolder;
+			}
+
+			.write .txt {
+				width: 50%;
+				margin: 1rem 25%;
+				padding: 0.5rem;
+				background-color: #FFF;
+			}
+
+			.write .out {
+				width: 50%;
+				margin: 0 auto;
+				text-align: center;
+			}
+
+			.write .wbtn {
+				display: inline-block;
+				cursor: pointer;
+				width: 48%;
+				margin: 0 1%;
+				font-size: 1rem;
+				line-height: 1.5;
+				background-color: yellow;
+			}
+
+
 
 /*---------------------- 公共样式库 ----------------------*/
 

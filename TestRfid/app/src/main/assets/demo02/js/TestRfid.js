@@ -960,8 +960,8 @@ LZR.Pro.Rfid.At911n.prototype.scanning = function () {
 		if (!this.exeScanning) {
 			this.exeScanning = this.utLzr.bind(this, this.scanning);
 		}
-		this.onScanning ("300048656c6c6f20576f726c6421");
-		setTimeout(this.exeScanning, 5);
+		this.onScanning ("48656c6c6f20576f726c6421");
+		setTimeout(this.exeScanning, 200);
 	}
 };
 LZR.Pro.Rfid.At911n.prototype.scanning.lzrClass_ = LZR.Pro.Rfid.At911n;
@@ -993,18 +993,14 @@ LZR.Pro.Rfid.At911n.prototype.stop.lzrClass_ = LZR.Pro.Rfid.At911n;
 // 写码
 LZR.Pro.Rfid.At911n.prototype.write = function (bankNam/*as:string*/, offset/*as:int*/, msg/*as:string*/) {
 	this.bankNam = bankNam;
-	if (bankNam === "ecp") {
-		this.wrMsg = "3000" + msg;
-	} else {
-		this.wrMsg = msg;
-	}
+	this.wrMsg = msg;
 
 	if (this.adrObj) {
 		this.adrObj.write(bankNam, offset, msg);
 	} else if (this.stat === 2) {
 		// 模拟写操作
 		if (bankNam !== "ecp") {
-			this.onWrite("300048656c6c6f20576f726c6421", bankNam, msg);
+			this.onWrite("48656c6c6f20576f726c6421", bankNam, msg);
 		}
 	}
 };
@@ -1036,7 +1032,7 @@ LZR.Pro.Rfid.At911n.prototype.read = function (bankNam/*as:string*/, offset/*as:
 				msg = "00000000";
 				break;
 		}
-		this.onRead("300048656c6c6f20576f726c6421", bankNam, msg);
+		this.onRead("48656c6c6f20576f726c6421", bankNam, msg);
 	}
 };
 LZR.Pro.Rfid.At911n.prototype.read.lzrClass_ = LZR.Pro.Rfid.At911n;
@@ -1343,7 +1339,7 @@ LZR.Pro.Rfid.EmBankNam.usr/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"User"});	/*as:L
 LZR.Pro.Rfid.EmBankNam.bck/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"Reserved"});	/*as:LZR.Pro.Rfid.BankNam*/
 
 // EPC
-LZR.Pro.Rfid.EmBankNam.epc/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"EPC"});	/*as:LZR.Pro.Rfid.BankNam*/
+LZR.Pro.Rfid.EmBankNam.ecp/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"EPC"});	/*as:LZR.Pro.Rfid.BankNam*/
 
 // TID
 LZR.Pro.Rfid.EmBankNam.tid/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"TID"});	/*as:LZR.Pro.Rfid.BankNam*/
@@ -1510,7 +1506,7 @@ LZR.load(null, "LZR.Pro.Rfid.EmTagTyp");
 // 6C
 LZR.Pro.Rfid.EmTagTyp.t6c/*m*/ = new LZR.Pro.Rfid.TagTyp({
 	conf: {
-		ecp:[16,4,16,2,16],
+		ecp:[16,4,16,4,16],
 		tid:[24,24,24,0,24],
 		usr:[64,0,64,0,64],
 		bck:[8,0,8,0,8]
@@ -4274,50 +4270,24 @@ LZR.HTML.Base.Ctrl.Btn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 *************************************************/
 
 LZR.load([
+	"LZR.Base.Str",
 	"LZR.Pro.Rfid.At911n",
 	"LZR.HTML.Base.Doe",
 	"LZR.HTML.Base.Ctrl.SglScd",
 	"LZR.HTML.Base.Ctrl.Btn"
 ], "LZR.Pro.Rfid.At911n.At911nView");
 LZR.Pro.Rfid.At911n.At911nView = function (obj) {
-	// 列表框
-	this.listDoeo = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 列表模型
-	this.listMod = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 列表控制栏
-	this.listCtrlBar = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 列表停止栏
-	this.listStopBar = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// ECP栏
-	this.ecpDoeo = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// TID栏
-	this.tidDoeo = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// USR栏
-	this.usrDoeo = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// BCK栏
-	this.bckDoeo = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 浮动停止窗
-	this.stopDoeo = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 列表页
-	this.listOut = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 标签页
-	this.tagOut = null;	/*as:LZR.HTML.Base.Doe*/
-
 	// 按钮名
 	this.btnNams = null;	/*as:Object*/
 
+	// 列表框
+	this.listDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
 	// 标签列表切换控制器
-	this.chgCtrl/*m*/ = new LZR.HTML.Base.Ctrl.SglScd();	/*as:LZR.HTML.Base.Ctrl.SglScd*/
+	this.chgCtrl/*m*/ = new LZR.HTML.Base.Ctrl.SglScd({
+		mouseAble: false,
+		only: false
+	});	/*as:LZR.HTML.Base.Ctrl.SglScd*/
 
 	// 按钮控制器
 	this.btnCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Btn({
@@ -4328,6 +4298,45 @@ LZR.Pro.Rfid.At911n.At911nView = function (obj) {
 
 	// 元素类
 	this.clsDoe/*m*/ = (LZR.HTML.Base.Doe);	/*as:fun*/
+
+	// 列表模型
+	this.listMod/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 列表控制栏
+	this.listCtrlBar/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 列表停止栏
+	this.listStopBar/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// ECP栏
+	this.ecpDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// TID栏
+	this.tidDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// USR栏
+	this.usrDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// BCK栏
+	this.bckDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 浮动停止窗
+	this.stopDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 列表页
+	this.listOut/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 标签页
+	this.tagOut/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 切换按钮
+	this.chgScd/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 写入窗
+	this.writeDoeo/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 字符串工具
+	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -4384,6 +4393,9 @@ LZR.Pro.Rfid.At911n.At911nView.prototype.initView = function (doe/*as:Object*/, 
 
 	for (s in domNams) {
 		switch (s) {
+			case "chgScd":
+				this.chgScd = doeo.getById(domNams.chgScd);
+				break;
 			case "listDoeo":
 				this.listDoeo = this.listOut.getById(domNams.listDoeo);
 				break;
@@ -4400,28 +4412,44 @@ LZR.Pro.Rfid.At911n.At911nView.prototype.initView = function (doe/*as:Object*/, 
 			case "btnCtrlCss":
 				this.btnCtrl.css = domNams.btnCtrlCss;
 				break;
-			case "":
+			case "chgCtrlCss":
+				this.chgCtrl.css = domNams.chgCtrlCss;
 				break;
-			case "":
+			case "ecp":
+				this.ecpDoeo = this.tagOut.getById(domNams.ecp);
 				break;
-			case "":
+			case "tid":
+				this.tidDoeo = this.tagOut.getById(domNams.tid);
 				break;
-			case "":
+			case "usr":
+				this.usrDoeo = this.tagOut.getById(domNams.usr);
 				break;
-			case "":
+			case "bck":
+				this.bckDoeo = this.tagOut.getById(domNams.bck);
 				break;
-			case "":
-				break;
-			case "":
-				break;
-			case "":
-				break;
+			case "stopDoeo":
+				this.stopDoeo = doeo.getById(domNams.stopDoeo);
+			case "writeDoeo":
+				this.writeDoeo = doeo.getById(domNams.writeDoeo);
 		}
 	}
 
 	this.btnCtrl.add(this.listCtrlBar.getById(this.btnNams.scan));
 	this.btnCtrl.add(this.listCtrlBar.getById(this.btnNams.clean));
 	this.btnCtrl.add(this.listStopBar);
+	this.btnCtrl.add(this.ecpDoeo.getById(this.btnNams.ecpReadBtn));
+	this.btnCtrl.add(this.ecpDoeo.getById(this.btnNams.ecpWriteBtn));
+	this.btnCtrl.add(this.tidDoeo.getById(this.btnNams.tidReadBtn));
+	this.btnCtrl.add(this.usrDoeo.getById(this.btnNams.usrReadBtn));
+	this.btnCtrl.add(this.usrDoeo.getById(this.btnNams.usrWriteBtn));
+	this.btnCtrl.add(this.bckDoeo.getById(this.btnNams.bckReadBtn));
+	this.btnCtrl.add(this.bckDoeo.getById(this.btnNams.bckWriteBtn));
+	this.btnCtrl.add(this.stopDoeo.getById(this.btnNams.stopBtn));
+	this.btnCtrl.add(this.writeDoeo.getById(this.btnNams.writeOkBtn));
+	this.btnCtrl.add(this.writeDoeo.getById(this.btnNams.writeCancleBtn));
+	this.chgCtrl.add(this.chgScd);
+	this.chgScd.dat.hct_scd.setEventObj(this);
+	this.chgScd.dat.hct_scd.evt.change.add(this.showTag);
 };
 LZR.Pro.Rfid.At911n.At911nView.prototype.initView.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
 
@@ -4449,21 +4477,69 @@ LZR.Pro.Rfid.At911n.At911nView.prototype.setListCtrl.lzrClass_ = LZR.Pro.Rfid.At
 
 // 刷新标签页
 LZR.Pro.Rfid.At911n.At911nView.prototype.flushTag = function (tag/*as:Object*/) {
-	
+	var v;
+	v = this.ecpDoeo.getById(this.btnNams.hx).doe;
+	v.innerHTML = tag.banks.ecp.msg;
+	v = this.ecpDoeo.getById(this.btnNams.txt).doe;
+	v.innerHTML = this.utStr.passUtf8Str(tag.banks.ecp.msg);
+	v = this.usrDoeo.getById(this.btnNams.hx).doe;
+	v.innerHTML = tag.banks.usr.msg;
+	v = this.usrDoeo.getById(this.btnNams.txt).doe;
+	v.innerHTML = this.utStr.passUtf8Str(tag.banks.usr.msg);
+	v = this.bckDoeo.getById(this.btnNams.hx).doe;
+	v.innerHTML = tag.banks.bck.msg;
+	v = this.bckDoeo.getById(this.btnNams.txt).doe;
+	v.innerHTML = this.utStr.passUtf8Str(tag.banks.bck.msg);
+	v = this.tidDoeo.getById(this.btnNams.hx).doe;
+	v.innerHTML = tag.banks.tid.msg;
 };
 LZR.Pro.Rfid.At911n.At911nView.prototype.flushTag.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
 
 // 设置悬浮停止窗可见性
 LZR.Pro.Rfid.At911n.At911nView.prototype.setStopDoeo = function (visiable/*as:boolean*/) {
-	
+	if (visiable) {
+		this.stopDoeo.delCss("Lc_nosee");
+	} else {
+		this.stopDoeo.addCss("Lc_nosee");
+	}
 };
 LZR.Pro.Rfid.At911n.At911nView.prototype.setStopDoeo.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
 
-// 标签列表模块切换
-LZR.Pro.Rfid.At911n.At911nView.prototype.tag2List = function (nam/*as:string*/) {
-	
+// 设置写入窗可见性
+LZR.Pro.Rfid.At911n.At911nView.prototype.setWriteDoeo = function (visiable/*as:boolean*/, title/*as:string*/, msg/*as:string*/) {
+	if (visiable) {
+		this.writeDoeo.getById(this.btnNams.writeTitle).doe.innerHTML = title;
+		this.writeDoeo.getById(this.btnNams.txt).doe.value = msg;
+		this.writeDoeo.delCss("Lc_nosee");
+	} else {
+		this.writeDoeo.addCss("Lc_nosee");
+	}
 };
-LZR.Pro.Rfid.At911n.At911nView.prototype.tag2List.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
+LZR.Pro.Rfid.At911n.At911nView.prototype.setStopDoeo.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
+
+// 获取写入信息
+LZR.Pro.Rfid.At911n.At911nView.prototype.getWriteTxt = function ()/*as:string*/ {
+	return this.writeDoeo.getById(this.btnNams.txt).doe.value;
+};
+LZR.Pro.Rfid.At911n.At911nView.prototype.getWriteTxt.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
+
+// 设置标签可见性
+LZR.Pro.Rfid.At911n.At911nView.prototype.showTag = function (v/*as:boolean*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/) {
+	if (v) {
+		if (this.listStopBar.doe.className.indexOf("Lc_nosee") >= 0) {
+			this.listOut.addCss("Lc_nosee");
+			this.tagOut.delCss("Lc_nosee");
+		} else {
+			tmpVal.tmpVal = false;
+			this.chgCtrl.vcCur.set(null);
+			return false;
+		};
+	} else {
+		this.tagOut.addCss("Lc_nosee");
+		this.listOut.delCss("Lc_nosee");
+	}
+};
+LZR.Pro.Rfid.At911n.At911nView.prototype.showTag.lzrClass_ = LZR.Pro.Rfid.At911n.At911nView;
 
 
 /*************************************************
@@ -4475,6 +4551,7 @@ LZR.Pro.Rfid.At911n.At911nView.prototype.tag2List.lzrClass_ = LZR.Pro.Rfid.At911
 *************************************************/
 
 LZR.load([
+	"LZR.Base.Str",
 	"LZR.Pro.Rfid.At911n",
 	"LZR.Pro.Rfid.At911n.ScanTag",
 	"LZR.Pro.Rfid.At911n.At911nView"
@@ -4488,6 +4565,9 @@ LZR.Pro.Rfid.At911n.At911nCtrl = function (obj) {
 
 	// 标签集合的数量
 	this.tagsCount = 0;	/*as:int*/
+
+	// 写入区块
+	this.writeBank = null;	/*as:Object*/
 
 	// 标签类
 	this.clsTag/*m*/ = (LZR.Pro.Rfid.At911n.ScanTag);	/*as:fun*/
@@ -4635,19 +4715,27 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.read = function (bank/*as:Object*/, msg
 	this.view.setStopDoeo(true);
 
 	var l = bank.getLength();
-	this.adr.write(bank.emNam.getKey(), bank.rs, l);
+	this.adr.read(bank.emNam.getKey(), this.byte2Word(bank.rs), this.byte2Word(l));
 };
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.read.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
+
+// 写码准备
+LZR.Pro.Rfid.At911n.At911nCtrl.prototype.writeBefore = function (bank/*as:Object*/) {
+	this.writeBank = bank;
+	this.view.setWriteDoeo(true, bank.emNam.get().nam, this.view[bank.emNam.getKey() + "Doeo"].getById(this.view.btnNams.txt).doe.innerHTML);
+};
+LZR.Pro.Rfid.At911n.At911nCtrl.prototype.writeBefore.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
 
 // 写码
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.write = function (bank/*as:Object*/, msg/*as:string*/) {
 	this.adr.stat = 2;
 
+	this.view.setWriteDoeo(false);
 	this.view.setStopDoeo(true);
 
 	var l = bank.getLength(true);
-	var s = this.utStr.toUtf8Str(msg, l);
-	this.adr.write(bank.emNam.getKey(), bank.ws, s);
+	var s = this.utStr.toUtf8Str(msg, l).toUpperCase();
+	this.adr.write(bank.emNam.getKey(), this.byte2Word(bank.ws), s);
 };
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.write.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
 
@@ -4677,7 +4765,7 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdWrite.lzrClass_ = LZR.Pro.Rfid.At911n
 
 // 处理读码
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdRead = function (ecpId/*as:string*/, bankNam/*as:string*/, msg/*as:string*/) {
-	this.hdWrite(ecpId,bankNam, msg);
+	this.hdWrite(ecpId, bankNam, msg);
 };
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdRead.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
 
@@ -4694,6 +4782,10 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.bindView.lzrClass_ = LZR.Pro.Rfid.At911
 
 // 处理按钮点击
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdClick = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	var t = this.tags[0];
+	if (!t) {
+		t = new this.clsTag({hd_emTyp: this.tagTyp});
+	}
 	switch (doeo.id.get()) {
 		case this.view.btnNams.scan:
 			this.scanning();
@@ -4703,6 +4795,36 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdClick = function (doeo/*as:LZR.HTML.B
 			break;
 		case this.view.btnNams.listStop:
 			this.stop(false);
+			break;
+		case this.view.btnNams.ecpReadBtn:
+			this.read(t.banks.ecp);
+			break;
+		case this.view.btnNams.tidReadBtn:
+			this.read(t.banks.tid);
+			break;
+		case this.view.btnNams.usrReadBtn:
+			this.read(t.banks.usr);
+			break;
+		case this.view.btnNams.bckReadBtn:
+			this.read(t.banks.bck);
+			break;
+		case this.view.btnNams.stopBtn:
+			this.stop(true);
+			break;
+		case this.view.btnNams.ecpWriteBtn:
+			this.writeBefore(t.banks.ecp);
+			break;
+		case this.view.btnNams.usrWriteBtn:
+			this.writeBefore(t.banks.usr);
+			break;
+		case this.view.btnNams.bckWriteBtn:
+			this.writeBefore(t.banks.bck);
+			break;
+		case this.view.btnNams.writeCancleBtn:
+			this.view.setWriteDoeo(false);
+			break;
+		case this.view.btnNams.writeOkBtn:
+			this.write(this.writeBank, this.view.getWriteTxt());
 			break;
 	}
 };

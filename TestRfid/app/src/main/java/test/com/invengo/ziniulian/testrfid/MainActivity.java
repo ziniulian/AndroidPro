@@ -122,19 +122,23 @@ public class MainActivity extends AppCompatActivity {
 		public void onReaderReadTag(ATRfidReader atRfidReader, String s, float v, float v1) {
 //			Log.i("----------", "read tag ：" + s + " , " + Float.toString(v) + " , " + Float.toString(v1));
 //			wv.loadUrl("javascript: hwo.adr.hdScanning('" + s + "')");
-			appendReadTag(s);
+			appendReadTag(parseId(s));
 		}
 
 		@Override
 		public void onReaderResult(ATRfidReader atRfidReader, ResultCode resultCode, ActionState actionState, String s, String s1, float v, float v1) {
 //			Log.i("----------", "result ：" + s + " , " + s1 + " , " + Float.toString(v) + " , " + Float.toString(v1));
-//			Log.i("---------- result: ", s1);
-			wv.loadUrl("javascript: hwo.adr.hdWr('" + s + "', '" + s1 + "')");
+			wv.loadUrl("javascript: hwo.adr.hdWr('" + parseId(s) + "', '" + s1 + "')");
 		}
 
 		private synchronized void appendReadTag (String t) {
 			readTags.append(",");
 			readTags.append(t);
+		}
+
+		// 解析ID
+		private String parseId (String s) {
+			return s.substring(4);
 		}
 	}
 
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		@JavascriptInterface
 		public void scanning() {
-//			reader.writeMemory6c(getBankTyp("ecp"), 2, "48656c6c6f5f303300000000");
+//			reader.writeMemory6c(getBankTyp("ecp"), 1, "3000E20010214111012811303031");
 			readTags.delete(0, readTags.length());
 			reader.inventory6cTag();
 		}
@@ -163,9 +167,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		@JavascriptInterface
 		public synchronized String getScanning() {
-//			Log.i("dd", "----------------------------------");
 			String r = readTags.toString();
-//			Log.i("dd", r);
 			readTags.delete(0, readTags.length());
 			return r;
 		}
