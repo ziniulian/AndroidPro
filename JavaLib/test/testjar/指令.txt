@@ -1,0 +1,17 @@
+JAVA 设计jar包关联的 编译、执行、打包 测试：
+
+javac -d cls/ src/Bao1.java
+
+java -cp cls/ tk.ziniulian.www.Bao1
+
+jar cvfm lib/bao1.jar src/Bao1.MF -C cls/ tk/ziniulian/www/Bao1.class
+
+java -jar lib/bao1.jar
+
+javac -d cls/ src/Run.java
+
+java -cp lib/bao1.jar;cls/ tk2.ziniulian.work.Run
+
+jar cvfm run.jar src/Run.MF -C cls/ .
+
+java -jar run.jar
