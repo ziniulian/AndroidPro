@@ -8,6 +8,10 @@ import org.apache.poi.hwpf.usermodel.TableCell;
 import org.apache.poi.hwpf.usermodel.TableIterator;
 import org.apache.poi.hwpf.usermodel.TableRow;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,9 +44,7 @@ public class HdDoc {
 			}
 		}
 
-//		System.out.println(new HdDoc().start("D:\\Doc\\Work\\2017\\HdDoc\\dat\\AEI-S1\\test.docx").toString());
-//		new HdDoc().start("D:\\Doc\\Work\\2017\\HdDoc\\dat\\AEI-S1").toFile("D:\\HdDoc.txt");
-//		System.out.println(new HdDoc().start("D:\\Doc\\Work\\2017\\HdDoc\\dat\\AEI-S1").toString());
+//		System.out.println(new HdDoc().start("D:\\Doc\\Git\\AndroidPro\\JavaLib\\test\\HdDoc\\dat\\test.docx").toString());
 	}
 
 	// 开始执行
@@ -134,7 +136,7 @@ public class HdDoc {
 				r = parsDoc(stream);
 			} else if (f.getName().endsWith(".docx")) {
 				FileInputStream stream = new FileInputStream(f);
-				parsDocx(stream);
+				r = parsDocx(stream);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -144,15 +146,90 @@ public class HdDoc {
 
 	// 解析 docx 文件
 	private List<String[]> parsDocx (FileInputStream stream) {
+		List<String[]> r = null;
+
 		try {
 			XWPFDocument doc = new XWPFDocument(stream);
-//			System.out.println(doc.getTables().size());
+			List<XWPFTable> ts = doc.getTables();
+			if (ts.size() > 0) {
+				XWPFTable t = doc.getTables().get(0);
+				String s;
+				for (XWPFParagraph pg : doc.getParagraphs()) {
+					s = pg.getText().trim();
+					if (s.length() > 0) {
+						if (s.indexOf("服务记录表") > 0) {
+							r = new ArrayList<>();
+							String key;
+							int stat;	// 1:键,	2:值
+							String[] mk = new String[10];
+							List<XWPFTableCell> cs;
+							XWPFTableCell c;
+
+							for (XWPFTableRow row : t.getRows()) {
+								cs = row.getTableCells();
+								if (cs.size() > 1) {
+									stat = 1;
+									key = "";
+									for (int j = 0; j < cs.size(); j++) {
+										c = cs.get(j);
+										s = c.getText().trim().replace(" ", "");
+										if (stat == 1) {
+											if (s.length() == 0) {
+												if (mk[j] != null) {
+													key = mk[j];
+													switch (key) {
+														case "磁钢型号":
+															stat = 2;
+															break;
+													}
+												}
+											} else {
+												if (key.length() == 0) {
+													key = s;
+												} else {
+													key += ":" + s;
+												}
+
+												switch (s) {
+													case "磁钢距天线":
+													case "INI文件参数设置":
+														mk[j] = key;
+														stat = 1;
+														break;
+													case "磁钢型号":
+														mk[j] = key;
+														stat = 2;
+														break;
+													default:
+														mk[j] = null;
+														stat = 2;
+														break;
+												}
+											}
+										} else {
+											r.add(new String[]{key, s});
+//											System.out.println(key + " : " + s);
+											stat = 1;
+											key = "";
+										}
+									}
+								} else {
+									break;
+								}
+							}
+						}
+						break;
+					}
+				}
+			}
+
 			doc.close();
 			stream.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
-		return null;
+
+		return r;
 	}
 
 	// 解析 doc 文件
