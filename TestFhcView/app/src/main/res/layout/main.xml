@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/scan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="扫描标签"/>
+
+        <Button
+            android:id="@+id/show"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="浏览标签"/>
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="Wifi上传"/>
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="清空数据"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/tim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="GPS校时"/>
+
+        <Button
+            android:id="@+id/vol"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="音量调节"/>
+
+        <Button
+            android:id="@+id/lit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="背光调节"/>
+
+        <Button
+            android:id="@+id/about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="关于"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ctrlVolOut"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textSize="17sp"
+            android:text="音量调节："/>
+
+        <SeekBar
+            android:id="@+id/ctrlVol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"/>
+
+        <Button
+            android:id="@+id/ctrlVolHid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确定"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ctrlLitOut"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textSize="17sp"
+            android:text="亮度调节："/>
+
+        <SeekBar
+            android:id="@+id/ctrlLit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"/>
+
+        <Button
+            android:id="@+id/ctrlLitHid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确定"/>
+    </LinearLayout>
+</LinearLayout>

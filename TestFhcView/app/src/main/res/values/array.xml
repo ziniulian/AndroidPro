@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="xiuarr">
+        <item>厂修</item>
+        <item>段修</item>
+        <item>辅修</item>
+        <item>轴修</item>
+        <item>临修</item>
+        <item>报废</item>
+    </string-array>
+</resources>
