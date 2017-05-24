@@ -36,14 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn;
         btn = (Button)findViewById(R.id.btn);
-        btn.setOnClickListener(new BtnClick("http://hq.sinajs.cn/list=s_sz002161"));
+//        btn.setOnClickListener(new BtnClick("http://hq.sinajs.cn/list=s_sz002161"));
+        btn.setOnClickListener(new BtnClick("http://hq.sinajs.cn/list=s_sh601088"));
 
         // 添加滚动条
         tv.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         // 天气查询按钮
         btn = (Button)findViewById(R.id.btnWt);
-        btn.setOnClickListener(new BtnClick("http://www.weather.com.cn/data/sk/101160101.html"));
+        btn.setOnClickListener(new BtnClick("http://hq.sinajs.cn/list=s_sh000001"));
+//        btn.setOnClickListener(new BtnClick("http://www.weather.com.cn/data/sk/101160101.html"));
 
         // 清空按钮
         btn = (Button)findViewById(R.id.btnClr);
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             if (!r.equals("ERR!")) {
                 tv.append(r);
 
+/*
                 // 写入文件（内存中）
                 OutputStream out=null;
                 try {
@@ -100,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+*/
+
             } else {
                 tv.append("...");
             }

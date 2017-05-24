@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 		outV = (TextView)findViewById(R.id.resultTxt);
 		cm = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+		outV.setMovementMethod(ScrollingMovementMethod.getInstance());
 
 		// 添加按钮事件
 		BtnClk bc = new BtnClk();
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					outV.setText("");
+					outV.scrollTo(0, 0);
 				}
 			}
 		});

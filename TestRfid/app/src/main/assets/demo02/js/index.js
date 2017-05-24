@@ -4,8 +4,13 @@ function init() {
 	var hw = HelloWorld();
 	// var hw = loadWebApp(webapp());
 	hwo = new hw.At911n({
-		hd_adr: rfidObj
+		hd_adr: window.rfidObj
 	});
+
+	if (!window.rfidObj) {
+		hwo.view.chgCtrl.mouseAble = true;
+		hwo.view.btnCtrl.mouseAble = true;
+	}
 
 	hwo.view.initView (document.getElementById("boso"), {
 		listOut: "listOut",

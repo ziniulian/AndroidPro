@@ -386,6 +386,11 @@ public class MainActivity extends AppCompatActivity {
 
             while (isTrue) {
                 try {
+
+                    Log.i("-- 42 --", "发送一个数据");
+                    os.write("One Data".getBytes());
+                    Log.i("-- 42 --", "One Data");
+
                     len = is.read(buf);
                     Log.i("-- 39 --", "串口读取成功");
                     Log.i("-- 40 --", String.valueOf(len));

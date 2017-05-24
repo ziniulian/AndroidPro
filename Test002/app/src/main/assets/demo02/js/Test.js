@@ -2823,6 +2823,12 @@ LZR.HTML.Base.Ctrl.Btn = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 按钮按下时的样式
 	this.css = "";	/*as:string*/
 
+	// 触控可用
+	this.touchAble = true;	/*as:boolean*/
+
+	// 鼠标可用
+	this.mouseAble = true;	/*as:boolean*/
+
 	// 单击
 	this.evt.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
@@ -2976,25 +2982,33 @@ LZR.HTML.Base.Ctrl.Btn.prototype.onUp.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var up = this.utLzr.bind(this, this.hdUp, doeo);
 	var out = this.utLzr.bind(this, this.hdOut, doeo);
-	// doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
-	// doeo.addEvt ("mouseup",  up, this.className_);
-	// doeo.addEvt ("mouseout",  out, this.className_);
-	doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
-	doeo.addEvt ("touchend", up, this.className_);
-	doeo.addEvt ("touchcancel",  out, this.className_);
-	doeo.addEvt ("toucheleave",  out, this.className_);
+	if (this.mouseAble) {
+		doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
+		doeo.addEvt ("mouseup",  up, this.className_);
+		doeo.addEvt ("mouseout",  out, this.className_);
+	}
+	if (this.touchAble) {
+		doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
+		doeo.addEvt ("touchend", up, this.className_);
+		doeo.addEvt ("touchcancel",  out, this.className_);
+		doeo.addEvt ("toucheleave",  out, this.className_);
+	}
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	// doeo.delEvt ("mousedown", this.className_);
-	// doeo.delEvt ("mouseup", this.className_);
-	// doeo.delEvt ("mouseout", this.className_);
-	doeo.delEvt ("touchstart", this.className_);
-	doeo.delEvt ("touchend", this.className_);
-	doeo.delEvt ("touchcancel", this.className_);
-	doeo.delEvt ("toucheleave", this.className_);
+	if (this.mouseAble) {
+		doeo.delEvt ("mousedown", this.className_);
+		doeo.delEvt ("mouseup", this.className_);
+		doeo.delEvt ("mouseout", this.className_);
+	}
+	if (this.touchAble) {
+		doeo.delEvt ("touchstart", this.className_);
+		doeo.delEvt ("touchend", this.className_);
+		doeo.delEvt ("touchcancel", this.className_);
+		doeo.delEvt ("toucheleave", this.className_);
+	}
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
@@ -3212,6 +3226,7 @@ var fun = function (obj) {
 			this.btnCtrl = new this.tools.Btn({
 				dbTim: 0,		// 屏蔽双击
 				longTim: 0,		// 屏蔽长按
+				mouseAble: false,	// 鼠标控制不可用
 				css: obj.css
 			});
 			this.txt = this.doe.getById(obj.txtNam);

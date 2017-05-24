@@ -1,25 +1,23 @@
 package test.com.invengo.ziniulian.testrfid;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.util.Log;
 
 import com.atid.lib.dev.ATRfidManager;
 import com.atid.lib.dev.ATRfidReader;
 import com.atid.lib.dev.event.RfidReaderEventListener;
+import com.atid.lib.dev.rfid.GlobalData;
 import com.atid.lib.dev.rfid.type.ActionState;
 import com.atid.lib.dev.rfid.type.BankType;
 import com.atid.lib.dev.rfid.type.ConnectionState;
 import com.atid.lib.dev.rfid.type.ResultCode;
 import com.jiangzi.ziniulian.android.rfid.InfRfidJsObj;
-
-import com.atid.lib.dev.rfid.param.LockParam;
-import com.atid.lib.dev.rfid.type.LockType;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 
 		// 创建读写器
+		GlobalData.setLogLevel(100);
 		this.reader = ATRfidManager.getInstance();
 
 		// 测试读写器是否创建成功
@@ -65,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 			wv.addJavascriptInterface(new RfidJsObj(), "rfidObj");
 
 			// 加载页面
-			wv.loadUrl("file:///android_asset/demo02/index.html");
+//			wv.loadUrl("file:///android_asset/demo02/index.html");
+			wv.loadUrl("http://192.168.137.1/demo02/index.html");
 		}
 
 	}
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 		public void read(String bankNam, int offset, int len) {
 			reader.readMemory6c(getBankTyp(bankNam), offset, len);
 		}
-//
+
 		@Override
 		@JavascriptInterface
 		public void write(String bankNam, int offset, String msg) {
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 		@JavascriptInterface
 		public void scanning() {
 //			reader.writeMemory6c(getBankTyp("ecp"), 1, "3000E20010214111012811303031");
+//			reader.readMemory6c(getBankTyp("tid"), 0, 4);
 			readTags.delete(0, readTags.length());
 			reader.inventory6cTag();
 		}
