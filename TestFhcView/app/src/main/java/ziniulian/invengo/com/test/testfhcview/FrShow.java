@@ -47,18 +47,6 @@ public class FrShow extends Fragment {
 			}
 		});
 
-//		// 编造数据
-//		for (int i = 0; i < 10; i++) {
-//			HashMap<String, Object> r = new HashMap<>();
-//			r.put("tim", "2017/4/27 15:15:" + Integer.toString(i));
-//			r.put("pro", "T [路用货车]");
-//			r.put("typ", "C 62A_" + Integer.toString(i));
-//			r.put("num", "456654_" + Integer.toString(i));
-//			r.put("fac", "A [齐厂]");
-//			r.put("mdt", "021 [2002年01月]");
-//			r.put("xiu", "D [段修]");
-//			lvdat.add(r);
-//		}
 		frFile(lvdat);
 
 		// 关联列表数据
@@ -87,7 +75,7 @@ public class FrShow extends Fragment {
 				s = f.readLine();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		} finally {
 			if (f != null) {
 				try {

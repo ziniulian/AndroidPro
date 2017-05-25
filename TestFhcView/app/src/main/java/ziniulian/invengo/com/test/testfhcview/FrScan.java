@@ -33,8 +33,8 @@ public class FrScan extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ma = (MainActivity)getActivity();
-		Button b;
 
+		Button b;
 		b = (Button)(getView().findViewById(R.id.back));
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -48,19 +48,7 @@ public class FrScan extends Fragment {
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TextView tv;
-				tv = (TextView)(getView().findViewById(R.id.pro));
-				tv.setText("T [路用货车]");
-				tv = (TextView)(getView().findViewById(R.id.typ));
-				tv.setText("C 62A");
-				tv = (TextView)(getView().findViewById(R.id.num));
-				tv.setText("456654");
-				tv = (TextView)(getView().findViewById(R.id.fac));
-				tv.setText("A [齐厂]");
-				tv = (TextView)(getView().findViewById(R.id.mdt));
-				tv.setText("021 [2002年01月]");
-				tv = (TextView)(getView().findViewById(R.id.tim));
-				tv.setText(DateFormat.getDateTimeInstance().format(new Date()));
+				ma.demo.qryTag();
 			}
 		});
 
@@ -133,5 +121,39 @@ public class FrScan extends Fragment {
 				}
 			}
 		}
+	}
+
+	// 清空界面
+	public void clearUi () {
+		TextView tv;
+		tv = (TextView)(getView().findViewById(R.id.pro));
+		tv.setText("");
+		tv = (TextView)(getView().findViewById(R.id.typ));
+		tv.setText("");
+		tv = (TextView)(getView().findViewById(R.id.num));
+		tv.setText("");
+		tv = (TextView)(getView().findViewById(R.id.fac));
+		tv.setText("");
+		tv = (TextView)(getView().findViewById(R.id.mdt));
+		tv.setText("");
+		tv = (TextView)(getView().findViewById(R.id.tim));
+		tv.setText("");
+	}
+
+	// 更新界面
+	public void updateUi (String pro, String typ, String num, String fac, String mdt) {
+		TextView tv;
+		tv = (TextView)(getView().findViewById(R.id.pro));
+		tv.setText(pro);
+		tv = (TextView)(getView().findViewById(R.id.typ));
+		tv.setText(typ);
+		tv = (TextView)(getView().findViewById(R.id.num));
+		tv.setText(num);
+		tv = (TextView)(getView().findViewById(R.id.fac));
+		tv.setText(fac);
+		tv = (TextView)(getView().findViewById(R.id.mdt));
+		tv.setText(mdt);
+		tv = (TextView)(getView().findViewById(R.id.tim));
+		tv.setText(DateFormat.getDateTimeInstance().format(new Date()));
 	}
 }
