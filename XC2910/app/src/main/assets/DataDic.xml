@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <result>
+    <able>T!JDK</able>
     <typs>
         <typ>
             <id>T</id>
             <nam>路用车辆</nam>
+            <cls>xc2910.Ttag</cls>
             <facTyp>tfac</facTyp>
+            <juTyp></juTyp>
+            <suoTyp></suoTyp>
         </typ>
         <typ>
             <id>Q</id>
             <nam>企业自备</nam>
+            <cls>xc2910.Qtag</cls>
             <facTyp>tfac</facTyp>
+            <juTyp></juTyp>
+            <suoTyp></suoTyp>
         </typ>
         <typ>
             <id>J</id>
             <nam>机车</nam>
+            <cls>xc2910.Jtag</cls>
             <facTyp>jfac</facTyp>
+            <juTyp>jju</juTyp>
+            <suoTyp>jsuo</suoTyp>
         </typ>
         <typ>
             <id>D</id>
             <nam>动车</nam>
+            <cls>xc2910.Dtag</cls>
             <facTyp>jfac</facTyp>
+            <juTyp>dju</juTyp>
+            <suoTyp>dsuo</suoTyp>
         </typ>
         <typ>
             <id>K</id>
             <nam>客车</nam>
+            <cls>xc2910.Ktag</cls>
             <facTyp>kfac</facTyp>
+            <juTyp></juTyp>
+            <suoTyp></suoTyp>
         </typ>
     </typs>
 
@@ -138,11 +154,46 @@
         </fac>
 
         <fac>
-            <ftyp>jfac</ftyp>
+            <ftyp>kfac</ftyp>
         </fac>
 
         <fac>
-            <ftyp>kfac</ftyp>
+            <ftyp>jfac</ftyp>
         </fac>
     </facs>
+
+    <jus>
+        <ju>
+            <jtyp>jju</jtyp>
+            <jju>
+                <k_jju>0</k_jju>
+                <v_jju>测试机车局</v_jju>
+            </jju>
+        </ju>
+        <ju>
+            <jtyp>dju</jtyp>
+            <dju>
+                <k_dju>0</k_dju>
+                <v_dju>测试动车局</v_dju>
+            </dju>
+        </ju>
+    </jus>
+
+    <suos>
+        <suo>
+            <styp>jsuo</styp>
+            <jsuo>
+                <k_jsuo>0</k_jsuo>
+                <v_jsuo>测试机车段</v_jsuo>
+            </jsuo>
+        </suo>
+        <suo>
+            <styp>dsuo</styp>
+            <dsuo>
+                <k_dsuo>0</k_dsuo>
+                <v_dsuo>测试动车段</v_dsuo>
+            </dsuo>
+        </suo>
+    </suos>
+
 </result>

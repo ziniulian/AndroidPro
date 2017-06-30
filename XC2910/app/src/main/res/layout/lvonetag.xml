@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
     <TextView
-        android:id="@+id/tim"
-        android:layout_width="match_parent"
+        android:id="@+id/lvK"
+        android:textSize="18sp"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:gravity="end"
         android:layout_height="wrap_content"/>
-
     <TextView
-        android:id="@+id/cod"
-        android:layout_width="match_parent"
+        android:id="@+id/lvV"
+        android:textSize="18sp"
+        android:layout_width="0dp"
+        android:layout_weight="6"
         android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/xiu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
 </LinearLayout>

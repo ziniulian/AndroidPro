@@ -51,8 +51,8 @@ public class FrShow extends Fragment {
 
 		// 关联列表数据
 		lvadp = new SimpleAdapter(ma, lvdat, R.layout.lvitem,
-				new String[] {"tim", "pro", "typ", "num", "fac", "mdt", "xiu"},
-				new int[] {R.id.tim, R.id.pro, R.id.typ, R.id.num, R.id.fac, R.id.mdt, R.id.xiu});
+				new String[] {"tim", "cod", "xiu"},
+				new int[] {R.id.tim, R.id.cod, R.id.xiu});
 		lv.setAdapter(lvadp);
 	}
 
@@ -65,11 +65,7 @@ public class FrShow extends Fragment {
 			while (s != null) {
 				HashMap<String, Object> r = new HashMap<>();
 				r.put("tim", s);
-				r.put("pro", f.readLine());
-				r.put("typ", f.readLine());
-				r.put("num", f.readLine());
-				r.put("fac", f.readLine());
-				r.put("mdt", f.readLine());
+				r.put("cod", f.readLine());
 				r.put("xiu", f.readLine());
 				a.add(r);
 				s = f.readLine();

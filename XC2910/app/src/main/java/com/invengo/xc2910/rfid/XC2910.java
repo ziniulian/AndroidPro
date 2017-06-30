@@ -3,6 +3,8 @@ package com.invengo.xc2910.rfid;
 import android.util.Log;
 
 import com.atid.lib.system.ModuleControl;
+import com.invengo.train.tag.BaseTag;
+import com.invengo.train.tag.xc2910.InfViewTag;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +136,7 @@ public class XC2910 {
 	// 处理标签
 	private void hdTag (byte[] r) {
 		if (this.tl != null) {
-			this.tl.onTag(ParseTag.parseTag(r));	// 触发事件
+			this.tl.onTag((InfViewTag) BaseTag.parse(r));	// 触发事件
 		}
 		this.lock = false;
 	}

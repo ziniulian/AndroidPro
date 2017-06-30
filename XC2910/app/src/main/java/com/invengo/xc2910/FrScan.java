@@ -8,13 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.invengo.train.tag.xc2910.InfViewTag;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LZR on 2017/4/27.
@@ -22,6 +30,11 @@ import java.util.Date;
 
 public class FrScan extends Fragment {
 	private MainActivity ma;
+	private InfViewTag tag;	// 标签
+
+	private ListView lv = null;
+	private SimpleAdapter lvadp = null;
+	private List<Map<String, String>> lvdat = new ArrayList<>();
 
 	@Nullable
 	@Override
@@ -33,12 +46,24 @@ public class FrScan extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ma = (MainActivity)getActivity();
+		lv = (ListView)(getView().findViewById(R.id.lv));
+
+		//创建简单适配器SimpleAdapter
+		lvadp = new SimpleAdapter(ma, lvdat, R.layout.lvonetag,
+				new String[] {"k","v"},
+				new int[] {R.id.lvK, R.id.lvV});
+
+		//加载SimpleAdapter到ListView中
+		lv.setAdapter(lvadp);
 
 		Button b;
 		b = (Button)(getView().findViewById(R.id.back));
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// 界面清空
+				tag = null;
+				updateUi(false);
 				getFragmentManager().beginTransaction().remove(ma.frScan).commit();
 				getFragmentManager().beginTransaction().replace(R.id.frdiv, ma.frMain).commit();
 			}
@@ -56,52 +81,26 @@ public class FrScan extends Fragment {
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TextView tv;
-				tv = (TextView)(getView().findViewById(R.id.tim));
-				if (!(tv.getText().equals(""))) {
+				if (tag != null) {
 					StringBuilder s = new StringBuilder();
-					s.append(tv.getText());
+					s.append(((TextView)(getView().findViewById(R.id.tim))).getText());
 					s.append("\n");
-					tv.setText("");
-
-					tv = (TextView)(getView().findViewById(R.id.pro));
-//					s.append("属性:");
-					s.append(tv.getText());
+					s.append(tag.getCod());
 					s.append("\n");
-					tv.setText("");
-
-					tv = (TextView)(getView().findViewById(R.id.typ));
-//					s.append("车种车型:");
-					s.append(tv.getText());
-					s.append("\n");
-					tv.setText("");
-
-					tv = (TextView)(getView().findViewById(R.id.num));
-//					s.append("车号:");
-					s.append(tv.getText());
-					s.append("\n");
-					tv.setText("");
-
-					tv = (TextView)(getView().findViewById(R.id.fac));
-//					s.append("制造厂:");
-					s.append(tv.getText());
-					s.append("\n");
-					tv.setText("");
-
-					tv = (TextView)(getView().findViewById(R.id.mdt));
-//					s.append("制造年月:");
-					s.append(tv.getText());
-					s.append("\n");
-					tv.setText("");
-
-//					s.append("修程:");
 					s.append(((Spinner)(getView().findViewById(R.id.xiu))).getSelectedItem().toString());
 					s.append("\n");
-
 					toFile(s.toString());
 				}
+
+				// 界面清空
+				tag = null;
+				updateUi(false);
 			}
 		});
+	}
+
+	public void setTag(InfViewTag tag) {
+		this.tag = tag;
 	}
 
 	// 写入文件
@@ -123,40 +122,19 @@ public class FrScan extends Fragment {
 		}
 	}
 
-	// 清空界面
-	public void clearUi () {
-		TextView tv;
-		tv = (TextView)(getView().findViewById(R.id.pro));
-		tv.setText("");
-		tv = (TextView)(getView().findViewById(R.id.typ));
-		tv.setText("");
-		tv = (TextView)(getView().findViewById(R.id.num));
-		tv.setText("");
-		tv = (TextView)(getView().findViewById(R.id.fac));
-		tv.setText("");
-		tv = (TextView)(getView().findViewById(R.id.mdt));
-		tv.setText("");
-		tv = (TextView)(getView().findViewById(R.id.tim));
-		tv.setText("");
-	}
-
 	// 更新界面
-	public void updateUi (String pro, String typ, String num, String fac, String mdt, String t) {
-		TextView tv;
-		tv = (TextView)(getView().findViewById(R.id.pro));
-		tv.setText(pro);
-		tv = (TextView)(getView().findViewById(R.id.typ));
-		tv.setText(typ);
-		tv = (TextView)(getView().findViewById(R.id.num));
-		tv.setText(num);
-		tv = (TextView)(getView().findViewById(R.id.fac));
-		tv.setText(fac);
-		tv = (TextView)(getView().findViewById(R.id.mdt));
-		tv.setText(mdt);
-		tv = (TextView)(getView().findViewById(R.id.tim));
-		tv.setText(DateFormat.getDateTimeInstance().format(new Date()));
-
-		tv = (TextView)(getView().findViewById(R.id.test));
-		tv.setText(t);
+	public void updateUi (boolean msg) {
+		TextView tv = (TextView)(getView().findViewById(R.id.tim));
+		lvdat.clear();
+		if (tag == null) {
+			tv.setText("");
+			if (msg) {
+				Toast.makeText(ma, "未搜索到标签，请重试 ...", Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			lvdat.addAll(tag.getViewDat());
+			tv.setText(DateFormat.getDateTimeInstance().format(new Date()));
+		}
+		lvadp.notifyDataSetChanged();
 	}
 }
