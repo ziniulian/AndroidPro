@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,7 +31,7 @@ public class FrShow extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		ma = (MainActivity)getActivity();
 		ListView lv = (ListView)(getView().findViewById(R.id.lv));
-		ArrayList<HashMap<String, Object>> lvdat = new ArrayList<>();
+		ArrayList<HashMap<String, String>> lvdat = new ArrayList<>();
 		SimpleAdapter lvadp;
 		Button b;
 
@@ -47,7 +44,7 @@ public class FrShow extends Fragment {
 			}
 		});
 
-		frFile(lvdat);
+		ma.db.find(lvdat);
 
 		// 关联列表数据
 		lvadp = new SimpleAdapter(ma, lvdat, R.layout.lvitem,
@@ -56,30 +53,4 @@ public class FrShow extends Fragment {
 		lv.setAdapter(lvadp);
 	}
 
-	// 读文件
-	private void frFile (ArrayList<HashMap<String, Object>> a) {
-		BufferedReader f = null;
-		try {
-			f = new BufferedReader(new InputStreamReader(ma.openFileInput(ma.path)));
-			String s = f.readLine();
-			while (s != null) {
-				HashMap<String, Object> r = new HashMap<>();
-				r.put("tim", s);
-				r.put("cod", f.readLine());
-				r.put("xiu", f.readLine());
-				a.add(r);
-				s = f.readLine();
-			}
-		} catch (Exception e) {
-//			e.printStackTrace();
-		} finally {
-			if (f != null) {
-				try {
-					f.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
 }

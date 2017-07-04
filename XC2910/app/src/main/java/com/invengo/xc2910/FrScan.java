@@ -1,7 +1,6 @@
 package com.invengo.xc2910;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,9 +15,6 @@ import android.widget.Toast;
 
 import com.invengo.train.tag.xc2910.InfViewTag;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,14 +78,11 @@ public class FrScan extends Fragment {
 			@Override
 			public void onClick(View v) {
 				if (tag != null) {
-					StringBuilder s = new StringBuilder();
-					s.append(((TextView)(getView().findViewById(R.id.tim))).getText());
-					s.append("\n");
-					s.append(tag.getCod());
-					s.append("\n");
-					s.append(((Spinner)(getView().findViewById(R.id.xiu))).getSelectedItem().toString());
-					s.append("\n");
-					toFile(s.toString());
+					ma.db.add(
+							getTim(),
+							tag.getCod(),
+							getXiu()
+					);
 				}
 
 				// 界面清空
@@ -103,25 +96,6 @@ public class FrScan extends Fragment {
 		this.tag = tag;
 	}
 
-	// 写入文件
-	private void toFile (String s) {
-		OutputStream out=null;
-		try {
-			out = ma.openFileOutput(ma.path, Context.MODE_APPEND);
-			out.write(s.getBytes());
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
 	// 更新界面
 	public void updateUi (boolean msg) {
 		TextView tv = (TextView)(getView().findViewById(R.id.tim));
@@ -133,8 +107,39 @@ public class FrScan extends Fragment {
 			}
 		} else {
 			lvdat.addAll(tag.getViewDat());
-			tv.setText(DateFormat.getDateTimeInstance().format(new Date()));
+			tv.setText(ma.timFmt.format(new Date()));
 		}
 		lvadp.notifyDataSetChanged();
+	}
+
+	private String getTim () {
+		CharSequence c = ((TextView)(getView().findViewById(R.id.tim))).getText();
+		String r = c.toString();
+		return r;
+	}
+
+	private String getXiu () {
+		String r = null;
+		switch (((Spinner)(getView().findViewById(R.id.xiu))).getSelectedItem().toString()) {
+			case "厂修":
+				r = "C";
+				break;
+			case "段修":
+				r = "D";
+				break;
+			case "辅修":
+				r = "F";
+				break;
+			case "轴修":
+				r = "Z";
+				break;
+			case "临修":
+				r = "L";
+				break;
+			case "报废":
+				r = "B";
+				break;
+		}
+		return r;
 	}
 }

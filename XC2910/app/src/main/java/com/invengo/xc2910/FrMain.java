@@ -17,10 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
  * Created by LZR on 2017/4/27.	3070
  */
@@ -116,7 +112,9 @@ public class FrMain extends Fragment {
 			@Override
 			public void onClick(View v) {
 				hidCtrl ();
-				if (ma.ds.tsend(readDat()) == null) {
+				String d = "test";
+				// TODO: 2017/7/4
+				if (ma.ds.tsend(d) == null) {
 					Toast.makeText(ma.getApplicationContext(), "发送异常...", Toast.LENGTH_SHORT).show();
 				} else {
 					// TODO: 2017/6/30
@@ -291,35 +289,8 @@ public class FrMain extends Fragment {
 
 	// 清空数据
 	private void clearDat() {
-		ma.deleteFile(ma.path);
+		ma.db.del();
 		Toast toast = Toast.makeText(ma.getApplicationContext(), "数据已清空！", Toast.LENGTH_SHORT);
 		toast.show();
-	}
-
-	// 读取数据
-	private String readDat() {
-		BufferedReader f = null;
-		try {
-			f = new BufferedReader(new InputStreamReader(ma.openFileInput(ma.path)));
-			StringBuilder b = new StringBuilder();
-			String s = f.readLine();
-			while (s != null) {
-				b.append(s);
-				b.append("\n");
-				s = f.readLine();
-			}
-			return b.toString();
-		} catch (Exception e) {
-//			e.printStackTrace();
-		} finally {
-			if (f != null) {
-				try {
-					f.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
 	}
 }

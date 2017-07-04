@@ -2,6 +2,7 @@
           package="com.invengo.xc2910">
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission  android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
