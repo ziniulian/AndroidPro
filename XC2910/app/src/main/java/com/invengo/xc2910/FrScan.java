@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.invengo.train.tag.xc2910.InfViewTag;
+import com.invengo.train.tag.xc2910.Nulltag;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class FrScan extends Fragment {
 	private InfViewTag tag;	// 标签
 
 	private ListView lv = null;
+	private Spinner sn = null;
 	private SimpleAdapter lvadp = null;
 	private List<Map<String, String>> lvdat = new ArrayList<>();
 
@@ -41,8 +43,9 @@ public class FrScan extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		ma = (MainActivity)getActivity();
 		lv = (ListView)(getView().findViewById(R.id.lv));
+		sn = (Spinner)(getView().findViewById(R.id.xiu));
+		ma = (MainActivity)getActivity();
 
 		//创建简单适配器SimpleAdapter
 		lvadp = new SimpleAdapter(ma, lvdat, R.layout.lvonetag,
@@ -52,48 +55,53 @@ public class FrScan extends Fragment {
 		//加载SimpleAdapter到ListView中
 		lv.setAdapter(lvadp);
 
-		Button b;
-		b = (Button)(getView().findViewById(R.id.back));
+		Button b = (Button)(getView().findViewById(R.id.save));
 		b.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// 界面清空
-				tag = null;
-				updateUi(false);
-				getFragmentManager().beginTransaction().remove(ma.frScan).commit();
-				getFragmentManager().beginTransaction().replace(R.id.frdiv, ma.frMain).commit();
-			}
-		});
-
-		b = (Button)(getView().findViewById(R.id.scan));
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ma.demo.qryTag();
-			}
-		});
-
-		b = (Button)(getView().findViewById(R.id.save));
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (tag != null) {
-					ma.db.add(
-							getTim(),
-							tag.getCod(),
-							getXiu()
-					);
-				}
-
-				// 界面清空
-				tag = null;
-				updateUi(false);
+				sav();
 			}
 		});
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		clearUi();
+	}
+
 	public void setTag(InfViewTag tag) {
 		this.tag = tag;
+	}
+
+	// 保存数据
+	protected void sav() {
+		if (tag != null && !(tag.getClass().equals(Nulltag.class))) {
+			ma.db.add(
+					getTim(),
+					tag.getCod(),
+					getXiu()
+			);
+		}
+		clearUi();
+	}
+
+	// 切换修程选项
+	protected void chgXiu(int i) {
+		int n = sn.getCount();
+		int p = sn.getSelectedItemPosition() + i;
+		if (p < 0) {
+			p += n;
+		} else if (p >= n) {
+			p -= n;
+		}
+		sn.setSelection(p);
+	}
+
+	// 清空界面
+	private void clearUi () {
+		tag = null;
+		updateUi(false);
 	}
 
 	// 更新界面
@@ -104,8 +112,10 @@ public class FrScan extends Fragment {
 			tv.setText("");
 			if (msg) {
 				Toast.makeText(ma, "未搜索到标签，请重试 ...", Toast.LENGTH_SHORT).show();
+				ma.mkNtf("32");
 			}
 		} else {
+			ma.mkNtf("19");
 			lvdat.addAll(tag.getViewDat());
 			tv.setText(ma.timFmt.format(new Date()));
 		}
@@ -120,7 +130,7 @@ public class FrScan extends Fragment {
 
 	private String getXiu () {
 		String r = null;
-		switch (((Spinner)(getView().findViewById(R.id.xiu))).getSelectedItem().toString()) {
+		switch (sn.getSelectedItem().toString()) {
 			case "厂修":
 				r = "C";
 				break;

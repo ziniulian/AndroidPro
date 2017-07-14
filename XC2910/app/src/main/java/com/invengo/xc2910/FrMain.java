@@ -1,9 +1,6 @@
 package com.invengo.xc2910;
 
 import android.app.Fragment;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -23,9 +20,6 @@ import android.widget.Toast;
 
 public class FrMain extends Fragment {
 	private MainActivity ma;
-	private AudioManager mAudioManager;
-	private NotificationManager mNotificationManager;
-	private Notification n = new Notification();
 
 	@Nullable
 	@Override
@@ -59,7 +53,6 @@ public class FrMain extends Fragment {
 		});
 
 		//音量控制,初始化定义
-		mAudioManager = (AudioManager) ma.getSystemService(Context.AUDIO_SERVICE);
 		sb = (SeekBar)(getView().findViewById(R.id.ctrlVol));
 		checkVol(sb);
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -79,10 +72,6 @@ public class FrMain extends Fragment {
 			}
 		});
 
-		//通知控制,初始化定义
-		mNotificationManager = (NotificationManager)ma.getSystemService(Context.NOTIFICATION_SERVICE);
-		n.defaults = Notification.DEFAULT_SOUND;
-
 		Button b;
 		// 扫描标签
 		b = (Button)(getView().findViewById(R.id.scan));
@@ -90,8 +79,7 @@ public class FrMain extends Fragment {
 			@Override
 			public void onClick(View v) {
 				hidCtrl ();
-				getFragmentManager().beginTransaction().remove(ma.frMain).commit();
-				getFragmentManager().beginTransaction().replace(R.id.frdiv, ma.frScan).commit();
+				ma.setF("s");
 			}
 		});
 
@@ -101,8 +89,7 @@ public class FrMain extends Fragment {
 			@Override
 			public void onClick(View v) {
 				hidCtrl ();
-				getFragmentManager().beginTransaction().remove(ma.frMain).commit();
-				getFragmentManager().beginTransaction().replace(R.id.frdiv, ma.frShow).commit();
+				ma.setF("w");
 			}
 		});
 
@@ -112,9 +99,7 @@ public class FrMain extends Fragment {
 			@Override
 			public void onClick(View v) {
 				hidCtrl ();
-				String d = "test";
-				// TODO: 2017/7/4
-				if (ma.ds.tsend(d) == null) {
+				if (ma.ds.tsend(ma.db.getPath()) == null) {
 					Toast.makeText(ma.getApplicationContext(), "发送异常...", Toast.LENGTH_SHORT).show();
 				} else {
 					// TODO: 2017/6/30
@@ -238,10 +223,10 @@ public class FrMain extends Fragment {
 	// 检查系统音量并设置seekBar
 	private void checkVol (SeekBar sb) {
 		//最大音量
-		int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
+		int maxVolume = ma.am.getStreamMaxVolume(AudioManager.STREAM_SYSTEM);
 
 		//当前音量
-		int currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
+		int currentVolume = ma.am.getStreamVolume(AudioManager.STREAM_SYSTEM);
 
 		sb.setMax(maxVolume);
 		sb.setProgress(currentVolume);
@@ -250,15 +235,13 @@ public class FrMain extends Fragment {
 	// 设置音量
 	private void setVol (int v) {
 		// 系统音量
-		mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, v, 0);
+		ma.am.setStreamVolume(AudioManager.STREAM_SYSTEM, v, 0);
 
 		// 媒体音量
 		// mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, v, 0);
 
 		// 播放一个提示音
-		if (mNotificationManager != null) {
-			mNotificationManager.notify(1, n);
-		}
+		ma.mkNtf("30");
 	}
 
 	// 隐藏显示

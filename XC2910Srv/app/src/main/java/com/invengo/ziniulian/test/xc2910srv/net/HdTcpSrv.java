@@ -16,7 +16,7 @@ import java.net.Socket;
 
 public class HdTcpSrv extends Thread {
 	private Socket soc = null;
-	private char[] buf = new char[1024];
+	private char[] buf = new char[65536];
 	private FlushUiHandle fh;
 
 	public HdTcpSrv (Socket s, FlushUiHandle f) {
@@ -52,6 +52,7 @@ public class HdTcpSrv extends Thread {
 			StringBuilder dat = new StringBuilder();
 			int n = isr.read(this.buf);
 			while(n != -1){
+//Log.i("----- n -----", n + "");	// 缓存太小，会报数组越界的错误！
 				dat.append(this.buf, 0, n);
 				n = isr.read();
 			}
@@ -65,7 +66,7 @@ public class HdTcpSrv extends Thread {
 			os.write(1);
 			os.flush();
 		} catch (Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			//关闭资源
 			try {
@@ -82,7 +83,7 @@ public class HdTcpSrv extends Thread {
 					this.soc.close();
 				}
 			} catch (Exception e) {
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}

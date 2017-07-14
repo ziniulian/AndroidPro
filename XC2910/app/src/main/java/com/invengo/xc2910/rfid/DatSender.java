@@ -1,5 +1,6 @@
 package com.invengo.xc2910.rfid;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -135,8 +136,51 @@ public class DatSender implements Runnable {
 		return this.send(dat, null);
 	}
 
+	// 文件传输
+	public boolean sendFile(String path, String uip) {
+		boolean r = false;
+		if (this.findTcp(uip)) {
+			try {
+				Socket soc = new Socket(this.ip, this.pot);	// 创建连接
+				soc.setSoTimeout(this.timOut * max);	// 设置超时
 
-/****************** 为支持安卓线程运行追加的方法 ********************/
+				// 文件传输
+				OutputStream os = soc.getOutputStream();
+				InputStream fs = new FileInputStream(path);
+				byte[] buf = new byte[1024];
+				int s = 0;
+				s = fs.read(buf);
+				while (s != -1) {
+					os.write(buf, 0, s);
+					s = fs.read(buf);
+				}
+				os.flush();
+				soc.shutdownOutput();
+//Log.i("--- TCP ---", "已发送");
+
+				// 接收返回
+				InputStream is = soc.getInputStream();
+				int v = is.read();
+//Log.i("--- TCP ---", "已接收，" + v);
+				r = true;
+
+				// 关闭资源
+				fs.close();
+				is.close();
+				os.close();
+				soc.close();
+			} catch (IOException e) {
+				this.ip = null;
+				this.pot = 0;
+				e.printStackTrace();
+			}
+		}
+		return r;
+	}
+
+
+
+	/****************** 为支持安卓线程运行追加的方法 ********************/
 
 	// 线程级的数据传输
 	public Thread tsend (String dat) {
@@ -157,7 +201,8 @@ public class DatSender implements Runnable {
 	@Override
 	public void run() {
 		if (this.tdat != null) {
-			this.dsl.onDatSended(this.send(this.tdat));
+//			this.dsl.onDatSended(this.send(this.tdat));	// 数据传输
+			this.dsl.onDatSended(this.sendFile(this.tdat, null)); 	// 文件传输
 			this.tdat = null;
 		}
 	}

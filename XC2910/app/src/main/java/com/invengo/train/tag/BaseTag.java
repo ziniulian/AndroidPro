@@ -1,5 +1,7 @@
 package com.invengo.train.tag;
 
+import com.invengo.train.tag.xc2910.Nulltag;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -90,6 +92,8 @@ public abstract class BaseTag {
 			tag = ts.get(shield(c)).crtTag(c);
 		} catch (Exception e) {
 //			e.printStackTrace();
+			tag = new Nulltag();
+			tag.setCod(c.substring(0, 1));
 		}
 		return tag;
 	}
@@ -97,31 +101,35 @@ public abstract class BaseTag {
 	// 解析标签
 	public static BaseTag parse (byte[] src) {
 		BaseTag tag = null;
-		if (src != null && src.length == 19) {
-			if (src[0] == 42) {
+		if (src != null) {
+			if (src.length == 19) {
+				if (src[0] == 42) {
 //				 System.arraycopy(r, 1, bt, 0, r.length -1);
-				int i;
-				for (i = 1; i < src.length; i++) {
-					src[i - 1] = src[i];
+					int i;
+					for (i = 1; i < src.length; i++) {
+						src[i - 1] = src[i];
+					}
+					src[i - 1] = 0;
 				}
-				src[i - 1] = 0;
-			}
-			String s = Conver(src, 0);
+				String s = Conver(src, 0);
 
-			// TC50   400000211A12C
-			// !C64K  Q06505812A94C
-			// KYW25T 677083E073 066
-			// J10489001401AH  TK88188
-			// D3010000002101   G12345B
-			tag = parse(s);
+				// TC50   400000211A12C
+				// !C64K  Q06505812A94C
+				// KYW25T 677083E073 066
+				// J10489001401AH  TK88188
+				// D3010000002101   G12345B
+				tag = parse(s);
+			} else {
+				tag = parse("?");
+			}
 		}
 		return tag;
 	}
 
 	// 读取 XML 文件，初始化内容
 	public static void load (InputStream fs) {
-		if (ts.isEmpty()) {
-			try {
+		try {
+			if (ts.isEmpty()) {
 				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 				DocumentBuilder dbd = dbf.newDocumentBuilder();
 				Document doc = dbd.parse(fs);
@@ -219,9 +227,10 @@ public abstract class BaseTag {
 
 					ts.put(tp.getPro(), tp);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			fs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

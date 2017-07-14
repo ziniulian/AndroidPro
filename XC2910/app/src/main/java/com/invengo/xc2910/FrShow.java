@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -33,16 +32,6 @@ public class FrShow extends Fragment {
 		ListView lv = (ListView)(getView().findViewById(R.id.lv));
 		ArrayList<HashMap<String, String>> lvdat = new ArrayList<>();
 		SimpleAdapter lvadp;
-		Button b;
-
-		b = (Button)(getView().findViewById(R.id.back));
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				getFragmentManager().beginTransaction().remove(ma.frShow).commit();
-				getFragmentManager().beginTransaction().replace(R.id.frdiv, ma.frMain).commit();
-			}
-		});
 
 		ma.db.find(lvdat);
 

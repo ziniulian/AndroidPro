@@ -2,6 +2,7 @@ package com.invengo.ziniulian.test.xc2910srv;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		txt = (TextView) findViewById(R.id.txt);
+		txt.setMovementMethod(ScrollingMovementMethod.getInstance());
 		btn = (Button) findViewById(R.id.btn);
 		fh.setMa (this);
 		ts.setFh (fh);

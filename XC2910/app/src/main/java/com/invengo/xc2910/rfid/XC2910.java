@@ -57,12 +57,11 @@ public class XC2910 {
 				while(!isInterrupted()) {
 					int size;
 					try {
-						byte[] buf = new byte[64];
+						byte[] buf = new byte[32];
 //Log.i(TAG, "挂机 ...");
 						size = this.is.read(buf);
 						if (size > 0) {
-//							Log.i(TAG, "------------ s");
-//							Log.i(TAG, Integer.toString(size));
+//							Log.i(TAG, "------------ s : " + size);
 //							for (int i = 0; i < size; i++) {
 //								Log.i(TAG, Integer.toHexString(buf[i]));
 //							}
@@ -79,6 +78,8 @@ public class XC2910 {
 									i = 4;
 									j = 0;
 								}
+							} else if (lock && n == 0) {
+								hdTag(new byte[1]);
 							}
 							if (j < n) {
 								for (; i < size; i++) {
@@ -146,6 +147,7 @@ public class XC2910 {
 		if (!this.lock) {
 			this.lock = true;
 			this.send((byte)0x32);
+//			this.send((byte)0x30);
 		}
 	}
 
