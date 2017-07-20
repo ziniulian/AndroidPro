@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 	// 内存卡监听器
 	private BroadcastReceiver sdr;
 
-	@SuppressWarnings("MissingPermission")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,59 +83,6 @@ public class MainActivity extends AppCompatActivity {
 		f.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
 		f.addDataScheme("file");
 		registerReceiver(sdr, f);
-
-//		// GPS监听
-//		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//		Criteria criteria = new Criteria();criteria.setAccuracy(Criteria.ACCURACY_FINE); // 高精度
-//		criteria.setAltitudeRequired(false);
-//		criteria.setBearingRequired(false);
-//		criteria.setCostAllowed(true);
-//		criteria.setPowerRequirement(Criteria.POWER_LOW); // 低功耗
-//		String provider = locationManager.getBestProvider(criteria, true);	// 获取GPS信息
-//		Log.i("-------- GPS -------", provider);
-//		List<String> as = lm.getAllProviders();
-//		int i;
-//		for (i = 0; i < as.size(); i++) {
-//			Log.i("-------- GPS -------", as.get(i));
-//		}
-//		LocationProvider gpsp = lm.getProvider(LocationManager.GPS_PROVIDER);
-//		Log.i("-------- GPS -------", gpsp.toString());
-//		Location location;
-//		i = 0;
-//		do {
-//			location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);	// 通过GPS获取位置
-//			i ++;
-//		} while (location == null && i < 10000);
-//
-//		Log.i("-------- GPS -------", (location == null) + " , " + i);
-//		Log.i("-------- GPS -------", location.getTime()+"");
-//		Log.i("-------- GPS -------", location.getLongitude()+"");
-//		Log.i("-------- GPS -------", location.getLatitude()+"");
-
-//		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 8, new LocationListener() {
-//
-//			@Override
-//			public void onStatusChanged(String provider, int status, Bundle extras) {
-//				Log.i("-------- GPS -------", "onStatusChanged");
-//			}
-//
-//			@Override
-//			public void onProviderEnabled(String provider) {
-//				// 当GPS LocationProvider可用时，更新位置
-//				Log.i("-------- GPS -------", "onProviderEnabled");
-//			}
-//
-//			@Override
-//			public void onProviderDisabled(String provider) {
-//				Log.i("-------- GPS -------", "onProviderDisabled");
-//			}
-//
-//			@Override
-//			public void onLocationChanged(Location location) {
-//				//GPS定位信息发生改变时，更新位置
-//				Log.i("-------- GPS -------", "onLocationChanged");
-//			}
-//		});
 	}
 
 	@Override
