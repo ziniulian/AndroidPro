@@ -17,7 +17,6 @@ import com.invengo.train.tag.xc2910.InfViewTag;
 import com.invengo.train.tag.xc2910.Nulltag;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -117,7 +116,7 @@ public class FrScan extends Fragment {
 		} else {
 			ma.mkNtf("19");
 			lvdat.addAll(tag.getViewDat());
-			tv.setText(ma.timFmt.format(new Date()));
+			tv.setText(ma.getTim());
 		}
 		lvadp.notifyDataSetChanged();
 	}

@@ -27,7 +27,15 @@ public class TagT extends BaseTag {
 	}
 
 	public String getFacNam() {
-		String r = tpro.getFacs().get(fac);
+		String r = tpro.getFacs().get(fac).getNam();
+		if (r == null) {
+			r = "...";
+		}
+		return r;
+	}
+
+	public String getTypNam() {
+		String r = tpro.getTyps().get(typ).getNam();
 		if (r == null) {
 			r = "...";
 		}

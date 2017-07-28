@@ -23,8 +23,13 @@ public class Ktag extends TagK implements InfViewTag {
 		r.add(m);
 
 		m = new HashMap<>();
-		m.put("k", "车种车型：");
-		m.put("v", getTyp());
+		m.put("k", "车种：");
+		m.put("v", getTyp() + " [" + getTypNam() + "]");
+		r.add(m);
+
+		m = new HashMap<>();
+		m.put("k", "车型：");
+		m.put("v", getMod());
 		r.add(m);
 
 		m = new HashMap<>();

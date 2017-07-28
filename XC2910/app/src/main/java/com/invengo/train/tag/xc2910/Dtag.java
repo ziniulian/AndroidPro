@@ -24,7 +24,7 @@ public class Dtag extends TagD implements InfViewTag {
 
 		m = new HashMap<>();
 		m.put("k", "型号：");
-		m.put("v", getMod());
+		m.put("v", getMod() + " [" + getModNam() + "]");
 		r.add(m);
 
 		m = new HashMap<>();

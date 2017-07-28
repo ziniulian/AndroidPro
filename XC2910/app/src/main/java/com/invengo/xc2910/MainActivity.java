@@ -24,6 +24,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.invengo.train.tag.BaseTag;
@@ -34,17 +35,17 @@ import com.invengo.xc2910.rfid.OnTagListener;
 import com.invengo.xc2910.rfid.XC2910;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-	private static final String xmlPath = "conf.xml";	// XML 文件路径
-	protected SimpleDateFormat timFmt = new SimpleDateFormat ("yyyyMMddHHmmss");
+	private static final String xmlPath = "DataDic.xml";	// XML 文件路径
+	private static final String iniPath = "Invengo/XC2910/conf.ini";	// 配置文件路径
+	private static final String timPath = "Invengo/XC2910/tim.txt";	// 时间反馈文件路径
+	private SimpleDateFormat timFmt = new SimpleDateFormat ("yyyyMMddHHmmss");
 
 	private FrMain frMain = new FrMain();
 	private FrScan frScan = new FrScan();
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 	protected DatSender ds = new DatSender();
 	protected XC2910 demo = null;
 	private FlushUiHandle fh = null;
+	private Tim tim = null;
+	private TextView vt = null;
 
 	protected DbHandle db = null;
 	protected AudioManager am = null;
@@ -63,14 +66,26 @@ public class MainActivity extends AppCompatActivity {
 	// 内存卡监听器
 	private BroadcastReceiver sdr;
 
+	// 时间修改监听
+	private BroadcastReceiver timr;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
 
+		try {
+			BaseTag.load(this.getAssets().open(xmlPath), new File(Environment.getExternalStorageDirectory(), iniPath));
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+
 		am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		fh = new FlushUiHandle();
+		vt = (TextView) findViewById(R.id.tim);
+		tim = new Tim(this);
 
 		// 监听内存卡
 		sdr = new BroadcastReceiver() {
@@ -83,6 +98,36 @@ public class MainActivity extends AppCompatActivity {
 		f.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
 		f.addDataScheme("file");
 		registerReceiver(sdr, f);
+
+		// 监听时间修改
+		timr = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String dat = intent.getStringExtra("tim");
+				String[] t = dat.split(",");
+				tim.setT(
+						Integer.parseInt(t[0]),
+						Integer.parseInt(t[1]) - 1,
+						Integer.parseInt(t[2]),
+						Integer.parseInt(t[3]),
+						Integer.parseInt(t[4]),
+						Integer.parseInt(t[5])
+				);
+
+				// 生成反馈文件
+				try {
+					new File(Environment.getExternalStorageDirectory(), timPath).createNewFile();
+				} catch (Exception e) {
+//					e.printStackTrace();
+				}
+
+//				Log.i("---- timr ----", dat);
+//				Toast.makeText(getApplicationContext(), dat, Toast.LENGTH_SHORT).show();
+			}
+		};
+		f = new IntentFilter();
+		f.addAction("com.invengo.xc2910.timr");
+		registerReceiver(timr, f);
 	}
 
 	@Override
@@ -92,26 +137,12 @@ public class MainActivity extends AppCompatActivity {
 		if (demo == null) {
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 				db = new DbHandle (this);
-				fh = new FlushUiHandle();
 				fm = getFragmentManager();
 				setF(frMain);
 
 				// 加载 车属性集合的 XML 文档
 				try {
-					File xmlf = new File(Environment.getExternalStorageDirectory(), "Invengo/XC2910/" + xmlPath);
-					if (!xmlf.exists()) {
-						InputStream is = this.getAssets().open(xmlPath);
-						FileOutputStream os = new FileOutputStream(xmlf);
-						byte[] buf = new byte[1024];
-						int s = is.read(buf);
-						while (s != -1) {
-							os.write(buf, 0, s);
-							s = is.read(buf);
-						}
-						os.close();
-						is.close();
-					}
-					BaseTag.load(new FileInputStream(xmlf));
+					BaseTag.load(this.getAssets().open(xmlPath), new File(Environment.getExternalStorageDirectory(), iniPath));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -171,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
 			demo.close();
 		}
 		unregisterReceiver(sdr);
+		unregisterReceiver(timr);
+		tim.stop();
 		super.onDestroy();
 	}
 
@@ -289,6 +322,19 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	protected void flushTim () {
+		Message msg = new Message();
+		Bundle dat = new Bundle();
+		dat.putString("stat", "tim");
+		msg.setData(dat);
+		fh.sendMessage(msg);
+	}
+
+	protected String getTim() {
+		tim.setT();
+		return timFmt.format(tim.getT().getTime());
+	}
+
 	private class FlushUiHandle extends Handler {
 		@Override
 		public void handleMessage(Message msg) {
@@ -296,6 +342,11 @@ public class MainActivity extends AppCompatActivity {
 			Bundle dat = msg.getData();
 			Toast toast;
 			switch (dat.getString("stat")) {
+				case "tim":
+					Calendar c = tim.getT();
+//					vt.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND));
+					vt.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
+					break;
 				case "OnTag":
 					frScan.updateUi(true);
 					break;

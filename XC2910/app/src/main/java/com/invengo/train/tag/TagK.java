@@ -5,7 +5,8 @@ package com.invengo.train.tag;
  */
 
 public class TagK extends BaseTag {
-	private String typ;	// 车种车型
+	private String typ;	// 车种
+	private String mod;	// 车型
 	private String num;	// 车号
 	private String fac;	// 制造厂
 	private String tim;	// 制造年月
@@ -14,7 +15,8 @@ public class TagK extends BaseTag {
 
 	@Override
 	protected void parseByCod(String cod) {
-		typ = cod.substring(1, 7);	// 车种车型
+		typ = cod.substring(1, 3);	// 车种
+		mod = cod.substring(3, 7);	// 车型
 		num = cod.substring(7, 13);	// 车号
 		fac = cod.substring(13, 14);	// 制造厂
 		tim = cod.substring(14, 17);	// 制造年月
@@ -27,7 +29,15 @@ public class TagK extends BaseTag {
 	}
 
 	public String getFacNam() {
-		String r = tpro.getFacs().get(fac);
+		String r = tpro.getFacs().get(fac).getNam();
+		if (r == null) {
+			r = "...";
+		}
+		return r;
+	}
+
+	public String getTypNam() {
+		String r = tpro.getTyps().get(typ).getNam();
 		if (r == null) {
 			r = "...";
 		}
@@ -36,6 +46,10 @@ public class TagK extends BaseTag {
 
 	public String getTyp() {
 		return typ;
+	}
+
+	public String getMod() {
+		return mod;
 	}
 
 	public String getNum() {

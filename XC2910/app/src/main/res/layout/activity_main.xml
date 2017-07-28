@@ -8,6 +8,12 @@
     tools:context="com.invengo.xc2910.MainActivity">
 
     <TextView
+        android:id="@+id/tim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"

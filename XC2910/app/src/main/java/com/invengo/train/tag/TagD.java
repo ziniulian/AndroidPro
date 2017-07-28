@@ -24,8 +24,16 @@ public class TagD extends BaseTag {
 		pot = cod.substring(23, 24);	// 双机车状态（端位）
 	}
 
+	public String getModNam() {
+		String r = tpro.getMods().get(mod).getNam();
+		if (r == null) {
+			r = "...";
+		}
+		return r;
+	}
+
 	public String getJuNam () {
-		String r = tpro.getJus().get(ju);
+		String r = tpro.getJus().get(ju).getNam();
 		if (r == null) {
 			r = "...";
 		}
@@ -33,7 +41,7 @@ public class TagD extends BaseTag {
 	}
 
 	public String getSuoNam () {
-		String r = tpro.getSuos().get(suo);
+		String r = tpro.getJus().get(ju).getSuos().get(suo).getNam();
 		if (r == null) {
 			r = "...";
 		}
