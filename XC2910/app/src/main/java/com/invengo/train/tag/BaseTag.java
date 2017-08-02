@@ -141,6 +141,9 @@ public abstract class BaseTag {
 		try {
 			// 遮罩信息
 			if (!ini.exists()) {
+				if (!ini.getParentFile().exists()) {
+					ini.getParentFile().mkdirs();
+				}
 				FileOutputStream os = new FileOutputStream(ini);
 				os.write("T\n".getBytes());
 				os.close();

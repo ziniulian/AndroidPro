@@ -69,6 +69,31 @@ public class MainActivity extends AppCompatActivity {
 	// 时间修改监听
 	private BroadcastReceiver timr;
 
+/*
+	// HOME 后重启
+	Handler rebootHandler = new Handler();
+	Runnable rebootRunnable = new Runnable() {
+		@Override
+		public void run() {
+			reboot();
+		}
+	};
+
+	// 重启
+	public void reboot()
+	{
+		Intent t = new Intent(this, MainActivity.class);
+		t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		this.startActivity(t);
+	}
+
+	@Override
+	protected void onUserLeaveHint() {
+		super.onUserLeaveHint();
+		rebootHandler.post(rebootRunnable);
+	}
+*/
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -209,35 +234,46 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//Log.i("---- k ----", "" + keyCode);
-//Log.i("---- k ----", event.toString());
-		if (demo != null && event.getRepeatCount() == 0) {
+//Log.i("-", "" + keyCode);
+		if (demo != null) {
 			switch (keyCode) {
 				case 2:
-					if (curf == frScan) {
-						demo.qryTag();
-					} else {
-						setF(frScan);
-					}
-					return false;
-				case 0:
-					if (curf == frScan) {
-						frScan.sav();
+					if (event.getRepeatCount() == 0) {
+						if (curf == frScan) {
+							demo.qryTag();
+						} else {
+							setF(frScan);
+						}
 					}
 					return false;
 				case KeyEvent.KEYCODE_BACK:
-					setF(frMain);
+					if (event.getRepeatCount() == 0) {
+						setF(frMain);
+					}
+					return false;
+				case KeyEvent.KEYCODE_HOME:
+					if (event.getRepeatCount() == 0) {
+						if (curf == frScan) {
+							frScan.sav();
+						}
+					}
 					return false;
 				case 59:
-					if (curf == frScan) {
-						frScan.chgXiu(1);
+					if (event.getRepeatCount() == 0) {
+						if (curf == frScan) {
+							frScan.chgXiu(1);
+						}
 					}
 					return false;
 				case 60:
-					if (curf == frScan) {
+					if (event.getRepeatCount() == 0) {
+						if (curf == frScan) {
 						frScan.chgXiu(-1);
+						}
 					}
 					return false;
+				case 84:
+					return true;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
