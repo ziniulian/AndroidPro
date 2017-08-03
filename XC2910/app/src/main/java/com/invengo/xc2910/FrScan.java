@@ -30,6 +30,7 @@ public class FrScan extends Fragment {
 
 	private ListView lv = null;
 	private Spinner sn = null;
+	private TextView tv = null;
 	private SimpleAdapter lvadp = null;
 	private List<Map<String, String>> lvdat = new ArrayList<>();
 
@@ -44,6 +45,7 @@ public class FrScan extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		lv = (ListView)(getView().findViewById(R.id.lv));
 		sn = (Spinner)(getView().findViewById(R.id.xiu));
+		tv = (TextView)(getView().findViewById(R.id.tim));
 		ma = (MainActivity)getActivity();
 
 		//创建简单适配器SimpleAdapter
@@ -61,12 +63,6 @@ public class FrScan extends Fragment {
 				sav();
 			}
 		});
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		clearUi();
 	}
 
 	public void setTag(InfViewTag tag) {
@@ -98,14 +94,13 @@ public class FrScan extends Fragment {
 	}
 
 	// 清空界面
-	private void clearUi () {
+	protected void clearUi () {
 		tag = null;
 		updateUi(false);
 	}
 
 	// 更新界面
 	public void updateUi (boolean msg) {
-		TextView tv = (TextView)(getView().findViewById(R.id.tim));
 		lvdat.clear();
 		if (tag == null) {
 			tv.setText("");
@@ -122,9 +117,7 @@ public class FrScan extends Fragment {
 	}
 
 	private String getTim () {
-		CharSequence c = ((TextView)(getView().findViewById(R.id.tim))).getText();
-		String r = c.toString();
-		return r;
+		return tv.getText().toString();
 	}
 
 	private String getXiu () {

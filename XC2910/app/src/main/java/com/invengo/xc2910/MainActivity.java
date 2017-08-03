@@ -35,7 +35,6 @@ import com.invengo.xc2910.rfid.OnTagListener;
 import com.invengo.xc2910.rfid.XC2910;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -43,17 +42,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 	private static final String xmlPath = "DataDic.xml";	// XML 文件路径
-	private static final String iniPath = "Invengo/XC2910/conf.ini";	// 配置文件路径
-	private static final String timPath = "Invengo/XC2910/tim.txt";	// 时间反馈文件路径
-	private SimpleDateFormat timFmt = new SimpleDateFormat ("yyyyMMddHHmmss");
+	private static final String iniPath = "conf.xml";	// 配置文件路径
+	private static final String timPath = "tim.txt";	// 时间反馈文件路径
+	private static final String sdDir = "Invengo/XC2910/";	// SD卡路径
+	protected XC2910 demo = null;
 
+	private SimpleDateFormat timFmt = new SimpleDateFormat ("yyyyMMddHHmmss");
 	private FrMain frMain = new FrMain();
 	private FrScan frScan = new FrScan();
 	private FrShow frShow = new FrShow();
 	private Fragment curf = null;
 	private FragmentManager fm = null;
 	protected DatSender ds = new DatSender();
-	protected XC2910 demo = null;
 	private FlushUiHandle fh = null;
 	private Tim tim = null;
 	private TextView vt = null;
@@ -69,112 +69,38 @@ public class MainActivity extends AppCompatActivity {
 	// 时间修改监听
 	private BroadcastReceiver timr;
 
-/*
-	// HOME 后重启
-	Handler rebootHandler = new Handler();
-	Runnable rebootRunnable = new Runnable() {
-		@Override
-		public void run() {
-			reboot();
-		}
-	};
-
-	// 重启
-	public void reboot()
-	{
-		Intent t = new Intent(this, MainActivity.class);
-		t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		this.startActivity(t);
-	}
-
-	@Override
-	protected void onUserLeaveHint() {
-		super.onUserLeaveHint();
-		rebootHandler.post(rebootRunnable);
-	}
-*/
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		setContentView(R.layout.activity_main);
 
 		try {
-			BaseTag.load(this.getAssets().open(xmlPath), new File(Environment.getExternalStorageDirectory(), iniPath));
+			String title = BaseTag.load(this.getAssets().open(xmlPath), new File(Environment.getExternalStorageDirectory(), sdDir + iniPath), this.getAssets().open(iniPath));
+			if (title == null) {
+				return;
+			}
+			((TextView) findViewById(R.id.tt)).setText(title);
 		} catch (Exception e) {
 //			e.printStackTrace();
 		}
 
-		am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		fh = new FlushUiHandle();
-		vt = (TextView) findViewById(R.id.tim);
-		tim = new Tim(this);
-
-		// 监听内存卡
-		sdr = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				finish();
-			}
-		};
-		IntentFilter f = new IntentFilter();
-		f.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-		f.addDataScheme("file");
-		registerReceiver(sdr, f);
-
-		// 监听时间修改
-		timr = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String dat = intent.getStringExtra("tim");
-				String[] t = dat.split(",");
-				tim.setT(
-						Integer.parseInt(t[0]),
-						Integer.parseInt(t[1]) - 1,
-						Integer.parseInt(t[2]),
-						Integer.parseInt(t[3]),
-						Integer.parseInt(t[4]),
-						Integer.parseInt(t[5])
-				);
-
-				// 生成反馈文件
-				try {
-					new File(Environment.getExternalStorageDirectory(), timPath).createNewFile();
-				} catch (Exception e) {
-//					e.printStackTrace();
-				}
-
-//				Log.i("---- timr ----", dat);
-//				Toast.makeText(getApplicationContext(), dat, Toast.LENGTH_SHORT).show();
-			}
-		};
-		f = new IntentFilter();
-		f.addAction("com.invengo.xc2910.timr");
-		registerReceiver(timr, f);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
 		if (demo == null) {
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 				db = new DbHandle (this);
-				fm = getFragmentManager();
-				setF(frMain);
-
-				// 加载 车属性集合的 XML 文档
-				try {
-					BaseTag.load(this.getAssets().open(xmlPath), new File(Environment.getExternalStorageDirectory(), iniPath));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			} else {
-				Toast.makeText(getApplicationContext(), "找不到 SD 卡！", Toast.LENGTH_LONG).show();
+//				Toast.makeText(getApplicationContext(), "找不到 SD 卡！", Toast.LENGTH_LONG).show();
 				return;
 			}
+
+			vt = (TextView) findViewById(R.id.tim);
+			am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+			nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			fh = new FlushUiHandle();
+			tim = new Tim(this);
+			fm = getFragmentManager();
+			setF(frMain);
 
 			// 创建读出器对象
 			demo = new XC2910();
@@ -208,9 +134,54 @@ public class MainActivity extends AppCompatActivity {
 					fh.sendMessage(msg);
 				}
 			});
-		}
 
-		demo.open();
+			// 监听内存卡
+			IntentFilter f = new IntentFilter();
+			sdr = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					finish();
+				}
+			};
+			f.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+			f.addDataScheme("file");
+			registerReceiver(sdr, f);
+
+			// 监听时间修改
+			timr = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					String dat = intent.getStringExtra("tim");
+					String[] t = dat.split(",");
+					tim.setT(
+							Integer.parseInt(t[0]),
+							Integer.parseInt(t[1]) - 1,
+							Integer.parseInt(t[2]),
+							Integer.parseInt(t[3]),
+							Integer.parseInt(t[4]),
+							Integer.parseInt(t[5])
+					);
+
+					// 生成反馈文件
+					try {
+						new File(Environment.getExternalStorageDirectory(), sdDir + timPath).createNewFile();
+					} catch (Exception e) {
+//					e.printStackTrace();
+					}
+				}
+			};
+			f = new IntentFilter();
+			f.addAction("com.invengo.xc2910.timr");
+			registerReceiver(timr, f);
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		if (demo != null) {
+			demo.open();
+		}
+		super.onResume();
 	}
 
 	@Override
@@ -225,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		if (demo != null) {
 			demo.close();
+			unregisterReceiver(sdr);
+			unregisterReceiver(timr);
+			tim.stop();
 		}
-		unregisterReceiver(sdr);
-		unregisterReceiver(timr);
-		tim.stop();
 		super.onDestroy();
 	}
 
@@ -284,6 +255,8 @@ public class MainActivity extends AppCompatActivity {
 		if (curf != null) {
 			if (curf == f) {
 				return;
+			} else if (curf == frScan) {
+				frScan.clearUi();
 			}
 			fm.beginTransaction().remove(curf).commit();
 		}
@@ -294,50 +267,8 @@ public class MainActivity extends AppCompatActivity {
 	// 播放提示音
 	protected void mkNtf (String n) {
 		nm.cancel(1);
-//		ntfc.defaults = Notification.DEFAULT_SOUND;
-//		ntfc.sound = Uri.parse("content://media/internal/audio/media/" + n);
 		ntfc.sound = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, n);
 		nm.notify(1, ntfc);
-/* 可用的系统声音：
-* 5...
-* 7
-* 9...
-* 18
-* 19	v
-* 20
-* 21
-* 22
-* 23...
-* 24...
-* 25...
-* 26...
-* 27...
-* 28...
-* 29...
-* 30	v
-* 31	v
-* 32	v
-* 33
-* 34
-* 35
-* 36	v
-* 37
-* 38
-* 39
-* 40
-* 41
-* 42
-* 43
-* 44
-* 45
-* 46
-* 47
-* 48
-* 49
-* 50
-* .......
-* 80...
-* */
 	}
 
 	protected void setF (String strf) {
@@ -380,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
 			switch (dat.getString("stat")) {
 				case "tim":
 					Calendar c = tim.getT();
-//					vt.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND));
 					vt.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
 					break;
 				case "OnTag":
@@ -401,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 		private final String sqlDelAll = "delete from tbMotor";
 
 		public DbHandle (Context con) {
-			super(new DbContext(con), "motor", null, 1);	// 使用外部 SD 卡存储数据库
+			super(new DbContext(con), "motor", null, 1);
 		}
 
 		@Override
@@ -450,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	// 修改数据库至 SD 卡
+	// 数据库位置
 	private class DbContext extends ContextWrapper {
 		public DbContext (Context c) {
 			super(c);
@@ -458,12 +388,12 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		public File getDatabasePath(String name) {
-			String sdPath = "Invengo/XC2910/DB/" + name;
-			if (!sdPath.endsWith(".hdf")) {
-				sdPath += ".hdf";
+			String p = sdDir + "DB/" + name;
+			if (!p.endsWith(".hdf")) {
+				p += ".hdf";
 			}
 
-			File dbfile = new File(Environment.getExternalStorageDirectory(), sdPath);
+			File dbfile = new File(Environment.getExternalStorageDirectory(), p);
 			if (!dbfile.getParentFile().exists()) {
 				dbfile.getParentFile().mkdirs();
 			}

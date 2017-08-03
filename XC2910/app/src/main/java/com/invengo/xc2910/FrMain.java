@@ -1,6 +1,5 @@
 package com.invengo.xc2910;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -115,16 +114,6 @@ public class FrMain extends Fragment {
 			public void onClick(View v) {
 				hidCtrl ();
 				clearDat();
-			}
-		});
-
-		// 校时
-		b = (Button)(getView().findViewById(R.id.tim));
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				hidCtrl ();
-				setAutoTim();
 			}
 		});
 
@@ -252,25 +241,6 @@ public class FrMain extends Fragment {
 		layout.setVisibility(View.GONE);
 		layout = (LinearLayout)(getView().findViewById(R.id.ctrlVolOut));
 		layout.setVisibility(View.GONE);
-	}
-
-	// 设置为自动校准时间
-	@SuppressLint("NewApi")
-	private void setAutoTim() {
-//		// 需要root，还要将apk文件push到system app目录下。<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
-//		try {
-//			if (Settings.System.getInt(ma.getContentResolver(),Settings.Global.AUTO_TIME_ZONE) == 0) {
-//				Settings.Global.putInt(ma.getContentResolver(),Settings.Global.AUTO_TIME_ZONE,1);
-//			}
-//			if (Settings.System.getInt(ma.getContentResolver(),Settings.Global.AUTO_TIME) == 0) {
-//				Settings.Global.putInt(ma.getContentResolver(),Settings.Global.AUTO_TIME,1);
-//			}
-//		} catch (Settings.SettingNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//
-//		Toast toast = Toast.makeText(ma.getApplicationContext(), "时间已校准！", Toast.LENGTH_SHORT);
-//		toast.show();
 	}
 
 	// 清空数据

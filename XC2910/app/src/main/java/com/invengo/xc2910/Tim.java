@@ -78,13 +78,6 @@ public class Tim implements Runnable {
 	@Override
 	public void run() {
 		try {
-//			// 每秒更新一次
-//			while (!this.tr.isInterrupted()) {
-//				ma.flushTim();
-//				Thread.sleep(1000);
-//				this.t.add(Calendar.SECOND, 1);
-//			}
-
 			// 每分钟更新一次
 			ma.flushTim();
 			Thread.sleep(1000 * (60 - this.t.get(Calendar.SECOND)));

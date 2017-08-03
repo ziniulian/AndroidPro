@@ -11,12 +11,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,7 +95,7 @@ public abstract class BaseTag {
 
 	// 解析标签
 	public static BaseTag parse (String c) {
-		BaseTag tag = null;
+		BaseTag tag;
 		try {
 			tag = ts.get(shield(c)).crtTag(c);
 		} catch (Exception e) {
@@ -114,7 +112,6 @@ public abstract class BaseTag {
 		if (src != null) {
 			if (src.length == 19) {
 				if (src[0] == 42) {
-//				 System.arraycopy(r, 1, bt, 0, r.length -1);
 					int i;
 					for (i = 1; i < src.length; i++) {
 						src[i - 1] = src[i];
@@ -136,28 +133,31 @@ public abstract class BaseTag {
 		return tag;
 	}
 
-	// 读取 XML 文件，初始化内容
-	public static void load (InputStream fs, File ini) {
+	// 读取 XML 文件
+	public static String load (InputStream fs, File ini, InputStream confis) {
+		String r = null;
 		try {
-			// 遮罩信息
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dbd = dbf.newDocumentBuilder();
+
+			// 文件复制
 			if (!ini.exists()) {
 				if (!ini.getParentFile().exists()) {
 					ini.getParentFile().mkdirs();
 				}
 				FileOutputStream os = new FileOutputStream(ini);
-				os.write("T\n".getBytes());
+				byte[] buf = new byte[1024];
+				int n = confis.read(buf);
+				while (n != -1) {
+					os.write(buf, 0, n);
+					n = confis.read(buf);
+				}
 				os.close();
-				able = "T";
-			} else {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(ini)));
-				able = br.readLine();
-				br.close();
 			}
+			confis.close();
 
-			// XML配置信息
+			// 属性配置
 			if (ts.isEmpty()) {
-				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dbd = dbf.newDocumentBuilder();
 				Document doc = dbd.parse(fs);
 
 				loadPro(doc.getElementsByTagName("VehicleProperty"));	// 标签属性
@@ -168,9 +168,19 @@ public abstract class BaseTag {
 				// TODO: 2017/7/28 修程
 			}
 			fs.close();
+
+			// 遮罩配置
+			InputStream cis = new FileInputStream(ini);
+			Document cdoc = dbd.parse(cis);
+			String k = cdoc.getElementsByTagName("conf").item(0).getAttributes().getNamedItem("use").getNodeValue();
+			Node n = cdoc.getElementsByTagName(k).item(0);
+			able = n.getAttributes().getNamedItem("mask").getNodeValue();
+			r = n.getAttributes().getNamedItem("name").getNodeValue();
+			cis.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return r;
 	}
 
 	// 读取标签属性

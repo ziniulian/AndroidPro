@@ -14,6 +14,7 @@
         android:padding="5dp"/>
 
     <TextView
+        android:id="@+id/tt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
@@ -21,7 +22,7 @@
         android:textStyle="bold"
         android:textColor="#ECC"
         android:gravity="center"
-        android:text="XC2910便携式标签读出器"/>
+        android:text="@string/app_name"/>
 
     <LinearLayout
         android:id="@+id/frdiv"
