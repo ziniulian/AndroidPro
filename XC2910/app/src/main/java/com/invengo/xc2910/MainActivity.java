@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ import com.invengo.xc2910.rfid.OnTagListener;
 import com.invengo.xc2910.rfid.XC2910;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -231,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
 					return false;
 				case 59:
 					if (event.getRepeatCount() == 0) {
+//						screenshots(timFmt.format(new Date()));
 						if (curf == frScan) {
 							frScan.chgXiu(1);
 						}
@@ -248,6 +252,27 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	// 截屏
+	private void screenshots (String fn) {
+		View v = vt.getRootView();
+		v.setDrawingCacheEnabled(true);
+		v.destroyDrawingCache();
+		v.buildDrawingCache();
+		Bitmap bp = v.getDrawingCache();
+		if(bp != null) {
+			try{
+				File f = new File(Environment.getExternalStorageDirectory(), sdDir + "img/" + fn + ".png");
+				if (!f.getParentFile().exists()) {
+					f.getParentFile().mkdirs();
+				}
+				FileOutputStream out = new FileOutputStream(f);
+				bp.compress(Bitmap.CompressFormat.PNG, 100, out);
+			}catch(Exception e) {
+//				e.printStackTrace();
+			}
+		}
 	}
 
 	// 设置当前页面
