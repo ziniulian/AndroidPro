@@ -1,4 +1,4 @@
-package com.invengo.xc2910;
+﻿package com.invengo.xc2910;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -188,11 +188,11 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onPause() {
 		if (demo != null) {
 			demo.close();
 		}
-		super.onStop();
+		super.onPause();
 	}
 
 	@Override
