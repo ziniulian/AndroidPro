@@ -28,6 +28,7 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	private boolean isScanning = false;
 	private boolean isReading = false;
 	private final byte antenna = 1;
+	private ReadTag.ReadMemoryBank bank = ReadTag.ReadMemoryBank.EPC_TID_UserData_6C;
 	private final byte[] defaulPwd = new byte[] {0, 0, 0, 0};
 
 	// 连接设备
@@ -61,7 +62,7 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	private Runnable scanRa = new Runnable() {
 		@Override
 		public void run() {
-			ReadTag rt = new ReadTag (ReadTag.ReadMemoryBank.EPC_TID_UserData_6C);
+			ReadTag rt = new ReadTag (bank);
 			rd.send(rt);
 			cb(EmCb.Scanning);
 		}
@@ -81,7 +82,7 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	private Runnable readRa = new Runnable() {
 		@Override
 		public void run() {
-			ReadTag msg = new ReadTag (ReadTag.ReadMemoryBank.EPC_TID_UserData_6C, true);
+			ReadTag msg = new ReadTag (bank, true);
 			if (rd.send(msg)) {
 				com.invengo.rfid.tag.Base bt = crtBt(msg.getReceivedMessage().getList_RXD_TagData()[0]);
 				isReading = false;
@@ -113,7 +114,6 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	private com.invengo.rfid.tag.Base crtBt (RXD_TagData r) {
 		com.invengo.rfid.tag.Base bt = new T6C();
 		RXD_TagData.ReceivedInfo ri = r.getReceivedMessage();
-		byte[] bs;
 
 		bt.setEpc(ri.getEPC());
 		bt.setTid(ri.getTID());
@@ -138,7 +138,7 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 
 	@Override
 	public void open() {
-		if (!isConnect) {
+		if (!isConnect && rd != null) {
 			cb(EmCb.ShowProgress);
 			new Thread(connectRa).start();
 		}
@@ -155,17 +155,12 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	public void read(String bankNam) {
 		if (!isScanning && isConnect && !isReading) {
 			isReading = true;
-			switch (bankNam) {
-				case "epc":
-				case "tid":
-				case "use":
-				case "bck":
-				case "all":
-					new Thread(readRa).start();
-					break;
-				default:
-					isReading = false;
-					break;
+			if (bankNam == null || bankNam.equals("")) {
+				new Thread(readRa).start();
+			} else if (setBank(bankNam)) {
+				new Thread(readRa).start();
+			} else {
+				isReading = false;
 			}
 		}
 	}
@@ -181,7 +176,11 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 			}
 			switch (bankNam) {
 				case "epc":
-					r.bt.setEpc(dat);
+					if (isHex()) {
+						r.bt.setEpc(dat);
+					} else {
+						r.bt.setEpcDat(dat);
+					}
 					if (assign) {
 						r.msg = new WriteEpc(antenna, defaulPwd, r.bt.getEpc(), r.bt.getTid(), MemoryBank.TIDMemory);
 					} else {
@@ -189,7 +188,11 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 					}
 					break;
 				case "use":
-					r.bt.setUse(dat);
+					if (isHex()) {
+						r.bt.setUse(dat);
+					} else {
+						r.bt.setUseDat(dat);
+					}
 					if (assign) {
 						r.msg = new WriteUserData_6C(antenna, defaulPwd, (byte)0, r.bt.getUse(), r.bt.getTid(), MemoryBank.TIDMemory);
 					} else {
@@ -223,6 +226,44 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	public void messageNotificationReceivedHandle(BaseReader baseReader, IMessageNotification iMessageNotification) {
 		if (iMessageNotification instanceof RXD_TagData) {
 			onReadTag(crtBt((RXD_TagData)iMessageNotification));
+		}
+	}
+
+	// 设置bank
+	public boolean setBank (String bankNam) {
+		switch (bankNam) {
+			case "epc":
+				bank = ReadTag.ReadMemoryBank.EPC_6C;
+				break;
+			case "tid":
+				bank = ReadTag.ReadMemoryBank.TID_6C;
+				break;
+			case "use":
+			case "all":
+				bank = ReadTag.ReadMemoryBank.EPC_TID_UserData_6C;
+				break;
+			case "bck":
+				bank = ReadTag.ReadMemoryBank.EPC_TID_UserData_Reserved_6C_ID_UserData_6B;
+				break;
+			default:
+				return false;
+		}
+		return true;
+	}
+
+	// 获取bank
+	public String getBank () {
+		switch (bank) {
+			case EPC_6C:
+				return "epc";
+			case TID_6C:
+				return "tid";
+			case EPC_TID_UserData_6C:
+				return "use";
+			case EPC_TID_UserData_Reserved_6C_ID_UserData_6B:
+				return "bck";
+			default:
+				return "";
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.invengo.rfid.tag;
 import com.invengo.rfid.util.Str;
 
 /**
+ * 标签基类
  * Created by LZR on 2017/8/9.
  */
 
@@ -126,27 +127,47 @@ public abstract class Base {
 		return Str.Bytes2Hexstr(bck);
 	}
 
-	public String toJson() {
+	public String toJson(boolean isHex) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('{');
 		if (epc != null) {
 			sb.append("epc:");
-			sb.append(getEpcHexstr());
+			sb.append('\"');
+			if (isHex) {
+				sb.append(getEpcHexstr());
+			} else {
+				sb.append(getEpcDat());
+			}
+			sb.append('\"');
 			sb.append(',');
 		}
 		if (tid != null) {
 			sb.append("tid:");
+			sb.append('\"');
 			sb.append(getTidHexstr());
+			sb.append('\"');
 			sb.append(',');
 		}
 		if (use != null) {
 			sb.append("use:");
-			sb.append(getUseHexstr());
+			sb.append('\"');
+			if (isHex) {
+				sb.append(getUseHexstr());
+			} else {
+				sb.append(getUseDat());
+			}
+			sb.append('\"');
 			sb.append(',');
 		}
 		if (bck != null) {
 			sb.append("bck:");
-			sb.append(getBckHexstr());
+			sb.append('\"');
+			if (isHex) {
+				sb.append(getBckHexstr());
+			} else {
+				sb.append(getBckDat());
+			}
+			sb.append('\"');
 			sb.append(',');
 		}
 

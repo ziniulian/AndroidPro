@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 读写器基类
  * Created by LZR on 2017/8/8.
  */
 
 public abstract class Base implements InfBaseRfid {
 	private List<com.invengo.rfid.tag.Base> ts = new ArrayList<>();
 	private InfTagListener itl = null;
+	private boolean hex = false;	// 使用二进制数据
 	private EmPushMod pm = EmPushMod.Event;
 
 	@Override
@@ -24,7 +26,7 @@ public abstract class Base implements InfBaseRfid {
 		if (n > 0) {
 			sb.append('[');
 			for (int i = 0; i < n; i++) {
-				sb.append(ts.get(i).toJson());
+				sb.append(ts.get(i).toJson(hex));
 				sb.append(',');
 			}
 			ts.clear();
@@ -39,6 +41,15 @@ public abstract class Base implements InfBaseRfid {
 	public Base setPm(EmPushMod pm) {
 		this.pm = pm;
 		return this;
+	}
+
+	public Base setHex(boolean hex) {
+		this.hex = hex;
+		return this;
+	}
+
+	public boolean isHex() {
+		return hex;
 	}
 
 	public synchronized com.invengo.rfid.tag.Base[] getScanning () {
