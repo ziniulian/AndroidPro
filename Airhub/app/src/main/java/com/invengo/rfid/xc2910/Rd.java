@@ -2,6 +2,7 @@ package com.invengo.rfid.xc2910;
 
 import com.invengo.rfid.Base;
 import com.invengo.rfid.EmCb;
+import com.invengo.rfid.EmPushMod;
 import com.invengo.rfid.tag.T6C;
 
 import invengo.javaapi.core.BaseReader;
@@ -50,9 +51,12 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 		@Override
 		public void run() {
 			rd.send(new PowerOff());
+			if (isScanning) {
+				isScanning = false;
+				cb(EmCb.Stopped);
+			}
 			rd.disConnect();
 			isConnect = false;
-			isScanning = false;
 			isReading = false;
 			cb(EmCb.DisConnected);
 		}
@@ -211,6 +215,9 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	public void scan() {
 		if (!isScanning && isConnect && !isReading) {
 			isScanning = true;
+			if (getPm() != EmPushMod.Event) {
+				clearScanning();
+			}
 			new Thread(scanRa).start();
 		}
 	}
@@ -225,6 +232,7 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 	@Override
 	public void messageNotificationReceivedHandle(BaseReader baseReader, IMessageNotification iMessageNotification) {
 		if (iMessageNotification instanceof RXD_TagData) {
+//Log.i("---", Str.Bytes2Hexstr(iMessageNotification.getReceivedData()));
 			onReadTag(crtBt((RXD_TagData)iMessageNotification));
 		}
 	}

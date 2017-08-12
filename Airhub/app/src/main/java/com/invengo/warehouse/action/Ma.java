@@ -1,24 +1,29 @@
 package com.invengo.warehouse.action;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.invengo.airhub.R;
-import com.invengo.rfid.Base;
-import com.invengo.rfid.EmCb;
-import com.invengo.rfid.InfTagListener;
-import com.invengo.rfid.xc2910.Rd;
+import com.invengo.warehouse.enums.EmUh;
+import com.invengo.warehouse.enums.EmUrl;
+import com.invengo.warehouse.service.impl.Web;
 
 /**
  * Created by LZR on 2017/8/11.
  */
 
 public class Ma extends AppCompatActivity {
-	private Base bf = new Rd();
+	private Web w = new Web();	// 读写器
+	private WebView wv;
+	private Handler uh = new UiHandler();
+	private boolean reading = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,72 +31,98 @@ public class Ma extends AppCompatActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD, WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		setContentView(R.layout.activity_main);
 
-		init();
+		// 读写器设置
+		w.init(this);
 
-		Button b = (Button)findViewById(R.id.btnScan);
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				bf.scan();
-			}
-		});
+		// 页面设置
+		wv = (WebView)findViewById(R.id.wv);
+		WebSettings ws = wv.getSettings();
+		ws.setDefaultTextEncodingName("UTF-8");
+		ws.setJavaScriptEnabled(true);
+		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+		wv.addJavascriptInterface(w, "rfdo");
 
-		b = (Button)findViewById(R.id.btnStop);
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				bf.stop();
-			}
-		});
-
-		b = (Button)findViewById(R.id.btnRead);
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				bf.read("epc");
-			}
-		});
-
-		b = (Button)findViewById(R.id.btnWrt);
-		b.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				bf.wrt("epc", "呵呵", "E2006003204AFEC5");
-			}
-		});
-	}
-
-	// 初始化
-	private void init() {
-		bf.setTagListenter(new InfTagListener() {
-			@Override
-			public void onReadTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {
-				Log.i("-r-", bt.toJson(true));
-				Log.i("-r-", bt.toJson(false));
-			}
-
-			@Override
-			public void onWrtTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {
-				Log.i("-w-", "OK!");
-			}
-
-			@Override
-			public void cb(EmCb e, String[] args) {
-				Log.i("-c-", e.name());
-			}
-		});
-		bf.init();
+		sendUrl(EmUrl.Home);
 	}
 
 	@Override
 	protected void onResume() {
-		bf.open();
+		w.open();
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		bf.close();
+		w.close();
 		super.onPause();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_SOFT_RIGHT:
+				if (event.getRepeatCount() == 0) {
+					switch (getCurUi()) {
+						case Test:
+							reading = true;
+							w.scan();
+							break;
+					}
+				}
+				return true;
+			case KeyEvent.KEYCODE_BACK:
+				wv.goBack();
+				return true;
+			default:
+				return super.onKeyDown(keyCode, event);
+		}
+	}
+
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+			case KeyEvent.KEYCODE_SOFT_RIGHT:
+				if (reading) {
+					w.stop();
+					reading = false;
+				}
+				return true;
+			default:
+				return super.onKeyUp(keyCode, event);
+		}
+	}
+
+	// 获取当前页面信息
+	private EmUrl getCurUi () {
+		return EmUrl.valueOf(wv.getTitle());
+	}
+
+	// 页面跳转
+	public void sendUrl (EmUrl e) {
+		uh.sendMessage(uh.obtainMessage(EmUh.Url.ordinal(), e.ordinal(), 0));
+	}
+
+	// 发送页面处理消息
+	public void sendUh (EmUh e) {
+		uh.sendMessage(uh.obtainMessage(e.ordinal()));
+	}
+
+	// 页面处理器
+	private class UiHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			EmUh e = EmUh.values()[msg.what];
+			switch (e) {
+				case Url:
+					wv.loadUrl(EmUrl.values()[msg.arg1].url());
+					break;
+				case Connected:
+					if (getCurUi() == EmUrl.Err) {
+						wv.goBack();
+					}
+				default:
+					break;
+			}
+		}
 	}
 }

@@ -10,7 +10,7 @@ public enum EmCb {
 	HidProgress,	// 隐藏进度条
 	ShowToast,		// 信息提示
 	Scanning,		// 开始扫描
-	Stopped,		// 已停止
+	Stopped,		// 扫描已停止
 	ErrWrt,		// 写入失败
 	Connected,		// 与RFID设备已建立连接
 	DisConnected,	// 与RFID设备已断开连接

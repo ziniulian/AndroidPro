@@ -3,6 +3,7 @@ package com.invengo.warehouse.service;
 import android.webkit.JavascriptInterface;
 
 /**
+ * 接口
  * Created by LZR on 2017/8/11.
  */
 

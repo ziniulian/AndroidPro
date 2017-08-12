@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public abstract class Base implements InfBaseRfid {
-	private List<com.invengo.rfid.tag.Base> ts = new ArrayList<>();
+	private List<com.invengo.rfid.tag.Base> ts = new ArrayList<>();	// 标签集
 	private InfTagListener itl = null;
 	private boolean hex = false;	// 使用二进制数据
 	private EmPushMod pm = EmPushMod.Event;
@@ -20,7 +20,7 @@ public abstract class Base implements InfBaseRfid {
 	}
 
 	@Override
-	public synchronized String catchScanning() {
+	public String catchScanning() {
 		StringBuilder sb = new StringBuilder();
 		int n = ts.size();
 		if (n > 0) {
@@ -29,7 +29,7 @@ public abstract class Base implements InfBaseRfid {
 				sb.append(ts.get(i).toJson(hex));
 				sb.append(',');
 			}
-			ts.clear();
+			clearScanning();
 			sb.deleteCharAt(sb.length() - 1);
 			sb.append(']');
 			return sb.toString();
@@ -48,26 +48,37 @@ public abstract class Base implements InfBaseRfid {
 		return this;
 	}
 
+	protected EmPushMod getPm() {
+		return pm;
+	}
+
 	public boolean isHex() {
 		return hex;
 	}
 
-	public synchronized com.invengo.rfid.tag.Base[] getScanning () {
-		com.invengo.rfid.tag.Base[] r = (com.invengo.rfid.tag.Base[]) ts.toArray();
-		ts.clear();
-		return r;
+	// 获取标签集
+	public List<com.invengo.rfid.tag.Base> getScanning () {
+		return ts;
 	}
 
+	// 清空标签集
+	public synchronized void clearScanning() {
+		ts.clear();
+	}
+
+	// 添加标签
 	private synchronized void appendReadTag (com.invengo.rfid.tag.Base bt) {
 		ts.add(bt);
 	}
 
+	// 回调
 	protected void cb (EmCb e, String... args) {
 		if (itl != null) {
 			itl.cb(e, args);
 		}
 	}
 
+	// 读到标签时的触发事件
 	protected void onReadTag (com.invengo.rfid.tag.Base bt) {
 		if (pm != EmPushMod.Event) {
 			appendReadTag(bt);
@@ -77,6 +88,7 @@ public abstract class Base implements InfBaseRfid {
 		}
 	}
 
+	// 写完标签时的触发事件
 	protected void onWrtTag (com.invengo.rfid.tag.Base bt) {
 		if (itl != null) {
 			itl.onWrtTag(bt, itl);

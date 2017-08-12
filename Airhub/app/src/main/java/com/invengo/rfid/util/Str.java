@@ -74,6 +74,33 @@ public class Str {
 		}
 	}
 
+	// 将二进制字节数组转换成ASCII字符数据
+	public static String Bytes2Asc(byte[] bs) {
+		StringBuilder r = new StringBuilder();
+		for (int i = 0; i < bs.length; i ++) {
+			int b = bs[i];
+			if (b > 31 && b < 127) {
+				r.append((char)b);
+			} /*else if (b != 0) {
+				r.append('?');
+			}*/
+		}
+		return r.toString();
+	}
+
+	// 修剪乱码
+	public static String trimGarbled (String s) {
+		StringBuilder r = new StringBuilder();
+		char[] cs= s.toCharArray();
+		for (int i = 0; i < cs.length; i ++) {
+			char c = cs[i];
+			if ((c > 31 && c != 127) || c == 9 || c == 10 || c == 13) {
+				r.append(c);
+			}
+		}
+		return r.toString();
+	}
+
 	// 将十六进制字符串转换成字符数据
 	public static String Hexstr2Dat(String hs) {
 		return Bytes2Dat(Hexstr2Bytes(hs));

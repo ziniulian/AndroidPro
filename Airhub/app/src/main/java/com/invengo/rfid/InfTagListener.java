@@ -1,6 +1,7 @@
 package com.invengo.rfid;
 
 /**
+ * 事件
  * Created by LZR on 2017/8/7.
  */
 

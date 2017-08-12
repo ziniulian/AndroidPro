@@ -10,26 +10,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.invengo.airhub.MainActivity">
+    tools:context="com.invengo.warehouse.action.Ma">
 
-    <Button
-        android:id="@+id/btnScan"
-        android:text="扫描"
+    <WebView
+        android:id="@+id/wv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btnStop"
-        android:text="停止"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btnRead"
-        android:text="读"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btnWrt"
-        android:text="写"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>
