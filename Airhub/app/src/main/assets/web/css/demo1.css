@@ -1,0 +1,22 @@
+
+/*---------------------- 样式库 ----------------------*/
+
+/*按钮样式*/
+.Lc_btn {
+	font-size: 1.6rem;
+	line-height: 1.7;
+	padding: 0 1.6rem;
+	cursor: pointer;
+	text-align: center;
+	background-color: #FF0;
+}
+
+/*取消a链接默认样式*/
+a{
+	color: #222;
+	text-decoration:none;
+}
+
+a:hover {
+	font-weight: bold;
+}

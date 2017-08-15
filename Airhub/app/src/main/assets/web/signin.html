@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Signin</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<link href="css/base.css" rel="stylesheet" type="text/css" />
+		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<script src="js/signin.js"></script>
+
+		<style type="text/css">
+			.nam {
+				width: 6rem;
+			}
+			.txt {
+				width: 13rem;
+			}
+			.left {
+				text-align: left;
+			}
+			.out {
+				margin-bottom: 2rem;
+			}
+			.note {
+				position: absolute;
+				font-size: 1rem;
+				font-style: italic;
+				color: red;
+				padding-top: 1rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="bosoTop"></div>
+		<div id="boso" class="boso midOut Lc_noadr">
+			<div class="midTop"></div><!--
+			--><div class="midSub left">
+				<div class="out">
+					<div class="midSub mfs nam">用户名：</div>
+					<input id="user" class="midSub mfs txt" type="text" placeholder="请输入用户名"></input>
+				</div>
+				<div class="out">
+					<div class="midSub mfs nam">密码：</div>
+					<input id="pwd" class="midSub mfs txt" type="password" placeholder="请输入密码"></input>
+				</div>
+				<div class="Lc_btn" onclick="sig.signin();">登录</div>
+				<div id="note" class="note"></div>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

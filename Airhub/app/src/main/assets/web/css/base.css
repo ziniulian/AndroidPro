@@ -14,6 +14,7 @@ html, body {
 
 .boso {
 	position: relative;
+	font-size: 0;
 	width: 96%;
 	height: 96%;
 	margin: 0 2%;
@@ -41,4 +42,41 @@ html, body {
 	-webkit-focus-ring-color: rgba(0, 0, 0, 0);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
+}
+
+/*居中父容器*/
+.midOut {
+	text-align: center;
+}
+
+/*居中头*/
+.midTop {
+	display: inline-block;
+	height: 100%;
+	width: 0;
+	vertical-align: middle;
+}
+
+/*居中子容器*/
+.midSub {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/*大字体*/
+.bfs {
+	font-size: 1.8rem;
+	line-height: 2rem;
+}
+
+/*中字体*/
+.mfs {
+	font-size: 1.2rem;
+	line-height: 1.5rem;
+}
+
+/*小字体*/
+.sfs {
+	font-size: 1rem;
+	line-height: 1.2rem;
 }
