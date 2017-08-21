@@ -6,10 +6,10 @@ package com.invengo.warehouse.enums;
  */
 
 public enum EmUrl {
+	Home("file:///android_asset/web/home.html"),
+	Signin("file:///android_asset/web/signin.html"),
 	Scan("javascript: rfid.scan()"),
 	Stop("javascript: rfid.stop()"),
-	Signin("file:///android_asset/web/signin.html"),
-	Home("file:///android_asset/web/home.html"),
 	Test("file:///android_asset/web/testScan.html"),
 	Err("file:///android_asset/web/err.html");
 
