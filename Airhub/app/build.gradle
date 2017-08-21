@@ -36,6 +36,4 @@ dependencies {
     compile files('libs/XC2910/invengo.system.device.jar')
     compile files('libs/XC2910/invengo.util.jar')
     compile files('libs/XC2910/ch.ntb.usb-0.5.9.jar')
-    compile files('libs/WebSrv/servlet-api.jar')
-    compile files('libs/WebSrv/mysql-connector-java-5.1.30.jar')
 }
