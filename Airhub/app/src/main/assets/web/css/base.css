@@ -8,6 +8,21 @@ html, body {
 	font-size: 20px
 }
 
+/*取消输入框的默认样式*/
+input{
+	border: none;
+	outline: medium;
+}
+
+/*取消a链接默认样式*/
+a{
+	text-decoration:none;
+}
+
+a:hover {
+	font-weight: bold;
+}
+
 .bosoTop {
 	height: 2%;
 }

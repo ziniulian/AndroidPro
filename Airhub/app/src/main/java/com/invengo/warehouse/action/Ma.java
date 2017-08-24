@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -39,7 +38,7 @@ public class Ma extends AppCompatActivity {
 		WebSettings ws = wv.getSettings();
 		ws.setDefaultTextEncodingName("UTF-8");
 		ws.setJavaScriptEnabled(true);
-		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+//		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
 
 		sendUrl(EmUrl.Home);
@@ -64,6 +63,7 @@ public class Ma extends AppCompatActivity {
 				if (event.getRepeatCount() == 0) {
 					switch (getCurUi()) {
 						case Test:
+						case OutScan:
 							reading = true;
 							w.scan();
 							break;
@@ -71,7 +71,28 @@ public class Ma extends AppCompatActivity {
 				}
 				return true;
 			case KeyEvent.KEYCODE_BACK:
-				wv.goBack();
+				EmUrl e = getCurUi();
+				if (e != null) {
+					switch (e) {
+						case Signin:
+						case User:
+						case Test:
+						case Err:
+							sendUrl(EmUrl.Home);
+							break;
+						case OutList:
+						case PanList:
+							sendUrl(EmUrl.User);
+							break;
+						case OutDetail:
+						case OutInfo:
+						case OutScan:
+							sendUrl(EmUrl.OutList);
+							break;
+					}
+				} else {
+					wv.goBack();
+				}
 				return true;
 			default:
 				return super.onKeyDown(keyCode, event);
@@ -94,7 +115,11 @@ public class Ma extends AppCompatActivity {
 
 	// 获取当前页面信息
 	private EmUrl getCurUi () {
-		return EmUrl.valueOf(wv.getTitle());
+		try {
+			return EmUrl.valueOf(wv.getTitle());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	// 页面跳转

@@ -26,6 +26,7 @@ import java.util.Map;
 public class Web {
 	private Rd rfd = new Rd();
 	private Ma ma;
+	private String user = null;
 
 	// 初始化
 	public void init (Ma m) {
@@ -81,6 +82,25 @@ Log.i("-c-", e.name());
 	@JavascriptInterface
 	public void stop() {
 		rfd.stop();
+	}
+
+	@JavascriptInterface
+	public void signin(String un) {
+		user = un;
+	}
+
+	@JavascriptInterface
+	public void signout() {
+		user = null;
+	}
+
+	@JavascriptInterface
+	public String getUser() {
+		if (user != null) {
+			return user;
+		} else {
+			return "";
+		}
 	}
 
 	@JavascriptInterface

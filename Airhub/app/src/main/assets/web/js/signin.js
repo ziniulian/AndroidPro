@@ -4,10 +4,6 @@ function init() {
 sig = {
     busy: "登录中，请稍候 ...",
     ajx: null,
-    // url: "http://127.0.0.1/testAjax",
-    // url: "http://192.169.0.12:8080/jeesite/a/login?__ajax=true",
-    // url: "http://192.169.0.12:8080/jeesite/mobile/mobileLogin",
-    url: "http://127.0.0.1:8080/WareHouse/srv",
 
     signin: function () {
         if (note.innerHTML !== this.busy) {
@@ -20,7 +16,7 @@ sig = {
             } else {
                 if (this.getAjax()) {
                     note.innerHTML = this.busy;
-                    this.ajx.open("POST", this.url, true);
+                    this.ajx.open("POST", srvurl, true);
                     this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
                     var msg = "srv=signin&username=";
                     msg += user.value;
@@ -65,6 +61,8 @@ sig = {
                 var o = JSON.parse(a.responseText);
                 if (o.ok) {
                     sig.msg("登录成功");
+                    rfdo.signin(o.user);
+                    location.href = "user.html";
                 } else {
                     sig.msg("用户名或密码错误");
                 }

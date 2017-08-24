@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Signin</title>
+		<title>OutList</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 		<link href="css/base.css" rel="stylesheet" type="text/css" />
 		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
-		<script src="js/signin.js"></script>
+		<script src="js/outList.js"></script>
 
 		<style type="text/css">
-			.barBody {
-				width: 70%;
-				margin: 0 auto;
+			a {
+				color: #222;
 			}
-			.top {
-				height: 10%;
+			.mark {
+				width: 2%;
 			}
-			.txtt {
-				display: block;
-				width: 100%;
-				margin: 0 auto 2rem auto;
-				border-bottom: solid 1px #999;
-			}
-			.note {
-				font-size: 1rem;
-				font-style: italic;
-				color: red;
+			.txt {
+				width: 73%;
 			}
 		</style>
 	</head>
@@ -34,15 +25,16 @@
 	<body>
 		<div id="boso" class="boso Lc_noadr">
 			<div id="ols" class="barBody">
-				<div class="top"></div>
-				<input id="user" class="mfs txtt" type="text" placeholder="请输入用户名"></input>
-				<input id="pwd" class="mfs txtt" type="password" placeholder="请输入密码"></input>
-				<div id="note" class="note"></div>
+				<!-- <div>
+					<div class="mark"></div>
+					<div class="txt mfs"><a href="outInfo.html?rid=xxx">xxx</a></div>
+					<div class="op sfs" onclick="ol.del('xxx');">删除</div>
+				</div> -->
 			</div>
 			<div class="bar">
-				<div class="btn btn1" onclick="sig.signin();">
+				<div class="btn btn1" onclick="ol.add();">
 					<div class="midTop"></div>
-					<div class="midSub mfs">登录</div>
+					<div class="midSub mfs">新建出库单</div>
 				</div>
 			</div>
 		</div>
