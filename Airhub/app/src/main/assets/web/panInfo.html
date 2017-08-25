@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>OutInfo</title>
+		<title>PanInfo</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 		<link href="css/base.css" rel="stylesheet" type="text/css" />
 		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
-		<script src="js/outInfo.js"></script>
+		<script src="js/panInfo.js"></script>
 
 		<style type="text/css">
 			.barBody {
@@ -26,6 +26,15 @@
 				position: absolute;
 				right: 33%;
 			}
+			.info {
+				padding: 1rem;
+			}
+			.r {
+				text-align: right;
+				margin-bottom: 1rem;
+				font-style: italic;
+				color: #999;
+			}
 		</style>
 	</head>
 
@@ -34,6 +43,11 @@
 			<div class="barOut">
 				<div class="barBody">
 					<div id="ridDom" class="mfs"></div>
+					<div class="info">
+						<div id="personDom" class="r sfs">创建人 ： </div>
+						<div id="timDom" class="r sfs">创建时间 ： </div>
+						<div id="memoDom" class="sfs"></div>
+					</div>
 				</div>
 				<div class="barSub">
 					<div class="subbtn" onclick="ol.ok();">提交</div>

@@ -1,6 +1,10 @@
 
 /*---------------------- 上下分割布局 ----------------------*/
 
+a {
+	color: #222;
+}
+
 .boso {
 	width: 100%;
 	height: 100%;
@@ -79,7 +83,7 @@
 .mark {
 	display: inline-block;
 	vertical-align: middle;
-	width: 10%;
+	width: 15%;
 	height: 3rem;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -90,7 +94,6 @@
 	display: inline-block;
 	vertical-align: middle;
 	width: 65%;
-	padding: 0 0 0 5%;
 	overflow: hidden;
 }
 
@@ -112,25 +115,25 @@
 
 /*计划扫描的 3 蓝色的问号*/
 .stplan {
-	background-image: url(img/stplan.png);
+	background-image: url(../img/stplan.png);
 }
 
 /*与计划扫描相匹配的 1 绿色的勾勾*/
 .stmatch {
-	background-image: url(img/stmatch.png);
+	background-image: url(../img/stmatch.png);
 }
 
 /*已扫描到再覆盖的 1 灰色的绿色勾勾*/
 .stcover {
-	background-image: url(img/stcover.png);
+	background-image: url(../img/stcover.png);
 }
 
 /*计划外扫描到的 2 黄色的灯泡或感叹号*/
 .sttmp {
-	background-image: url(img/sttmp.png);
+	background-image: url(../img/sttmp.png);
 }
 
 /*纯粹不存在的 0 红色的叉叉或问号*/
 .stno {
-	background-image: url(img/stno.png);
+	background-image: url(../img/stno.png);
 }

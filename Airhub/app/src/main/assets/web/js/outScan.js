@@ -186,9 +186,9 @@ ol = {
             ol.busy = false;
             if (a.status === 200) {
                 var o = JSON.parse(a.responseText);
-                if (o.ok) {
+                // if (o.ok) {
                     location.href = "outDetail.html?rid=" + ol.rid;
-                }
+                // }
             }
         }
     }

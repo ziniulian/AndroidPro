@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>OutInfo</title>
+		<title>PanScan</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 		<link href="css/base.css" rel="stylesheet" type="text/css" />
 		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
-		<script src="js/outInfo.js"></script>
+		<script src="js/rfid.js"></script>
+		<script src="js/panScan.js"></script>
 
 		<style type="text/css">
 			.barBody {
@@ -18,13 +19,8 @@
 				height: 12%;
 				text-align: center;
 			}
-			.btn3r {
-				position: absolute;
-				right: 0;
-			}
-			.btn3m {
-				position: absolute;
-				right: 33%;
+			.cover a {
+				color: #CCC;
 			}
 		</style>
 	</head>
@@ -32,26 +28,26 @@
 	<body>
 		<div id="boso" class="boso Lc_noadr">
 			<div class="barOut">
-				<div class="barBody">
-					<div id="ridDom" class="mfs"></div>
+				<div id="devs" class="barBody">
+					<div id="ddd" class="mfs"></div>
 				</div>
 				<div class="barSub">
-					<div class="subbtn" onclick="ol.ok();">提交</div>
+					<div class="subbtn" onclick="ol.add();">保存</div>
 				</div>
 			</div>
 			<div class="bar">
-				<div class="btn btn3 btns">
+				<a id="infoa"><div class="btn btn3">
 					<div class="midTop"></div>
 					<div class="midSub mfs">信息</div>
-				</div>
+				</div></a>
 				<a id="detaila"><div class="btn btn3m">
 					<div class="midTop"></div>
 					<div class="midSub mfs">明细</div>
 				</div></a>
-				<a id="scana"><div class="btn btn3 btn3r">
+				<div class="btn btn3 btns">
 					<div class="midTop"></div>
 					<div class="midSub mfs">扫描</div>
-				</div></a>
+				</div>
 			</div>
 		</div>
 	</body>

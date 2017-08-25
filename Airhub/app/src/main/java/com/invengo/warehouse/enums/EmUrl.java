@@ -15,8 +15,10 @@ public enum EmUrl {
 	OutDetail("file:///android_asset/web/outDetail.html"),
 	OutInfo("file:///android_asset/web/outInfo.html"),
 	OutScan("file:///android_asset/web/outScan.html"),
+	PanDetail("file:///android_asset/web/panDetail.html"),
+	PanInfo("file:///android_asset/web/panInfo.html"),
+	PanScan("file:///android_asset/web/panScan.html"),
 	PanList("file:///android_asset/web/panList.html"),
-	Test("file:///android_asset/web/testScan.html"),
 	Err("file:///android_asset/web/err.html");
 
 	private final String url;

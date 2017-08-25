@@ -61,12 +61,15 @@ public class Ma extends AppCompatActivity {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_SOFT_RIGHT:
 				if (event.getRepeatCount() == 0) {
-					switch (getCurUi()) {
-						case Test:
-						case OutScan:
-							reading = true;
-							w.scan();
-							break;
+					EmUrl e = getCurUi();
+					if (e != null) {
+						switch (getCurUi()) {
+							case OutScan:
+							case PanScan:
+								reading = true;
+								w.scan();
+								break;
+						}
 					}
 				}
 				return true;
@@ -76,8 +79,6 @@ public class Ma extends AppCompatActivity {
 					switch (e) {
 						case Signin:
 						case User:
-						case Test:
-						case Err:
 							sendUrl(EmUrl.Home);
 							break;
 						case OutList:
@@ -88,6 +89,11 @@ public class Ma extends AppCompatActivity {
 						case OutInfo:
 						case OutScan:
 							sendUrl(EmUrl.OutList);
+							break;
+						case PanDetail:
+						case PanInfo:
+						case PanScan:
+							sendUrl(EmUrl.PanList);
 							break;
 					}
 				} else {
