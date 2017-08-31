@@ -1,12 +1,12 @@
 function init() {
     ol.rid = ol.getUrlReq().rid;
     if (!ol.rid) {
-        location.href = "panList.html";
+        location.href = "inList.html";
     } else {
-        detaila.href = "panDetail.html?rid=" + ol.rid;
-        scana.href = "panScan.html?rid=" + ol.rid;
+        infoa.href = "inInfo.html?rid=" + ol.rid;
+        scana.href = "inScan.html?rid=" + ol.rid;
     }
-    ol.info();
+    ol.flush();
 }
 
 ol = {
@@ -50,61 +50,73 @@ ol = {
     	return theRequest;
     },
 
-    timStr: function (tim) {
-        var t = new Date(tim);
-        return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
-    },
-
-    info: function () {
+    flush: function () {
         if (!this.busy && this.getAjax()) {
             this.busy = true;
-            this.ajx.onreadystatechange = this.hdInfo;
+            this.ajx.onreadystatechange = this.hdflush;
             this.ajx.open("POST", srvurl, true);
             this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=getPlanInfo&rid=" + this.rid;
+            var msg = "srv=getDevsBySlave&rid=" + this.rid;
             this.ajx.send(msg);
         }
     },
 
-    hdInfo: function (evt) {
+    hdflush: function (evt) {
         a = evt.target;
         if (a.readyState === 4) {
-            ol.busy = false;
             if (a.status === 200) {
                 var o = JSON.parse(a.responseText);
                 if (o.ok) {
-                    ridDom.innerHTML = o.rid;
-                    personDom.innerHTML += o.person;
-                    timDom.innerHTML += ol.timStr(o.tim);
-                    if (o.remark) {
-                        memoDom.innerHTML = o.remark;
+                    var i, s;
+                    for (i = 0; i < o.dat.length; i ++) {
+                        devs.appendChild(ol.crtDom(o.dat[i].devid));
                     }
                 }
             }
-        }
-    },
-
-    ok: function () {
-        if (!this.busy && this.getAjax()) {
-            this.busy = true;
-            this.ajx.onreadystatechange = this.hdok;
-            this.ajx.open("POST", srvurl, true);
-            this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=planOk&rid=" + this.rid;
-            this.ajx.send(msg);
-        }
-    },
-
-    hdok: function (evt) {
-        a = evt.target;
-        if (a.readyState === 4) {
             ol.busy = false;
+        }
+    },
+
+    // 创建DOM元素
+    crtDom: function (devid, status) {
+        var d = document.createElement("div");
+            d.setAttribute("devid", devid);
+        var m = document.createElement("div");
+            m.className = "mark";
+        var t = document.createElement("div");
+            t.className = "txt mfs";
+            t.innerHTML = "<a href=\"devInfo.html?devid=" + devid + "\">" + devid + "</a>";
+        var o = document.createElement("div");
+            o.className = "op sfs";
+            o.innerHTML = "删除";
+            o.onclick = ol.del;
+        d.appendChild(m);
+        d.appendChild(t);
+        d.appendChild(o);
+        return d;
+    },
+
+    del: function (evt) {
+        if (!ol.busy && ol.getAjax()) {
+            ol.busy = evt.target.parentNode;
+            ol.ajx.onreadystatechange = ol.hddel;
+            ol.ajx.open("POST", srvurl, true);
+            ol.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            var msg = "srv=delOneSlave&rid=" + ol.rid + "&devid=" + ol.busy.getAttribute("devid");
+            ol.ajx.send(msg);
+        }
+    },
+
+    hddel: function (evt) {
+        var a = evt.target;
+        if (a.readyState === 4) {
             if (a.status === 200) {
                 var o = JSON.parse(a.responseText);
                 if (o.ok) {
-                    location.href = "panList.html";
+                    devs.removeChild(ol.busy);
                 }
             }
+            ol.busy = false;
         }
     }
 

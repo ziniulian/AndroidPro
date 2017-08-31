@@ -1,18 +1,15 @@
 function init() {
-    ol.rid = ol.getUrlReq().rid;
-    if (!ol.rid) {
-        location.href = "panList.html";
-    } else {
-        detaila.href = "panDetail.html?rid=" + ol.rid;
-        scana.href = "panScan.html?rid=" + ol.rid;
+    ol.devid = ol.getUrlReq().devid;
+    if (ol.devid) {
+        didDom.innerHTML = ol.devid;
+        ol.flush();
     }
-    ol.info();
 }
 
 ol = {
     busy: false,
     ajx: null,
-    rid: null,
+    devid: null,
 
     getAjax: function ()/*as:Object*/ {
         if (!this.ajx) {
@@ -55,56 +52,70 @@ ol = {
         return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
     },
 
-    info: function () {
+    flush: function () {
         if (!this.busy && this.getAjax()) {
             this.busy = true;
-            this.ajx.onreadystatechange = this.hdInfo;
+            this.ajx.onreadystatechange = this.hdflush;
             this.ajx.open("POST", srvurl, true);
             this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=getPlanInfo&rid=" + this.rid;
+            var msg = "srv=getDevInfo&devid=" + this.devid;
             this.ajx.send(msg);
         }
     },
 
-    hdInfo: function (evt) {
+    hdflush: function (evt) {
         a = evt.target;
         if (a.readyState === 4) {
-            ol.busy = false;
             if (a.status === 200) {
                 var o = JSON.parse(a.responseText);
                 if (o.ok) {
-                    ridDom.innerHTML = o.rid;
-                    personDom.innerHTML += o.person;
-                    timDom.innerHTML += ol.timStr(o.tim);
-                    if (o.remark) {
-                        memoDom.innerHTML = o.remark;
-                    }
+                    ol.flushDom(o);
                 }
             }
-        }
-    },
-
-    ok: function () {
-        if (!this.busy && this.getAjax()) {
-            this.busy = true;
-            this.ajx.onreadystatechange = this.hdok;
-            this.ajx.open("POST", srvurl, true);
-            this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=planOk&rid=" + this.rid;
-            this.ajx.send(msg);
-        }
-    },
-
-    hdok: function (evt) {
-        a = evt.target;
-        if (a.readyState === 4) {
             ol.busy = false;
-            if (a.status === 200) {
-                var o = JSON.parse(a.responseText);
-                if (o.ok) {
-                    location.href = "panList.html";
-                }
-            }
+        }
+    },
+
+    flushDom: function (o) {
+        if (o.iscrap) {
+            prompt.innerHTML = "已报废";
+        } else if (o.isout) {
+            prompt.innerHTML = "已出库";
+        }
+        if (o.nam) {
+            nam.innerHTML = o.nam;
+        }
+        if (o.brand) {
+            brand.innerHTML = o.brand;
+        }
+        if (o.mod) {
+            mod.innerHTML = o.mod;
+        }
+        if (o.sn) {
+            sn.innerHTML = o.sn;
+        }
+        if (o.unit) {
+            unit.innerHTML = o.unit;
+        }
+        price.innerHTML = o.price ? o.price : 0;
+        if (o.level) {
+            level.innerHTML = o.level;
+        }
+        if (o.location) {
+            location.innerHTML = o.location;
+        }
+        cont.innerHTML = o.cont ? o.cont : 0;
+        if (o.tim) {
+            tim.innerHTML = ol.timStr(o.tim);
+        }
+        if (o.intim) {
+            intim.innerHTML = ol.timStr(o.intim);
+        }
+        if (o.fegularcycle) {
+            fegularcycle.innerHTML = o.fegularcycle + " 个月";
+        }
+        if (o.remark) {
+            level.innerHTML = o.remark;
         }
     }
 

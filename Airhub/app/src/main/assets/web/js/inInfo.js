@@ -1,18 +1,20 @@
 function init() {
     ol.rid = ol.getUrlReq().rid;
     if (!ol.rid) {
-        location.href = "panList.html";
+        location.href = "inList.html";
     } else {
-        detaila.href = "panDetail.html?rid=" + ol.rid;
-        scana.href = "panScan.html?rid=" + ol.rid;
+        ridDom.innerHTML = ol.rid;
+        detaila.href = "inDetail.html?rid=" + ol.rid;
+        scana.href = "inScan.html?rid=" + ol.rid;
     }
-    ol.info();
+    ol.user = rfdo.getUser();
 }
 
 ol = {
     busy: false,
     ajx: null,
     rid: null,
+    user: null,
 
     getAjax: function ()/*as:Object*/ {
         if (!this.ajx) {
@@ -50,47 +52,13 @@ ol = {
     	return theRequest;
     },
 
-    timStr: function (tim) {
-        var t = new Date(tim);
-        return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
-    },
-
-    info: function () {
-        if (!this.busy && this.getAjax()) {
-            this.busy = true;
-            this.ajx.onreadystatechange = this.hdInfo;
-            this.ajx.open("POST", srvurl, true);
-            this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=getPlanInfo&rid=" + this.rid;
-            this.ajx.send(msg);
-        }
-    },
-
-    hdInfo: function (evt) {
-        a = evt.target;
-        if (a.readyState === 4) {
-            ol.busy = false;
-            if (a.status === 200) {
-                var o = JSON.parse(a.responseText);
-                if (o.ok) {
-                    ridDom.innerHTML = o.rid;
-                    personDom.innerHTML += o.person;
-                    timDom.innerHTML += ol.timStr(o.tim);
-                    if (o.remark) {
-                        memoDom.innerHTML = o.remark;
-                    }
-                }
-            }
-        }
-    },
-
     ok: function () {
         if (!this.busy && this.getAjax()) {
             this.busy = true;
             this.ajx.onreadystatechange = this.hdok;
             this.ajx.open("POST", srvurl, true);
             this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=planOk&rid=" + this.rid;
+            var msg = "srv=masterOk&rid=" + this.rid + "&user=" + ol.user;
             this.ajx.send(msg);
         }
     },
@@ -102,7 +70,7 @@ ol = {
             if (a.status === 200) {
                 var o = JSON.parse(a.responseText);
                 if (o.ok) {
-                    location.href = "panList.html";
+                    location.href = "inList.html";
                 }
             }
         }

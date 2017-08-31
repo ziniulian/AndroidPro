@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>User</title>
+		<title>InList</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<script src="js/user.js"></script>
 		<link href="css/base.css" rel="stylesheet" type="text/css" />
 		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<script src="js/srvurl.js"></script>
+		<script src="js/inList.js"></script>
 
 		<style type="text/css">
-			.out {
-				margin: 1rem 0 0 2rem;
-				line-height: 3;
+			.mark {
+				width: 5%;
+			}
+			.txt {
+				width: 75%;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id = "boso" class="boso Lc_noadr">
-			<div id = "userDom" class="bfs"></div>
-			<div class="out mfs">
-				<a href="inList.html">入库</a><br>
-				<a href="outList.html">出库</a><br>
-				<a href="panList.html">盘点</a><br>
-				<a href="javascript:signOut();">登出</a><br>
+		<div id="boso" class="boso Lc_noadr">
+			<div id="ols" class="barBody"></div>
+			<div class="bar">
+				<div class="btn btn1" onclick="ol.add();">
+					<div class="midTop"></div>
+					<div class="midSub mfs">新建入库单</div>
+				</div>
 			</div>
 		</div>
 	</body>
