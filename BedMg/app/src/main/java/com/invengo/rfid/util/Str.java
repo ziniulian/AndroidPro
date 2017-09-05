@@ -8,42 +8,37 @@ package com.invengo.rfid.util;
 public class Str {
 	private static final String H2BD = "0123456789ABCDEF";
 
-	// 将十六进制字符串转换为二进制字节数组
-	public static byte[] Hexstr2Bytes (String hs) {
+	// 将十六进制字符串转换为指定长度的二进制字节数组
+	public static byte[] Hexstr2Bytes (String hs, int size) {
 		if (hs == null) {
-			return new byte[0];
+			return new byte[size];
 		}
 		double n = hs.length();
 		int nSize = (int)Math.floor(n / 2.0D);
 		if (nSize <= 0) {
-			return new byte[0];
+			return new byte[size];
+		}
+
+		byte[] bs;
+		if (size > 0) {
+			bs = new byte[size];
+			if (nSize > size) {
+				nSize = size;
+			}
+		} else {
+			bs = new byte[nSize];
 		}
 		n = 2 * nSize;
-		byte[] bs = new byte[nSize];
-		int u, d;
 		for (int i = 0; i < n; i += 2) {
-			/*
-			// 该转换方式存在问题，默认只能转换 -128 ～ 127 之间的数字。
-			String s = "" + dat.charAt(i) + dat.charAt(i+1);
-			bs[i/2] = Byte.parseByte(s, 16);
-			*/
-
-			// 新的十六进制字符转换方式：
-//			u = H2BD.indexOf(hs.charAt(i));
-//			if (u == -1) {
-//				u = 0;
-//			} else {
-//				d = H2BD.indexOf(hs.charAt(i+1));
-//				if (d == -1) {
-//					u = 0;
-//				} else {
-//					u = u * 16 + d;
-//				}
-//			}
-//			bs[i/2] = (byte)u;
 			bs[i/2] = (byte) (H2BD.indexOf(hs.charAt(i)) * 16 + H2BD.indexOf(hs.charAt(i+1)));
 		}
 		return bs;
+	}
+
+
+	// 将十六进制字符串转换为二进制字节数组
+	public static byte[] Hexstr2Bytes (String hs) {
+		return Hexstr2Bytes(hs, 0);
 	}
 
 	// 将二进制字节数组转换为十六进制字符串

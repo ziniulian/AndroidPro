@@ -20,6 +20,7 @@ public abstract class Base {
 	}
 
 	public Base setEpc(String hex) {
+//		return setEpc(Str.Hexstr2Bytes(hex, getTyp().getEwl()));
 		return setEpc(Str.Hexstr2Bytes(hex));
 	}
 

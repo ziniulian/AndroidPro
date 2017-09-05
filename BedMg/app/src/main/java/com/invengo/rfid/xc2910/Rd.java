@@ -109,6 +109,7 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 				onWrtTag(bt);
 			} else {
 				isReading = false;
+//Log.i("---", msg.getErrInfo());
 				cb(EmCb.ErrWrt);
 			}
 		}

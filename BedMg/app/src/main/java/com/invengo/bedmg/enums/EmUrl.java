@@ -5,9 +5,10 @@ package com.invengo.bedmg.enums;
  */
 
 public enum EmUrl {
-	Home("file:///android_asset/web/home.html"),
 	Scan("javascript: rfid.scan()"),
 	Stop("javascript: rfid.stop()"),
+	WrtOk("javascript: rfid.hdWrt(true);"),
+	WrtErr("javascript: rfid.hdWrt(false);"),
 	ScanDemo("file:///android_asset/web/scanDemo.html"),
 	Err("file:///android_asset/web/err.html");
 

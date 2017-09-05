@@ -1,12 +1,9 @@
 function init() {
-//    dat.crtTag("aaa", { "epc": "aaa", "tim": 5 });  // 测试3
+   // dat.crtTag("aaa", { "epc": "aaa", "tim": 5, tid: "ttttt" });  // 测试
 }
 
-rfid.hdScan = function () {
-    var s = rfdo.catchScanning();
-    var o = JSON.parse(s);
-    var d;
-    for (s in o) {
+rfid.hdScan = function (o) {
+    for (var s in o) {
         if (dat.ts[s]) {
             dat.ts[s].tim += o[s].tim;
             dat.ts[s].timDom.innerHTML = dat.ts[s].tim;
@@ -29,6 +26,7 @@ dat = {
           delDom: document.createElement("div"),
           tim: o.tim
         };
+
         var d = document.createElement("div");
         d.className = "out";
         r.epcDom.className = "txt mfs";
@@ -36,11 +34,27 @@ dat = {
         r.delDom.className = "op mfs";
         d.appendChild(r.epcDom);
         d.appendChild(r.timDom);
+                // 可写入
+                var sub = d;
+                var url = "writeDemo.html?tid=";
+                if (o.tid) {
+                    url += o.tid;
+                }
+                if (o.epc) {
+                    url += "&epc=" + o.epc;
+                }
+                if (o.use) {
+                    url += "&use=" + o.use;
+                }
+                d = document.createElement("a");
+                d.href = url;
+                d.appendChild(sub);
         r.dom.appendChild(d);
         r.dom.appendChild(r.delDom);
-        if (o.epc) {
-            r.epcDom.innerHTML = o.epc;
-        }
+
+        // r.epcDom.innerHTML = "EPC : " + o.epc + "<br>TID : " + o.tid + "<br>User : " + o.use;
+        // r.epcDom.innerHTML = "EPC : " + o.epc + "<br>TID : " + o.tid;
+        r.epcDom.innerHTML = o.epc;
         r.timDom.innerHTML = r.tim;
         r.delDom.innerHTML = "<a href=\"javascript:dat.delTag('" + s + "');\">删除</a>";
         tago.appendChild(r.dom);

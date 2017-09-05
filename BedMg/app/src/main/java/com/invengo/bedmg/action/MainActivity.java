@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
 
-		sendUrl(EmUrl.Home);
+		sendUrl(EmUrl.ScanDemo);
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
 				if (e != null) {
 					switch (e) {
 						case ScanDemo:
-							sendUrl(EmUrl.Home);
-							break;
+						case Err:
+							return super.onKeyDown(keyCode, event);
 					}
 				} else {
 					wv.goBack();

@@ -1,6 +1,5 @@
 package com.invengo.bedmg.entity;
 
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.invengo.bedmg.action.MainActivity;
@@ -25,7 +24,7 @@ public class Web {
 		ma = m;
 
 		// 读写器设置
-		rfd.setBank("epc");
+//		rfd.setBank("epc");
 		rfd.setHex(true);
 		rfd.setPm(EmPushMod.Catch);
 		rfd.setTagListenter(new InfTagListener() {
@@ -33,17 +32,22 @@ public class Web {
 			public void onReadTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {}
 
 			@Override
-			public void onWrtTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {}
+			public void onWrtTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {
+				ma.sendUrl(EmUrl.WrtOk);
+			}
 
 			@Override
 			public void cb(EmCb e, String[] args) {
-Log.i("-c-", e.name());
+//Log.i("-c-", e.name());
 				switch (e) {
 					case Scanning:
 						ma.sendUrl(EmUrl.Scan);
 						break;
 					case Stopped:
 						ma.sendUrl(EmUrl.Stop);
+						break;
+					case ErrWrt:
+						ma.sendUrl(EmUrl.WrtErr);
 						break;
 					case ErrConnect:
 						ma.sendUrl(EmUrl.Err);
@@ -81,4 +85,10 @@ Log.i("-c-", e.name());
 	public String catchScanning() {
 		return rfd.catchScanning(true);
 	}
+
+	@JavascriptInterface
+	public void wrt (String bankNam, String dat, String tid) {
+		rfd.wrt(bankNam, dat, tid);
+	}
+
 }
