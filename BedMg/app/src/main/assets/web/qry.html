@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Qry</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<link href="css/base.css" rel="stylesheet" type="text/css" />
+		<link href="css/demo.css" rel="stylesheet" type="text/css" />
+		<script src="js/rfid.js"></script>
+		<script src="js/qry.js"></script>
+
+		<style type="text/css">
+		</style>
+	</head>
+
+	<body>
+		<div id="boso" class="boso Lc_noadr">
+				<div class="row">
+					<div class="midTop"></div><!--
+					--><div class="midSub mfs">单位：</div><!--
+					--><div id="unit" class="midSub mfs"></div>
+				</div>
+				<div class="row">
+					<div class="midTop"></div><!--
+					--><div class="midSub mfs">车次：</div><!--
+					--><div id="trip" class="midSub mfs"></div>
+				</div>
+				<div class="row">
+					<div class="midTop"></div><!--
+					--><div class="midSub mfs">车号：</div><!--
+					--><a href="scdNum.html"><div id="num" class="midSub mfs numall">点此选择车号</div></a>
+				</div>
+				<div class="row th2">
+					<div class="midTop"></div><!--
+					--><div class="midSub ktw sfs">时间</div><!--
+					--><div class="midSub knw sfs">车号</div><!--
+					--><div class="midSub kpw sfs">品名</div><!--
+					--><div class="midSub kcw sfs">数量</div>
+					<div class="line"></div>
+				</div>
+				<div id="rom" class="rowDown"></div>
+
+				<div class="row">
+					<div class="midTop"></div><!--
+					--><div id="typ0" class="midSub typ mfs typscd" onclick="dat.setTyp(0);">全部</div><!--
+					--><div id="typ1" class="midSub typ mfs" onclick="dat.setTyp(1);">小单</div><!--
+					--><div id="typ2" class="midSub typ mfs" onclick="dat.setTyp(2);">被套</div><!--
+					--><div id="typ3" class="midSub typ mfs" onclick="dat.setTyp(3);">枕套</div>
+				</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

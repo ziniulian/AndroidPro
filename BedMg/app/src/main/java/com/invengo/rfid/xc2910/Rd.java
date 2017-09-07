@@ -67,6 +67,8 @@ public class Rd extends Base implements IMessageNotificationReceivedHandle {
 		@Override
 		public void run() {
 			ReadTag rt = new ReadTag (bank);
+// 设Q值
+rt.setQ((byte) 6);
 			rd.send(rt);
 			cb(EmCb.Scanning);
 		}

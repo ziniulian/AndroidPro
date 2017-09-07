@@ -7,9 +7,13 @@ package com.invengo.bedmg.enums;
 public enum EmUrl {
 	Scan("javascript: rfid.scan()"),
 	Stop("javascript: rfid.stop()"),
+	Back("javascript: dat.back();"),
 	WrtOk("javascript: rfid.hdWrt(true);"),
 	WrtErr("javascript: rfid.hdWrt(false);"),
-	ScanDemo("file:///android_asset/web/scanDemo.html"),
+	Home("file:///android_asset/web/home.html"),
+	Ascan("file:///android_asset/web/aScan.html"),
+	Qry("file:///android_asset/web/qry.html"),
+//	ScanDemo("file:///android_asset/web/scanDemo.html"),
 	Err("file:///android_asset/web/err.html");
 
 	private final String url;

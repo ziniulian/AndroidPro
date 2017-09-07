@@ -34,5 +34,23 @@ rfid = {
     },
     hdWrt: function (ok) {
         // console.log(ok);
+    },
+
+    // ---------------- 其它业务交互 -----------------------
+    getUnit: function () {
+        return rfdo.getUnit();
+    },
+    getTrip: function () {
+        return rfdo.getTrip();
+    },
+    save: function (msg) {
+        rfdo.save(msg);
+    },
+    qry: function (num, tim) {
+        return rfdo.qry(num, tim);
+    },
+    findNum: function (num) {
+        return rfdo.findNum(num);
     }
+
 };

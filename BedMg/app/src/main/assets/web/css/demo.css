@@ -1,0 +1,183 @@
+
+/*---------------------- 上下分割布局 ----------------------*/
+
+.barOut {
+	width: 100%;
+	height: 90%;
+}
+
+.barBody {
+	width: 100%;
+	height: 90%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.bar {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 10%;
+}
+
+/*---------------------- 按钮样式 ----------------------*/
+
+.btn {
+	display: inline-block;
+	height: 100%;
+	cursor: pointer;
+	text-align: center;
+	overflow: hidden;
+	background-color: #EEE;
+	box-shadow: inset 0 0 0 1px #AAA;
+}
+
+.btn1 {
+	width: 100%;
+}
+
+.btn2 {
+	width: 50%;
+}
+
+.btn3 {
+	width: 33%;
+}
+
+.btn3m {
+	width: 34%;
+}
+
+.btn4 {
+	width: 25%;
+}
+
+.btns {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.subbtn {
+	display: inline-block;
+	width: 80%;
+	cursor: pointer;
+	font-size: 1.2rem;
+	line-height: 2;
+	border-radius: 5rem;
+	background-color: #FF0;
+	box-shadow: inset -0.2rem -0.3rem 1rem 0 #999;
+}
+
+/*---------------------- 扫描页面样式 ----------------------*/
+
+.txtt {
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+	border-bottom: solid 1px #999;
+}
+.k {
+	display: inline-block;
+	vertical-align: top;
+	width: 20%;
+	text-align: left;
+}
+.v {
+	display: inline-block;
+	vertical-align: top;
+	width: 40%;
+	text-align: right;
+}
+.th {
+	font-weight: bold;
+	color: #444;
+	border-bottom: solid 0.2rem #444;
+}
+.td:hover {
+	background-color: #EEE;
+}
+.detailDom {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: #FFF;
+}
+.note {
+	height: 2rem;
+	font-style: italic;
+	color: red;
+}
+
+/*---------------------- 查询页面样式 ----------------------*/
+
+.row {
+	height: 10%;
+}
+.rowDown {
+	height: 50%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.rowDown p {
+	word-break: break-all;
+	padding: 1rem;
+	font-size: 1rem;
+	font-style: italic;
+	color: red;
+}
+.rowSub {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 0.5rem;
+	line-height: 1.5;
+	font-size: 0.8rem;
+}
+.typ {
+	width: 25%;
+	text-align: center;
+}
+.typscd {
+	color: blue;
+	font-weight: bold;
+}
+.ktw {
+	width: 43%;
+	text-align: left;
+}
+.knw {
+	width: 27%;
+	text-align: center;
+}
+.kpw {
+	width: 15%;
+	text-align: center;
+}
+.kcw {
+	width: 15%;
+	text-align: right;
+}
+.kmid {
+	text-align: center;
+}
+.th2 {
+	position: relative;
+	font-weight: bold;
+}
+.line {
+	position: absolute;
+	bottom: 0.7rem;
+	width: 100%;
+	height: 0.1rem;
+	background-color: #333;
+}
+.numall {
+	margin-left: 10%;
+	color: #AAA;
+	font-style: italic;
+}
+.lineBg {
+	background-color: #EEE;
+}
