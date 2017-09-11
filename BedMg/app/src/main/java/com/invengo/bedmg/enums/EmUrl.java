@@ -13,7 +13,7 @@ public enum EmUrl {
 	Home("file:///android_asset/web/home.html"),
 	Ascan("file:///android_asset/web/aScan.html"),
 	Qry("file:///android_asset/web/qry.html"),
-//	ScanDemo("file:///android_asset/web/scanDemo.html"),
+	Exit("file:///android_asset/web/home.html"),
 	Err("file:///android_asset/web/err.html");
 
 	private final String url;

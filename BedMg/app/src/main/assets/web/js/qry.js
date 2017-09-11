@@ -9,13 +9,7 @@ function init() {
     if (o.typ) {
         dat.setTyp(o.typ - 0);
     }
-    unit.innerHTML = rfid.getUnit();
-    trip.innerHTML = rfid.getTrip();
     dat.flush();
-
-    // 测试
-    // dat.flush([]);
-    // dat.flush([["20170101121110", "ASC015", 1,2,3], ["20170101121110", "Bc054A", 33,0,61]]);
 }
 
 dat = {
@@ -25,16 +19,45 @@ dat = {
     typ: 0,     // 0:全部,1:小单,2:被套,3:枕套
 
     getUrlReq: function () {
-    	var url = location.search;
-    	var theRequest = {};
-    	if (url.indexOf("?") != -1) {
-    		url = url.substr(1).split("&");
-    		for(var i = 0; i < url.length; i ++) {
-    			var str = url[i].split("=");
-    			theRequest[str[0]] = decodeURIComponent(str[1]);
-    		}
-    	}
-    	return theRequest;
+		var url = location.search;
+		var theRequest = {};
+		if (url.indexOf("?") != -1) {
+			url = url.substr(1).split("&");
+			for(var i = 0; i < url.length; i ++) {
+				var str = url[i].split("=");
+				theRequest[str[0]] = decodeURIComponent(str[1]);
+			}
+		}
+		return theRequest;
+    },
+
+    timStr: function (tim) {
+        var t;
+        t = new Date(tim);
+        var y = t.getFullYear() + "";
+        var m = t.getMonth() + 1;
+        // if (m < 10) {
+        //     m = "0" + m;
+        // }
+        var d = t.getDate();
+        // if (d < 10) {
+        //     d = "0" + d;
+        // }
+        var h = t.getHours();
+        if (h < 10) {
+            h = "0" + h;
+        }
+        var u = t.getMinutes();
+        if (u < 10) {
+            u = "0" + u;
+        }
+        // var s = t.getSeconds();
+        // if (s < 10) {
+        //     s = "0" + s;
+        // }
+        // return y + "-" + m + "-" + d + " " + h + ":" + u + ":" + s;
+        // return y + m + d + h + u + s;
+        return y + "年" + m + "月" + d + "日<br>" + h + ":" + u;
     },
 
     setNum: function (n) {
@@ -72,15 +95,17 @@ dat = {
             dat.ts = a;
             if (a.length) {
                 rom.innerHTML = "";
-                for (var i = 0; i < a.length; i ++) {
+                var i = a.length - 1;
+                var cc = i % 2;
+                for (; i >= 0; i --) {
                     var o = document.createElement("div");
-                    if (i % 2 === 1) {
+                    if (i % 2 !== cc) {
                         o.className = "lineBg";
                     }
 
                     var d = document.createElement("div");
                     d.className = "rowSub ktw";
-                    d.innerHTML = a[i][0];
+                    d.innerHTML = dat.timStr(a[i][0] * 1000);
                     o.appendChild(d);
 
                     d = document.createElement("div");
@@ -90,18 +115,19 @@ dat = {
 
                     d = document.createElement("div");
                     d.className = "rowSub kpw";
+                    var s = "<a href='details.html?tim=" + a[i][0];
                     switch (dat.typ) {
                         case 0:
-                            d.innerHTML = "小单<br>被套<br>枕套";
+                            d.innerHTML = s + "&typ=1'>小单</a><br>" + s + "&typ=2'>被套</a><br>" + s + "&typ=3'>枕套";
                             break;
                         case 1:
-                            d.innerHTML = "小单";
+                            d.innerHTML = s + "&typ=1'>小单</a>";
                             break;
                         case 2:
-                            d.innerHTML = "被套";
+                            d.innerHTML = s + "&typ=2'>被套</a>";
                             break;
                         case 3:
-                            d.innerHTML = "枕套";
+                            d.innerHTML = s + "&typ=3'>枕套</a>";
                             break;
                     }
                     o.appendChild(d);

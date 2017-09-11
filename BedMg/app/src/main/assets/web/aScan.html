@@ -14,9 +14,6 @@
 				width: 92%;
 				margin: 0 auto;
 			}
-			.sfs {
-				line-height: 2;
-			}
 			.mfs {
 				line-height: 2;
 			}
@@ -26,11 +23,9 @@
 	<body>
 		<div id="boso" class="boso Lc_noadr">
 			<div class="barBody">
-				<div id="unit" class="sfs">单位：</div>
-				<div id="trip" class="sfs">车次：</div>
-				<!-- <form onsubmit="return dat.save();"> -->
-					<input id="num" class="sfs txtt" type="text" placeholder="请输入车号（六个字符）"></input>
-				<!-- </form> -->
+				<div id="ring" class="ring" onclick="dat.chgSound();"></div>
+				<div id="unit" class="mfs">乌鲁木齐客运段</div>
+				<input id="num" class="sfs txtt" type="text" placeholder="请输入车号（六个字符）"></input>
 				<div id="note" class="note sfs"></div>
 				<div class="midOut th">
 					<div class="k mfs">品名</div><!--
@@ -38,15 +33,15 @@
 				</div>
 				<div class="midOut td" onclick="dat.detail(1);">
 					<div class="k mfs">小单</div><!--
-					--><div id="count1" class="v mfs">0</div>
+					--><div id="count1" class="v bfs">0</div>
 				</div>
 				<div class="midOut td" onclick="dat.detail(2);">
 					<div class="k mfs">被套</div><!--
-					--><div id="count2" class="v mfs">0</div>
+					--><div id="count2" class="v bfs">0</div>
 				</div>
 				<div class="midOut td" onclick="dat.detail(3);">
 					<div class="k mfs">枕套</div><!--
-					--><div id="count3" class="v mfs">0</div>
+					--><div id="count3" class="v bfs">0</div>
 				</div>
 			</div>
 			<div class="bar">
@@ -55,7 +50,7 @@
 					<div class="midSub mfs">保存</div>
 				</div>
 			</div>
-			<div id="detailDom" class="detailDom sfs Lc_nosee"></div>
+			<div id="detailDom" class="Lc_nosee"></div>
 		</div>
 	</body>
 

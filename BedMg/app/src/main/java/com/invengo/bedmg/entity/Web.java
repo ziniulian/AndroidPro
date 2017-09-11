@@ -1,5 +1,6 @@
 package com.invengo.bedmg.entity;
 
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.invengo.bedmg.action.MainActivity;
@@ -66,20 +67,15 @@ public class Web {
 	public void open() {
 		rfd.open();
 		db.open();
-
-//// 数据库测试
-//save("20170306121212,d00001,3,5,8\n20060306121212,d00003,13,0,81\n");
-//Log.i("----- 1 ------", qry(null));
-//Log.i("----- 2 ------", qry("d00001"));
-//Log.i("----- 3 ------", findNum(null));
-//Log.i("----- 4 ------", findNum("d"));
-//Log.i("----- 5 ------", findNum("3"));
-
 	}
 
 	public void close() {
 		rfd.close();
 		db.close();
+	}
+
+	public boolean isBusy() {
+		return rfd.isBusy();
 	}
 
 /*----------------------------------------*/
@@ -124,6 +120,19 @@ public class Web {
 		db.insert("total", msg, false);
 	}
 
+	// 保存明细
+	@JavascriptInterface
+	public void saveDetails(String msg) {
+		db.insert("details", msg, false);
+	}
+
+	// 提示音
+	@JavascriptInterface
+	public void sound() {
+		ma.sendUh(EmUh.Sound);
+//		ma.mkNtf("30");
+	}
+
 	// 通过车号查询结果
 	@JavascriptInterface
 	public String qry (String num, String tim) {
@@ -134,6 +143,12 @@ public class Web {
 	@JavascriptInterface
 	public String findNum (String num) {
 		return db.findNum(num);
+	}
+
+	// 查询明细
+	@JavascriptInterface
+	public String findDetails (String tim, String typ) {
+		return db.findDetails(tim, typ);
 	}
 
 }

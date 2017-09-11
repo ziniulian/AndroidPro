@@ -64,7 +64,7 @@
 	font-size: 1.2rem;
 	line-height: 2;
 	border-radius: 5rem;
-	background-color: #FF0;
+	background-color: #EEE;
 	box-shadow: inset -0.2rem -0.3rem 1rem 0 #999;
 }
 
@@ -73,20 +73,21 @@
 .txtt {
 	display: block;
 	width: 100%;
-	margin: 0 auto;
+	margin: 0.5rem auto;
 	border-bottom: solid 1px #999;
 }
 .k {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 	width: 20%;
 	text-align: left;
 }
 .v {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 	width: 40%;
 	text-align: right;
+	line-height: 2;
 }
 .th {
 	font-weight: bold;
@@ -108,8 +109,47 @@
 .note {
 	height: 2rem;
 	font-style: italic;
-	color: red;
+	color: #111;
 }
+
+.ring {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	background-image: url(../img/ring.png);
+}
+
+.noring {
+	background-image: url(../img/noring.png);
+}
+
+
+/*---------------------- 首页 ----------------------*/
+
+.logo {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 1rem;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	background-image: url(../img/InvengoLOGO3.png);
+}
+
+.exit {
+	position: absolute;
+	bottom: 2rem;
+	width: 100%;
+	color: #111;
+	font-style: italic;
+}
+
 
 /*---------------------- 查询页面样式 ----------------------*/
 
@@ -117,7 +157,7 @@
 	height: 10%;
 }
 .rowDown {
-	height: 50%;
+	height: 60%;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -126,13 +166,11 @@
 	padding: 1rem;
 	font-size: 1rem;
 	font-style: italic;
-	color: red;
+	color: #111;
 }
 .rowSub {
 	display: inline-block;
-	vertical-align: top;
-	margin-bottom: 0.5rem;
-	line-height: 1.5;
+	vertical-align: middle;
 	font-size: 0.8rem;
 }
 .typ {
@@ -144,20 +182,22 @@
 	font-weight: bold;
 }
 .ktw {
-	width: 43%;
-	text-align: left;
+	width: 38%;
+	text-align: right;
 }
 .knw {
-	width: 27%;
+	width: 30%;
 	text-align: center;
 }
 .kpw {
-	width: 15%;
+	width: 16%;
 	text-align: center;
+	line-height: 2.5;
 }
 .kcw {
-	width: 15%;
+	width: 16%;
 	text-align: right;
+	line-height: 2.5;
 }
 .kmid {
 	text-align: center;

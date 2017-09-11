@@ -4,6 +4,7 @@ rfid = {
     scan: function () {
         if (!this.tid) {
             this.tid = setInterval(rfid.doScan, 100);
+		note.innerHTML = "正在卧具清点……";
         }
     },
     stop: function () {
@@ -11,6 +12,7 @@ rfid = {
             clearInterval(this.tid);
             this.tid = 0;
             rfid.doScan();
+		note.innerHTML = "";
         }
     },
     doScan: function () {
@@ -51,6 +53,16 @@ rfid = {
     },
     findNum: function (num) {
         return rfdo.findNum(num);
-    }
+    },
+
+	sound: function () {
+		rfdo.sound();
+	},
+	saveDetails: function (msg) {
+		rfdo.saveDetails(msg);
+	},
+	findDetails: function (tim, typ) {
+		return rfdo.findDetails(tim, typ);
+	},
 
 };

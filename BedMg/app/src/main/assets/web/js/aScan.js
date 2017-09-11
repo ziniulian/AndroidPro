@@ -1,19 +1,11 @@
 function init() {
-    // dat.crtTag("013366990000", {tim: 5});
-    // dat.crtTag("023366990000", {tim: 9});
-    // dat.crtTag("036366990000", {tim: 7});
-    // dat.crtTag("013366010000", {tim: 13});
-    // dat.crtTag("013366020000", {tim: 6});
-
     count1.innerHTML = dat.ts[1].length;
     count2.innerHTML = dat.ts[2].length;
     count3.innerHTML = dat.ts[3].length;
-    unit.innerHTML += rfid.getUnit();
-    trip.innerHTML += rfid.getTrip();
 }
 
 rfid.hdScan = function (o) {
-    for (s in o) {
+    for (var s in o) {
         if (dat.ts[s]) {
             dat.ts[s].tim += o[s].tim;
         } else {
@@ -24,39 +16,9 @@ rfid.hdScan = function (o) {
 
 dat = {
     // 标签集合
+    has: false,
+    sound: true,
     ts: {"1": [], "2": [], "3": []},
-
-    timStr: function (tim) {
-        var t;
-        if (tim) {
-            t = new Date(tim);
-        } else {
-            t = new Date();
-        }
-        var y = t.getFullYear() + "";
-        var m = t.getMonth() + 1;
-        if (m < 10) {
-            m = "0" + m;
-        }
-        var d = t.getDate();
-        if (d < 10) {
-            d = "0" + d;
-        }
-        var h = t.getHours();
-        if (h < 10) {
-            h = "0" + h;
-        }
-        var u = t.getMinutes();
-        if (u < 10) {
-            u = "0" + u;
-        }
-        var s = t.getSeconds();
-        if (s < 10) {
-            s = "0" + s;
-        }
-        // return y + "-" + m + "-" + d + " " + h + ":" + u + ":" + s;
-        return y + m + d + h + u + s;
-    },
 
     // 显示明细
     isDetail: false,
@@ -91,7 +53,7 @@ dat = {
             // 隐藏明细
             dat.isDetail = false;
             detailDom.innerHTML = "";
-            detailDom.className = "detailDom sfs Lc_nosee";
+            detailDom.className = "Lc_nosee";
         }
     },
 
@@ -114,22 +76,34 @@ dat = {
         }
         if (o.typ) {
             // 解析序列号
-            o.sn = s.substring(2, 8);
+            o.sn = parseInt(s.substring(2, 8), 16);
             dat.ts[o.typ].push(o);
             var d = document.getElementById("count" + o.typ);
             d.innerHTML = dat.ts[o.typ].length;
         }
         dat.ts[s] = o;
+		dat.has = true;
+		if (dat.sound) {
+			rfid.sound();
+		}
     },
 
     // 保存
     save: function () {
+		rfid.scanStop();
         var n = num.value;
         if (n) {
             if (n.length === 6) {
-                var t = dat.timStr();
+                var t = Math.floor(Date.now() / 1000);
                 var s = t + "," + n + "," + dat.ts[1].length + "," + dat.ts[2].length + "," + dat.ts[3].length + "\n";
                 rfid.save(s);
+				s = "";
+				for (j = 1; j < 4; j ++) {
+					for (i = 0; i < dat.ts[j].length; i ++) {
+						s += t + "," + j + "," + dat.ts[j][i].sn + "\n";
+					}
+				}
+				rfid.saveDetails(s);
                 note.innerHTML = "保存成功";
                 location.href = "qry.html?tim=" + t;
             } else {
@@ -141,10 +115,31 @@ dat = {
         return false;
     },
 
+	// 是否保存的提示
+	isExit: function () {
+		dat.isDetail = true;
+		detailDom.innerHTML = "<br>有尚未保存的盘点信息，<br>请确认是否需要保存：<br><br><br><a class='subbtn' href='javascript: dat.detail();'>回去保存</a><br><br><a class='subbtn' href='home.html'>不保存</a>";
+		detailDom.className = "detailDom midOut mfs";
+	},
+
+	// 设置声音
+	chgSound: function () {
+		if (dat.sound) {
+			dat.sound = false;
+			ring.className = "ring noring";
+		} else {
+			dat.sound = true;
+			ring.className = "ring";
+		}
+	},
+
     // 退出页面
     back: function () {
+		rfid.scanStop();
         if (dat.isDetail) {
             dat.detail();
+        } else if (dat.has) {
+			dat.isExit();
         } else {
             location.href = "home.html";
         }

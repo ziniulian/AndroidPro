@@ -1,6 +1,7 @@
 package com.invengo.bedmg.dao;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.invengo.bedmg.enums.EmSql;
 
@@ -99,6 +100,7 @@ public class DbCsv {
 	// 创建数据表
 	private void crtTab () {
 		insert("total", "tim,num,cnt01,cnt02,cnt03\n", true);
+		insert("details", "tim,typ,sn\n", true);
 	}
 
 	// 写入数据
@@ -189,6 +191,32 @@ public class DbCsv {
 			ResultSet rs = sql.executeQuery();
 			while (rs.next()) {
 				r.append(getStr(rs, "num"));
+				r.append(',');
+			}
+			int n = r.length();
+			if (n > 1) {
+				r.deleteCharAt(n - 1);
+			}
+			rs.close();
+			sql.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		r.append(']');
+		return r.toString();
+	}
+
+	// 查询明细
+	public String findDetails (String tim, String typ) {
+		StringBuilder r = new StringBuilder();
+		r.append('[');
+		try {
+			PreparedStatement sql= con.prepareStatement(EmSql.FindDetails.toString());
+			sql.setString(1, tim);
+			sql.setString(2, typ);
+			ResultSet rs = sql.executeQuery();
+			while (rs.next()) {
+				r.append(rs.getLong("sn"));
 				r.append(',');
 			}
 			int n = r.length();

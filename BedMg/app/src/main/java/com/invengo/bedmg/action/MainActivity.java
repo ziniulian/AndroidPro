@@ -1,5 +1,7 @@
 package com.invengo.bedmg.action;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,13 +20,24 @@ public class MainActivity extends AppCompatActivity {
 	private Web w = new Web();	// 读写器
 	private WebView wv;
 	private Handler uh = new UiHandler();
-	private boolean reading = false;
+
+	// 声音
+	private SoundPool sp = null;
+	private int music1;
+	private int music2;
+	private int music3;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD, WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD); // 全屏、不锁屏
 		setContentView(R.layout.activity_main);
+
+		// 声音
+		sp = new SoundPool(3, AudioManager.STREAM_SYSTEM, 5);// 第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+		music1 = sp.load(this, R.raw.click, 1); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+		music2 = sp.load(this, R.raw.right, 2); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+		music3 = sp.load(this, R.raw.error, 3); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
 
 		// 读写器设置
 		w.init(this);
@@ -61,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
 					if (e != null) {
 						switch (getCurUi()) {
 							case Ascan:
-//							case ScanDemo:
-								reading = true;
-								w.scan();
+								if (w.isBusy()) {
+									w.stop();
+								} else {
+									w.scan();
+								}
 								break;
 						}
 					}
@@ -74,13 +89,13 @@ public class MainActivity extends AppCompatActivity {
 				if (e != null) {
 					switch (e) {
 						case Ascan:
+						case Home:
 							sendUrl(EmUrl.Back);
 							break;
-//						case ScanDemo:
 						case Qry:
 							sendUrl(EmUrl.Home);
 							break;
-						case Home:
+						case Exit:
 						case Err:
 							return super.onKeyDown(keyCode, event);
 					}
@@ -90,20 +105,6 @@ public class MainActivity extends AppCompatActivity {
 				return true;
 			default:
 				return super.onKeyDown(keyCode, event);
-		}
-	}
-
-	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_SOFT_RIGHT:
-				if (reading) {
-					w.stop();
-					reading = false;
-				}
-				return true;
-			default:
-				return super.onKeyUp(keyCode, event);
 		}
 	}
 
@@ -139,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
 					if (getCurUi() == EmUrl.Err) {
 						wv.goBack();
 					}
+					break;
+				case Sound:
+					sp.play(music2, 1, 1, 0, 0, 1);
+					break;
 				default:
 					break;
 			}

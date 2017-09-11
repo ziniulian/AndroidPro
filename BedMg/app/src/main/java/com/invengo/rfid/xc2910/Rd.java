@@ -278,4 +278,8 @@ rt.setQ((byte) 6);
 		}
 	}
 
+	public boolean isBusy() {
+		return isScanning;
+	}
+
 }

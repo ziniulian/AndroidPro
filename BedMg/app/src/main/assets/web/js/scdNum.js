@@ -1,13 +1,10 @@
 function init() {
     var a = JSON.parse(rfid.findNum(null));
-// 测试数据
-// var a = [];
-// var a = ["aaaaaa", "bbbbbb"];
     if (a.length) {
         var i, d;
         d = document.createElement("a");
         d.href = "qry.html";
-        d.innerHTML = "全部";
+        d.innerHTML = "全部车号";
         boso.appendChild(d);
         for (i = 0; i < a.length; i ++) {
             d = document.createElement("a");
