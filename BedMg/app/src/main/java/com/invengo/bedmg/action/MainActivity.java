@@ -1,5 +1,8 @@
 package com.invengo.bedmg.action;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -23,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
 	// 声音
 	private SoundPool sp = null;
-	private int music1;
-	private int music2;
-	private int music3;
+	private int music;
+
+	// 日期选择器
+	private DateSeter ds = new DateSeter();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 		// 声音
 		sp = new SoundPool(3, AudioManager.STREAM_SYSTEM, 5);// 第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
-		music1 = sp.load(this, R.raw.click, 1); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
-		music2 = sp.load(this, R.raw.right, 2); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
-		music3 = sp.load(this, R.raw.error, 3); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+		music = sp.load(this, R.raw.biu, 1); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
 
 		// 读写器设置
 		w.init(this);
@@ -103,9 +105,22 @@ public class MainActivity extends AppCompatActivity {
 					wv.goBack();
 				}
 				return true;
-			default:
-				return super.onKeyDown(keyCode, event);
+			case 84:
+				// 测试用
+				break;
 		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	// 显示对话框
+	public void showDialogFragment(DialogFragment df){
+		FragmentTransaction mFragTransaction = getFragmentManager().beginTransaction();
+		Fragment fragment =  getFragmentManager().findFragmentByTag("dialogFragment");
+		if(fragment!=null){
+			//为了不重复显示dialog，在显示对话框之前移除正在显示的对话框
+			mFragTransaction.remove(fragment);
+		}
+		df.show(mFragTransaction, "dialogFragment"); //显示一个Fragment并且给该Fragment添加一个Tag，可通过findFragmentByTag找到该Fragment
 	}
 
 	// 获取当前页面信息
@@ -119,12 +134,28 @@ public class MainActivity extends AppCompatActivity {
 
 	// 页面跳转
 	public void sendUrl (EmUrl e) {
-		uh.sendMessage(uh.obtainMessage(EmUh.Url.ordinal(), e.ordinal(), 0));
+		uh.sendMessage(uh.obtainMessage(EmUh.Url.ordinal(), 0, 0, e.url()));
+	}
+
+	// 页面跳转
+	public void sendUrl (EmUrl e, String obj) {
+		uh.sendMessage(uh.obtainMessage(EmUh.Url.ordinal(), 0, 0, e.url() + obj));
 	}
 
 	// 发送页面处理消息
 	public void sendUh (EmUh e) {
 		uh.sendMessage(uh.obtainMessage(e.ordinal()));
+	}
+
+	// 日期选择
+	public void sendDate (int y, int m, int d, boolean min) {
+		Message msg = uh.obtainMessage(EmUh.Date.ordinal());
+		Bundle b = msg.getData();
+		b.putInt("y", y);
+		b.putInt("m", m);
+		b.putInt("d", d);
+		b.putBoolean("min", min);
+		uh.sendMessage(msg);
 	}
 
 	// 页面处理器
@@ -134,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 			EmUh e = EmUh.values()[msg.what];
 			switch (e) {
 				case Url:
-					wv.loadUrl(EmUrl.values()[msg.arg1].url());
+					wv.loadUrl((String)msg.obj);
 					break;
 				case Connected:
 					if (getCurUi() == EmUrl.Err) {
@@ -142,11 +173,16 @@ public class MainActivity extends AppCompatActivity {
 					}
 					break;
 				case Sound:
-					sp.play(music2, 1, 1, 0, 0, 1);
+					sp.play(music, 1, 1, 0, 0, 1);
+					break;
+				case Date:
+					ds.setArg(msg.getData());
+					showDialogFragment(ds);
 					break;
 				default:
 					break;
 			}
 		}
 	}
+
 }

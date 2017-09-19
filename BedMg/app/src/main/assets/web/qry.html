@@ -19,10 +19,23 @@
 					<div class="midTop"></div><!--
 					--><div class="midSub mfs">乌鲁木齐客运段</div>
 				</div>
-				<div class="row">
-					<div class="midTop"></div><!--
-					--><div class="midSub mfs">车号：</div><!--
-					--><a href="scdNum.html"><div id="num" class="midSub mfs numall">点此选择车号</div></a>
+				<div class="row3">
+					<div class="row4">
+						<div class="midTop"></div><!--
+						--><div class="midSub sfs">起始日期：</div><!--
+						--><div id="timmin" class="midSub sfs" onclick="dat.datePicker(true);"></div>
+					</div>
+					<div class="row4">
+						<div class="midTop"></div><!--
+						--><div class="midSub sfs">结束日期：</div><!--
+						--><div id="timmax" class="midSub sfs" onclick="dat.datePicker(false);"></div>
+					</div>
+					<div class="row4">
+						<div class="midTop"></div><!--
+						--><div class="midSub sfs">车号：</div><!--
+						--><div id="num" class="midSub sfs numall" onclick="dat.chgNum();">点此选择车号</div>
+					</div>
+					<div class="today mfs" onclick="dat.today();">当天</div>
 				</div>
 				<div class="row th2">
 					<div class="midTop"></div><!--
@@ -32,14 +45,30 @@
 					--><div class="midSub kcw sfs">数量</div>
 					<div class="line"></div>
 				</div>
+
 				<div id="rom" class="rowDown"></div>
 
-				<div class="row">
+				<div class="row2">
 					<div class="midTop"></div><!--
-					--><div id="typ0" class="midSub typ mfs typscd" onclick="dat.setTyp(0);">全部</div><!--
-					--><div id="typ1" class="midSub typ mfs" onclick="dat.setTyp(1);">小单</div><!--
-					--><div id="typ2" class="midSub typ mfs" onclick="dat.setTyp(2);">被套</div><!--
-					--><div id="typ3" class="midSub typ mfs" onclick="dat.setTyp(3);">枕套</div>
+					--><div class="midSub typ2 sfs">总计：</div><!--
+					--><div id="typ1" class="midSub typ sfs"></div><!--
+					--><div id="typ2" class="midSub typ sfs"></div><!--
+					--><div id="typ3" class="midSub typ sfs"></div>
+				</div>
+				<div class="row2">
+					<div class="midTop"></div><!--
+					--><div id="typDom0" class="midSub typ mfs typscd" onclick="dat.chgTyp(0);">
+						<div>全部</div>
+					</div><!--
+					--><div id="typDom1" class="midSub typ mfs" onclick="dat.chgTyp(1);">
+						<div>小单</div>
+					</div><!--
+					--><div id="typDom2" class="midSub typ mfs" onclick="dat.chgTyp(2);">
+						<div>被套</div>
+					</div><!--
+					--><div id="typDom3" class="midSub typ mfs" onclick="dat.chgTyp(3);">
+						<div>枕套</div>
+					</div>
 				</div>
 		</div>
 	</body>

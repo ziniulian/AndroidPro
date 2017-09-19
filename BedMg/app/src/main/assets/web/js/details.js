@@ -14,10 +14,10 @@ function init() {
 		default:
 			return;
 	}
-	var a = JSON.parse(rfid.findDetails(o.tim, o.typ));
+	var a = JSON.parse(rfid.findDetails(o.id, o.typ));
 	if (a.length) {
 		for (var i = 0; i < a.length; i ++) {
-			s += a[i] + "<br>";
+			s += dat.formatSn(a[i]) + "<br>";
 		}
 	} else {
 		s += "(暂无记录)";
@@ -26,6 +26,8 @@ function init() {
 }
 
 dat = {
+    snSize: 6,
+
 	getUrlReq: function () {
 		var url = location.search;
 		var theRequest = {};
@@ -37,5 +39,21 @@ dat = {
 			}
 		}
 		return theRequest;
-	}
+	},
+
+    // 格式化序列号
+    formatSn: function (sn) {
+        var r = sn + "";
+        var i, n;
+        if (r.length < dat.snSize) {
+            n = dat.snSize - r.length;
+            r = "";
+            for (i = 0; i < n; i ++) {
+                r += "0";
+            }
+            r += sn;
+        }
+        return r;
+    }
+
 };

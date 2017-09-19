@@ -7,5 +7,6 @@ package com.invengo.bedmg.enums;
 public enum EmUh {
 	Url,
 	Sound,
+	Date,
 	Connected
 }

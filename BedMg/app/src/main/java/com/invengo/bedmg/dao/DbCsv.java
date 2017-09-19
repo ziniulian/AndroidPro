@@ -1,17 +1,21 @@
 package com.invengo.bedmg.dao;
 
 import android.os.Environment;
-import android.util.Log;
 
 import com.invengo.bedmg.enums.EmSql;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import static com.invengo.bedmg.enums.EmSql.ByNum;
+import static com.invengo.bedmg.enums.EmSql.ByTim;
+import static com.invengo.bedmg.enums.EmSql.GetAll;
 
 /**
  * CSV数据库
@@ -101,6 +105,9 @@ public class DbCsv {
 	private void crtTab () {
 		insert("total", "tim,num,cnt01,cnt02,cnt03\n", true);
 		insert("details", "tim,typ,sn\n", true);
+		if (bom("清点记录")) {
+			insert("清点记录", "时间,车号,小单,被套,枕套,总计\n", false);
+		}
 	}
 
 	// 写入数据
@@ -119,6 +126,23 @@ public class DbCsv {
 		}
 	}
 
+	// 加BOM
+	private boolean bom(String tnam) {
+		File f = new File(Environment.getExternalStorageDirectory(), sdDir + tnam + ".csv");
+		if (!f.exists()) {
+			try {
+				FileOutputStream os = new FileOutputStream(f);
+				os.write(new byte[] {(byte)239, (byte)187, (byte)191});	// EF BB BF
+				os.flush();
+				os.close();
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	private String getStr (ResultSet rs, String field) {
 		String s = null;
 		try {
@@ -134,34 +158,40 @@ public class DbCsv {
 	}
 
 	// 通过车号查询结果
-	public String qry (String num, String tim) {
+	public String qry (String num, long min, long max) {
 		StringBuilder r = new StringBuilder();
 		r.append('[');
 		try {
 			PreparedStatement sql;
-			if (tim != null) {
-				sql = con.prepareStatement(EmSql.ByTim.toString());
-				sql.setString(1, tim);
-			} else if (num == null) {
-				sql = con.prepareStatement(EmSql.GetAll.toString());
+			if (num == null) {
+				if (min == max) {
+					sql = con.prepareStatement(ByTim.toString());
+					sql.setString(1, min + "");
+				} else {
+					sql = con.prepareStatement(GetAll.toString());
+				}
 			} else {
-				sql = con.prepareStatement(EmSql.ByNum.toString());
+				sql = con.prepareStatement(ByNum.toString());
 				sql.setString(1, num);
 			}
 			ResultSet rs = sql.executeQuery();
+			long t;
 			while (rs.next()) {
-				r.append('[');
-				r.append(getStr(rs, "tim"));
-				r.append(',');
-				r.append(getStr(rs, "num"));
-				r.append(',');
-				r.append(rs.getInt("cnt01"));
-				r.append(',');
-				r.append(rs.getInt("cnt02"));
-				r.append(',');
-				r.append(rs.getInt("cnt03"));
-				r.append(']');
-				r.append(',');
+				t = rs.getLong("tim");
+				if (t >= min && t <= max) {
+					r.append('[');
+					r.append(getStr(rs, "tim"));
+					r.append(',');
+					r.append(getStr(rs, "num"));
+					r.append(',');
+					r.append(rs.getInt("cnt01"));
+					r.append(',');
+					r.append(rs.getInt("cnt02"));
+					r.append(',');
+					r.append(rs.getInt("cnt03"));
+					r.append(']');
+					r.append(',');
+				}
 			}
 			int n = r.length();
 			if (n > 1) {

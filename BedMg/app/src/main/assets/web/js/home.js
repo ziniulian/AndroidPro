@@ -12,6 +12,6 @@ dat = {
 	back: function () {
 		document.title = "Exit";
 		exit.className = "exit sfs";
-		setTimeout(dat.restore, 1000);
+		setTimeout(dat.restore, 2000);
 	}
 };

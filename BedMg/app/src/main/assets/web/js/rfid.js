@@ -48,8 +48,11 @@ rfid = {
     save: function (msg) {
         rfdo.save(msg);
     },
-    qry: function (num, tim) {
-        return rfdo.qry(num, tim);
+    save2: function (msg) {
+        rfdo.save2(msg);
+    },
+    qry: function (num, min, max) {
+        return rfdo.qry(num, min, max);
     },
     findNum: function (num) {
         return rfdo.findNum(num);
@@ -61,8 +64,11 @@ rfid = {
 	saveDetails: function (msg) {
 		rfdo.saveDetails(msg);
 	},
-	findDetails: function (tim, typ) {
-		return rfdo.findDetails(tim, typ);
+	findDetails: function (id, typ) {
+		return rfdo.findDetails(id, typ);
 	},
+    showDatePicker: function (y, m, d, min) {
+        rfdo.showDatePicker (y, m, d, min)
+    }
 
 };

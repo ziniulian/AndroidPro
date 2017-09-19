@@ -1,6 +1,5 @@
 package com.invengo.bedmg.entity;
 
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.invengo.bedmg.action.MainActivity;
@@ -120,6 +119,12 @@ public class Web {
 		db.insert("total", msg, false);
 	}
 
+	// 保存中文记录
+	@JavascriptInterface
+	public void save2(String msg) {
+		db.insert("清点记录", msg, false);
+	}
+
 	// 保存明细
 	@JavascriptInterface
 	public void saveDetails(String msg) {
@@ -135,8 +140,8 @@ public class Web {
 
 	// 通过车号查询结果
 	@JavascriptInterface
-	public String qry (String num, String tim) {
-		return db.qry(num, tim);
+	public String qry (String num, long min, long max) {
+		return db.qry(num, min, max);
 	}
 
 	// 查询车号
@@ -149,6 +154,12 @@ public class Web {
 	@JavascriptInterface
 	public String findDetails (String tim, String typ) {
 		return db.findDetails(tim, typ);
+	}
+
+	// 设置日期
+	@JavascriptInterface
+	public void showDatePicker (int y, int m, int d, boolean min) {
+		ma.sendDate(y, m, d, min);
 	}
 
 }
