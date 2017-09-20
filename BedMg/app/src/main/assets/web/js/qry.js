@@ -221,11 +221,9 @@ dat = {
 
             // 显示总计
             if (dat.typ) {
-                typ3.innerHTML = count[dat.typ];
+                total.innerHTML += count[dat.typ];
             } else {
-                typ1.innerHTML = count[1];
-                typ2.innerHTML = count[2];
-                typ3.innerHTML = count[3];
+                total.innerHTML += (count[1] + count[2] + count[3]);
             }
         } else {
             rom.innerHTML = "<p>没有符合条件的信息 ...</p>";

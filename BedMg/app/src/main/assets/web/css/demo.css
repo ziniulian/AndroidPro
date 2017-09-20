@@ -242,13 +242,3 @@
 .lineBg {
 	background-color: #EEE;
 }
-
-/*数量统计*/
-.total {
-	color: #999;
-	font-style: italic;
-	font-weight: normal;
-}
-.timW {
-	width: 50%;
-}
