@@ -68,8 +68,8 @@ public enum EmLocalSql {
 	SetV("update catch set v = '<1>' where k = '<0>'"),	// 修改键值对
 	AddDevs("insert into t_inventory_table(deviceid,devicename,brand,model,unit,price,level,serialnum,arrivalT,intime,isout,coucount,location,fegularcycle,scrapped,remark,tid) values(<0>)"),	// 添加库存记录
 	AddBorrows("insert into t_warehouse_borrow(recordid,deviceid,receiveT,receiveU,receiveP,out_reason,completeT) values(<0>)"),	// 添加领用记录
-	SetDevs("update t_inventory_table set <1> where deviceid = '<0>'"),	// 修改库存记录
-	SetBorrows("update t_inventory_table set <2> where deviceid = '<0>' and recordid = '<1>'"),	// 修改领用记录
+	SetDevs("update t_inventory_table set <1> where deviceid = <0>"),	// 修改库存记录
+	SetBorrows("update t_warehouse_borrow set <2> where deviceid = <0> and recordid = <1>"),	// 修改领用记录
 //	DelDevs(""),	// 清空库存记录
 //	DelBorrows(""),	// 清空领用记录
 
