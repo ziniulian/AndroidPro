@@ -41,8 +41,8 @@ public class Ma extends AppCompatActivity {
 //		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
 
-//		sendUrl(EmUrl.Home);
-		sendUrl(EmUrl.User);
+		sendUrl(EmUrl.Home);
+//		sendUrl(EmUrl.User);
 	}
 
 	@Override
@@ -68,6 +68,7 @@ public class Ma extends AppCompatActivity {
 							case InScan:
 							case OutScan:
 							case PanScan:
+							case OffScan:
 								reading = true;
 								w.scan();
 								break;
@@ -81,8 +82,8 @@ public class Ma extends AppCompatActivity {
 					switch (e) {
 						case Signin:
 						case User:
-//							sendUrl(EmUrl.Home);
-							sendUrl(EmUrl.User);
+						case OffScan:
+							sendUrl(EmUrl.Home);
 							break;
 						case InList:
 						case OutList:
@@ -106,6 +107,13 @@ public class Ma extends AppCompatActivity {
 						case PanInfo:
 						case PanScan:
 							sendUrl(EmUrl.PanList);
+							break;
+						case Syn:
+							sendUrl(EmUrl.Back);
+							break;
+						case OffDevInfo:
+						case OffDevBorrow:
+							sendUrl(EmUrl.OffScan);
 							break;
 					}
 				} else {

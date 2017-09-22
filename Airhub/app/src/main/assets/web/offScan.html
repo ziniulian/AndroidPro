@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>InList</title>
+		<title>OffScan</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 		<link href="css/base.css" rel="stylesheet" type="text/css" />
 		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
-		<script src="js/srvurl.js"></script>
-		<script src="js/inList.js"></script>
+		<script src="js/rfid.js"></script>
+		<script src="js/offScan.js"></script>
 
 		<style type="text/css">
-			.mark {
-				width: 5%;
+			.barBody {
+				height: 88%;
 			}
-			.txt {
-				width: 75%;
+			.barSub {
+				width: 100%;
+				height: 12%;
+				text-align: center;
+			}
+			.cover a {
+				color: #CCC;
 			}
 		</style>
 	</head>
 
 	<body>
 		<div id="boso" class="boso Lc_noadr">
-			<div id="ols" class="barBody2"></div>
-			<!-- <div class="bar">
-				<div class="btn btn1" onclick="ol.add();">
+			<div id="devs" class="barBody"></div>
+			<div class="bar">
+				<div class="btn btn1" onclick="ol.clear();">
 					<div class="midTop"></div>
-					<div class="midSub mfs">新建入库单</div>
+					<div class="midSub mfs">清空</div>
 				</div>
-			</div> -->
+			</div>
 		</div>
 	</body>
 

@@ -9,8 +9,12 @@ public enum EmUrl {
 	Home("file:///android_asset/web/home.html"),
 	Signin("file:///android_asset/web/signin.html"),
 	User("file:///android_asset/web/user.html"),
-	Scan("javascript: rfid.scan()"),
-	Stop("javascript: rfid.stop()"),
+	Scan("javascript: rfid.scan();"),
+	Stop("javascript: rfid.stop();"),
+	Back("javascript: dat.back();"),
+	OffScan("file:///android_asset/web/offScan.html"),
+	OffDevInfo("file:///android_asset/web/offDevInfo.html"),
+	OffDevBorrow("file:///android_asset/web/offDevBorrow.html"),
 	DevInfo("file:///android_asset/web/devInfo.html"),
 	InList("file:///android_asset/web/inList.html"),
 	InDetail("file:///android_asset/web/inDetail.html"),
@@ -24,6 +28,7 @@ public enum EmUrl {
 	PanInfo("file:///android_asset/web/panInfo.html"),
 	PanScan("file:///android_asset/web/panScan.html"),
 	PanList("file:///android_asset/web/panList.html"),
+	Syn("file:///android_asset/web/syn.html"),
 	Err("file:///android_asset/web/err.html");
 
 	private final String url;

@@ -2,7 +2,7 @@ function init() {
     ol.devid = ol.getUrlReq().devid;
     if (ol.devid) {
         didDom.innerHTML = ol.devid;
-        logOut.href = "devBorrow.html?devid=" + ol.devid;
+        devInf.href = "devInfo.html?devid=" + ol.devid;
         ol.flush();
     }
 }
@@ -59,7 +59,7 @@ ol = {
             this.ajx.onreadystatechange = this.hdflush;
             this.ajx.open("POST", srvurl, true);
             this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=getDevInfo&devid=" + this.devid;
+            var msg = "srv=getBorrowByDev&devid=" + this.devid;
             this.ajx.send(msg);
         }
     },
@@ -70,7 +70,9 @@ ol = {
             if (a.status === 200) {
                 var o = JSON.parse(a.responseText);
                 if (o.ok) {
-                    ol.flushDom(o);
+                    for (var i = 0; i < o.dat.length; i ++) {
+                        ol.flushDom(o.dat[i]);
+                    }
                 }
             }
             ol.busy = false;
@@ -78,46 +80,14 @@ ol = {
     },
 
     flushDom: function (o) {
-        if (o.iscrap) {
-            prompt.innerHTML = "已报废";
-        } else if (o.isout) {
-            prompt.innerHTML = "已出库";
-        }
-        if (o.nam) {
-            nam.innerHTML = o.nam;
-        }
-        if (o.brand) {
-            brand.innerHTML = o.brand;
-        }
-        if (o.mod) {
-            mod.innerHTML = o.mod;
-        }
-        if (o.sn) {
-            sn.innerHTML = o.sn;
-        }
-        if (o.unit) {
-            unit.innerHTML = o.unit;
-        }
-        price.innerHTML = o.price ? o.price : 0;
-        if (o.level) {
-            level.innerHTML = o.level;
-        }
-        if (o.location) {
-            location.innerHTML = o.location;
-        }
-        cont.innerHTML = o.cont ? o.cont : 0;
-        if (o.tim) {
-            tim.innerHTML = ol.timStr(o.tim);
-        }
-        if (o.intim) {
-            intim.innerHTML = ol.timStr(o.intim);
-        }
-        if (o.fegularcycle) {
-            fegularcycle.innerHTML = o.fegularcycle + " 个月";
-        }
-        if (o.remark) {
-            level.innerHTML = o.remark;
-        }
+        var d = document.createElement("div");
+        d.className = "b sfs";
+        var s = "领用时间：" + ol.timStr(o.tim) + "</br>";
+        s += "单位名称：" + o.dep + "</br>";
+        s += "领用人：" + o.person + "</br>";
+        s += "结束日期：" + ol.timStr(o.comtim);
+        d.innerHTML = s;
+        devs.appendChild(d);
     }
 
 };

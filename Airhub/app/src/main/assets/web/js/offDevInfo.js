@@ -2,38 +2,13 @@ function init() {
     ol.devid = ol.getUrlReq().devid;
     if (ol.devid) {
         didDom.innerHTML = ol.devid;
-        logOut.href = "devBorrow.html?devid=" + ol.devid;
+        logOut.href = "offDevBorrow.html?devid=" + ol.devid;
         ol.flush();
     }
 }
 
 ol = {
-    busy: false,
-    ajx: null,
     devid: null,
-
-    getAjax: function ()/*as:Object*/ {
-        if (!this.ajx) {
-            var xmlHttp = null;
-        	try{
-        		xmlHttp = new XMLHttpRequest();
-        	} catch (MSIEx) {
-        		var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-        		for (var i=0; i < activeX.length; i++) {
-        			try {
-        				xmlHttp = new ActiveXObject( activeX[i] );
-        			} catch (e) {}
-        		}
-        	}
-
-            if (xmlHttp) {
-                this.ajx = xmlHttp;
-            } else {
-                return false;
-            }
-        }
-        return true;
-    },
 
     getUrlReq: function () {
     	var url = location.search;
@@ -54,26 +29,10 @@ ol = {
     },
 
     flush: function () {
-        if (!this.busy && this.getAjax()) {
-            this.busy = true;
-            this.ajx.onreadystatechange = this.hdflush;
-            this.ajx.open("POST", srvurl, true);
-            this.ajx.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-            var msg = "srv=getDevInfo&devid=" + this.devid;
-            this.ajx.send(msg);
-        }
-    },
-
-    hdflush: function (evt) {
-        a = evt.target;
-        if (a.readyState === 4) {
-            if (a.status === 200) {
-                var o = JSON.parse(a.responseText);
-                if (o.ok) {
-                    ol.flushDom(o);
-                }
-            }
-            ol.busy = false;
+        var d = rfid.dbGetDevInfo(ol.devid);
+        var o = JSON.parse(d);
+        if (o.ok) {
+            ol.flushDom(o);
         }
     },
 

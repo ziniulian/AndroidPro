@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DevBorrow</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<link href="css/base.css" rel="stylesheet" type="text/css" />
+		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<script src="js/srvurl.js"></script>
+		<script src="js/devBorrow.js"></script>
+
+		<style type="text/css">
+			.btn3r {
+				position: absolute;
+				right: 0;
+			}
+			.btn3m {
+				position: absolute;
+				right: 33%;
+			}
+			.b {
+				margin: 1rem 0 0 1rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="boso" class="boso Lc_noadr">
+			<div id="devs" class="barBody">
+				<div id = "didDom" class="mfs"></div>
+			</div>
+			<div class="bar">
+				<a id="devInf"><div class="btn btn3">
+					<div class="midTop"></div>
+					<div class="midSub sfs">基本信息</div>
+				</div></a>
+				<div class="btn btn3m btns">
+					<div class="midTop"></div>
+					<div class="midSub sfs">出库记录</div>
+				</div>
+				<div class="btn btn3 btn3r">
+					<div class="midTop"></div>
+					<div class="midSub sfs">维修记录</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>
