@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<link href="css/base.css" rel="stylesheet" type="text/css" />
+		<link href="css/demo.css" rel="stylesheet" type="text/css" />
+		<script src="js/rfid.js"></script>
+		<script src="js/home.js"></script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso Lc_noadr midOut">
+			<div class="barTop midOut">
+				<div class="midTop"></div><!--
+				--><div id="appnam" class="appnam midSub sfs"></div>
+			</div>
+			<div class="barOut midOut mfs">
+				<br><a href="read.html">扫码</a><br>
+				<br><a href="check.html">查询</a><br>
+				<br><a href="javascript: dat.showDialog();">清空数据</a><br>
+				<br><a id="fldom" href="javascript: rfid.flashlight();">手电筒</a><br>
+				<div id="exit" class="Lc_nosee">再按一次退出程序</div>
+			</div>
+			<div id="dialog" class="Lc_nosee">
+				<div class="midTop"></div><!--
+				--><div class="dialogBody midSub mfs">
+					<br>
+					是否清空数据？
+					<br><br><br>
+					<div class="subbtn" onclick="dat.clear();">确定</div>
+					<br><br><br>
+					<div class="subbtn" onclick="dat.hidDialog();">取消</div>
+					<br><br>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

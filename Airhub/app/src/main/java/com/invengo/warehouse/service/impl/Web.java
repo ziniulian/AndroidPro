@@ -45,14 +45,16 @@ public class Web {
 		db = new DbLocal(m);
 
 		// 读写器设置
-		rfd.setBank("epc");
+		rfd.setBank("epc");		// 测试时取消_Test
 		rfd.setPm(EmPushMod.Catch);
 		rfd.setTagListenter(new InfTagListener() {
 			@Override
 			public void onReadTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {}
 
 			@Override
-			public void onWrtTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {}
+			public void onWrtTag(com.invengo.rfid.tag.Base bt, InfTagListener itl) {
+				ma.sendUrl(EmUrl.WrtOk);
+			}
 
 			@Override
 			public void cb(EmCb e, String[] args) {
@@ -64,6 +66,8 @@ public class Web {
 					case Stopped:
 						ma.sendUrl(EmUrl.Stop);
 						break;
+					case ErrWrt:
+						ma.sendUrl(EmUrl.WrtErr);
 					case ErrConnect:
 						ma.sendUrl(EmUrl.Err);
 						break;
@@ -118,22 +122,27 @@ public class Web {
 
 	@JavascriptInterface
 	public void scan() {
-		rfd.scan();
+        rfd.scan();
 	}
 
 	@JavascriptInterface
 	public void stop() {
-		rfd.stop();
+        rfd.stop();
 	}
+
+    @JavascriptInterface
+    public void wrt (String bankNam, String dat, String tid) {
+        rfd.wrt(bankNam, dat, tid);
+    }
 
 	@JavascriptInterface
 	public void signin(String un) {
-		user = un;
+        user = un;
 	}
 
 	@JavascriptInterface
 	public void signout() {
-		user = null;
+        user = null;
 	}
 
 	@JavascriptInterface
@@ -166,6 +175,7 @@ public class Web {
 				m.get(s).addOne();
 			} else {
 				m.put(s, new Tag());
+//				m.put(s, new Tag(ts.get(i).getTidHexstr()));	// 测试用_Test
 			}
 		}
 		rfd.clearScanning();
@@ -178,6 +188,7 @@ public class Web {
 			r.append('\"');
 			r.append(':');
 			r.append(entry.getValue().getTim());
+//			r.append(entry.getValue().getJson());	// 测试用_Test
 			r.append(',');
 		}
 

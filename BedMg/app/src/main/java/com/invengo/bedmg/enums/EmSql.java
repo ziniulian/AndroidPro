@@ -10,7 +10,7 @@ public enum EmSql {
 	ByNum("select * from total where num = ?"),	// 通过车号获取数据
 	GetAllNum("select distinct num from total"),	// 获取所有车号
 	FindNum("select distinct num from total where num like ?"),	// 通过车号获取数据
-	FindDetails("select sn from details where tim = ? and typ = ?");	// 查询明细
+	FindDetails("select sn, ct, num from <0> where tim = ? and typ = ?");	// 查询明细
 
 	private final String sql;
 	EmSql(String s) {

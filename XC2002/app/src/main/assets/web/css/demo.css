@@ -1,0 +1,384 @@
+
+/*---------------------- 上下分割布局 ----------------------*/
+
+.barTop {
+	width: 100%;
+	height: 10%;
+}
+
+.barOut {
+	position: relative;
+	width: 100%;
+	height: 90%;
+}
+
+.barBody {
+	width: 100%;
+	height: 90%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.bar {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 10%;
+}
+
+/*---------------------- 主页 home ----------------------*/
+
+.appnam {
+	color: #0BB;
+}
+
+.exit {
+	position: absolute;
+	bottom: 0.5rem;
+	width: 100%;
+	color: #BBB;
+	font-style: italic;
+}
+
+.flashlight {
+	padding: 0 2rem;
+	background-color: #FF0;
+	color: #F00;
+}
+
+/*---------------------- 详情页 info ----------------------*/
+
+.key {
+	display: inline-block;
+	width: 33%;
+	margin-left: 1%;
+	vertical-align: top;
+	line-height: 2;
+	text-align:justify;
+	text-align-last:justify;
+	font-size: 1rem;
+}
+
+.split {
+	display: inline-block;
+	width: 5%;
+	vertical-align: top;
+	line-height: 2;
+	text-align: center;
+	font-size: 1rem;
+}
+
+.value {
+	display: inline-block;
+	width: 60%;
+	vertical-align: top;
+	line-height: 2;
+	word-break:break-all;
+	text-align: left;
+	font-size: 1rem;
+}
+
+.xiu {
+	display: inline-block;
+	width: 30%;
+	padding-left: 20%;
+	vertical-align: middle;
+	line-height: 2;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: contain;
+	background-image: url(../img/r.png);
+	font-size: 1rem;
+}
+
+.xiuScd {
+	background-image: url(../img/ok.png);
+}
+
+/*---------------------- 按钮样式 ----------------------*/
+
+.btn {
+	display: inline-block;
+	height: 100%;
+	cursor: pointer;
+	text-align: center;
+	overflow: hidden;
+	background-color: #222;
+	box-shadow: inset 0 0 0.5rem 2px #AAA;
+}
+
+.btn1 {
+	width: 100%;
+}
+
+/*---------------------- 查询页样式 ----------------------*/
+
+hr {
+	height: 1px;
+	margin: 3px 0;
+	border: none;
+	background-color: #F00;
+}
+
+.ctim {
+	line-height: 1.5;
+	font-size: 1rem;
+}
+
+.ckey {
+	display: inline-block;
+	width: 27%;
+	margin-left: 1%;
+	vertical-align: top;
+	line-height: 1.5;
+	font-size: 1rem;
+	text-align:justify;
+	text-align-last:justify;
+}
+
+.csplit {
+	display: inline-block;
+	width: 3%;
+	vertical-align: top;
+	line-height: 1.5;
+	font-size: 1rem;
+	text-align: center;
+}
+
+.cvalue {
+	position: relative;
+	display: inline-block;
+	width: 68%;
+	vertical-align: top;
+	line-height: 1.5;
+	font-size: 1rem;
+	word-break:break-all;
+}
+
+.cscd {
+	background-color: #00F;
+}
+
+.cbtn {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 0 1rem;
+	background-color: #333;
+	z-index: 10;
+}
+
+/*---------------------- 对话框  ----------------------*/
+
+.dialog {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.6);
+	z-index: 10;
+}
+
+.dialogBody {
+	width: 70%;
+	padding: 2%;
+	word-break:break-all;
+	border: solid 0.2rem #00F;
+	background-color: #000;
+}
+
+.subbtn {
+	display: inline-block;
+	width: 80%;
+	cursor: pointer;
+	font-size: 1.2rem;
+	line-height: 2;
+	border-radius: 5rem;
+	background-color: #222;
+	box-shadow: inset -0.2rem -0.3rem 1rem 0 #666;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------- 按钮样式 ----------------------*/
+
+.btn2 {
+	width: 50%;
+}
+
+.btn3 {
+	width: 33%;
+}
+
+.btn3m {
+	width: 34%;
+}
+
+.btn4 {
+	width: 25%;
+}
+
+.btns {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+/*---------------------- 扫描页面样式 ----------------------*/
+
+.txtt {
+	display: block;
+	width: 100%;
+	margin: 0.5rem auto;
+	border-bottom: solid 1px #999;
+}
+.k {
+	display: inline-block;
+	vertical-align: middle;
+	width: 20%;
+	text-align: left;
+}
+.v {
+	display: inline-block;
+	vertical-align: middle;
+	width: 40%;
+	text-align: right;
+	line-height: 2;
+}
+.th {
+	font-weight: bold;
+	color: #444;
+	border-bottom: solid 0.2rem #444;
+}
+.td:hover {
+	background-color: #EEE;
+}
+.detailDom {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: #FFF;
+}
+.note {
+	height: 2rem;
+	font-style: italic;
+	color: #111;
+}
+
+.ring {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	background-image: url(../img/ring.png);
+}
+
+.noring {
+	background-image: url(../img/noring.png);
+}
+
+
+/*---------------------- 首页 ----------------------*/
+
+.logo {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 1rem;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	background-image: url(../img/InvengoLOGO3.png);
+}
+
+
+/*---------------------- 查询页面样式 ----------------------*/
+
+.row {
+	height: 10%;
+}
+.rowDown {
+	height: 60%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.rowDown p {
+	word-break: break-all;
+	padding: 1rem;
+	font-size: 1rem;
+	font-style: italic;
+	color: #111;
+}
+.rowSub {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0.8rem;
+}
+.typ {
+	width: 25%;
+	text-align: center;
+}
+.typscd {
+	color: blue;
+	font-weight: bold;
+}
+.ktw {
+	width: 38%;
+	text-align: right;
+}
+.knw {
+	width: 30%;
+	text-align: center;
+}
+.kpw {
+	width: 16%;
+	text-align: center;
+	line-height: 2.5;
+}
+.kcw {
+	width: 16%;
+	text-align: right;
+	line-height: 2.5;
+}
+.kmid {
+	text-align: center;
+}
+.th2 {
+	position: relative;
+	font-weight: bold;
+}
+.line {
+	position: absolute;
+	bottom: 0.7rem;
+	width: 100%;
+	height: 0.1rem;
+	background-color: #333;
+}
+.numall {
+	margin-left: 10%;
+	color: #AAA;
+	font-style: italic;
+}
+.lineBg {
+	background-color: #EEE;
+}

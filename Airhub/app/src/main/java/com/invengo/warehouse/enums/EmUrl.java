@@ -29,6 +29,13 @@ public enum EmUrl {
 	PanScan("file:///android_asset/web/panScan.html"),
 	PanList("file:///android_asset/web/panList.html"),
 	Syn("file:///android_asset/web/syn.html"),
+
+	// 写入测试
+	Test("file:///android_asset/test/scanDemo.html"),
+	TestWrt("file:///android_asset/test/writeDemo.html"),
+	WrtOk("javascript: rfid.hdWrt(true);"),
+	WrtErr("javascript: rfid.hdWrt(false);"),
+
 	Err("file:///android_asset/web/err.html");
 
 	private final String url;

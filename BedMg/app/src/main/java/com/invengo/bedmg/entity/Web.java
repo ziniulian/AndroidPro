@@ -26,7 +26,7 @@ public class Web {
 		ma = m;
 
 		// 读写器设置
-		rfd.setBank("epc");
+//		rfd.setBank("epc");
 		rfd.setHex(true);
 		rfd.setPm(EmPushMod.Catch);
 		rfd.setTagListenter(new InfTagListener() {
@@ -127,8 +127,9 @@ public class Web {
 
 	// 保存明细
 	@JavascriptInterface
-	public void saveDetails(String msg) {
-		db.insert("details", msg, false);
+	public void saveDetails(String filNam, String msg) {
+		db.insert(filNam, "tim,typ,sn,ct,num\n", true);
+		db.insert(filNam, msg, false);
 	}
 
 	// 提示音
@@ -152,8 +153,8 @@ public class Web {
 
 	// 查询明细
 	@JavascriptInterface
-	public String findDetails (String tim, String typ) {
-		return db.findDetails(tim, typ);
+	public String findDetails (String tim, String typ, String filNam) {
+		return db.findDetails(tim, typ, filNam);
 	}
 
 	// 设置日期

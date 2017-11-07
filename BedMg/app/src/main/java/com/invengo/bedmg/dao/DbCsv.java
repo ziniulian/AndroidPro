@@ -104,7 +104,6 @@ public class DbCsv {
 	// 创建数据表
 	private void crtTab () {
 		insert("total", "tim,num,cnt01,cnt02,cnt03\n", true);
-		insert("details", "tim,typ,sn\n", true);
 		if (bom("清点记录")) {
 			insert("清点记录", "时间,车号,小单,被套,枕套,总计\n", false);
 		}
@@ -237,16 +236,22 @@ public class DbCsv {
 	}
 
 	// 查询明细
-	public String findDetails (String tim, String typ) {
+	public String findDetails (String tim, String typ, String filNam) {
 		StringBuilder r = new StringBuilder();
 		r.append('[');
 		try {
-			PreparedStatement sql= con.prepareStatement(EmSql.FindDetails.toString());
+			PreparedStatement sql= con.prepareStatement(EmSql.FindDetails.toString().replace("<0>", filNam));
 			sql.setString(1, tim);
 			sql.setString(2, typ);
 			ResultSet rs = sql.executeQuery();
 			while (rs.next()) {
+				r.append('[');
 				r.append(rs.getLong("sn"));
+				r.append(',');
+				r.append(rs.getLong("ct"));
+				r.append(',');
+				r.append(rs.getString("num"));
+				r.append(']');
 				r.append(',');
 			}
 			int n = r.length();

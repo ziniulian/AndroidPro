@@ -88,10 +88,12 @@ a:hover {
 .mfs {
 	font-size: 1.2rem;
 	line-height: 1.5rem;
+	word-break: break-all;
 }
 
 /*小字体*/
 .sfs {
 	font-size: 1rem;
 	line-height: 1.2rem;
+	word-break: break-all;
 }

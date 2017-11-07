@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Info</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<link href="css/base.css" rel="stylesheet" type="text/css" />
+		<link href="css/demo.css" rel="stylesheet" type="text/css" />
+		<script src="js/rfid.js"></script>
+		<script src="js/info.js"></script>
+		<script src="js/infoD.js"></script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso Lc_noadr">
+			<div class="barTop midOut">
+				<div class="midTop"></div><!--
+				--><div id="appnam" class="appnam midSub sfs"></div>
+			</div>
+			<div class="barOut">
+				<div class="barBody">
+					<div>
+						<div class="key">属性</div><!--
+						--><div class="split">:</div><!--
+						--><div id="pro" class="value"></div>
+					</div>
+					<div>
+						<div class="key">车型</div><!--
+						--><div class="split">:</div><!--
+						--><div id="mod" class="value"></div>
+					</div>
+					<div>
+						<div class="key">车号</div><!--
+						--><div class="split">:</div><!--
+						--><div id="num" class="value"></div>
+					</div>
+					<div>
+						<div class="key">配属局段</div><!--
+						--><div class="split">:</div><!--
+						--><div id="ju" class="value"></div>
+					</div>
+					<div>
+						<div class="key">车次</div><!--
+						--><div class="split">:</div><!--
+						--><div id="tno" class="value"></div>
+					</div>
+					<div>
+						<div class="key">端码</div><!--
+						--><div class="split">:</div><!--
+						--><div id="pot" class="value"></div>
+					</div>
+				</div>
+				<div class="bar">
+					<div class="btn btn1" onclick="dat.sav();">
+						<div class="midTop"></div><!-- 
+						--><div class="midSub mfs">保存</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

@@ -102,6 +102,7 @@ a {
 	vertical-align: middle;
 	width: 65%;
 	overflow: hidden;
+	margin-bottom: 0.5rem;
 }
 
 .op {
@@ -119,10 +120,18 @@ a {
 }
 
 .tim {
-	width: 60%;
+	width: 90%;
 	font-style: italic;
 	color: #999;
 	margin: 0 auto;
+}
+
+.cover {
+	background-color: #EEE;
+}
+
+.cover a {
+	color: #999;
 }
 
 /*---------------------- 状态样式 ----------------------*/
@@ -150,4 +159,10 @@ a {
 /*纯粹不存在的 0 红色的叉叉或问号*/
 .stno {
 	background-image: url(../img/stno.png);
+}
+
+/*---------------------- 用户页面 ----------------------*/
+
+.userLeft {
+	text-align: left;
 }

@@ -242,3 +242,11 @@
 .lineBg {
 	background-color: #EEE;
 }
+
+
+/*---------------------- 详情页面样式 ----------------------*/
+
+table, tbody, tr {
+    width: 100%;
+    text-align: center;
+}

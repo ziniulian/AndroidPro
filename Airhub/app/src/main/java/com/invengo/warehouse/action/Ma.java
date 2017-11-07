@@ -15,6 +15,7 @@ import com.invengo.warehouse.enums.EmUrl;
 import com.invengo.warehouse.service.impl.Web;
 
 /**
+ * 主函数
  * Created by LZR on 2017/8/11.
  */
 
@@ -41,8 +42,8 @@ public class Ma extends AppCompatActivity {
 //		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
 
+//		sendUrl(EmUrl.Test);	// 测试用_Test
 		sendUrl(EmUrl.Home);
-//		sendUrl(EmUrl.User);
 	}
 
 	@Override
@@ -69,6 +70,7 @@ public class Ma extends AppCompatActivity {
 							case OutScan:
 							case PanScan:
 							case OffScan:
+							case Test:
 								reading = true;
 								w.scan();
 								break;
@@ -80,6 +82,9 @@ public class Ma extends AppCompatActivity {
 				EmUrl e = getCurUi();
 				if (e != null) {
 					switch (e) {
+                        case Home:
+                        case Test:
+                            return super.onKeyDown(keyCode, event);
 						case Signin:
 						case User:
 						case OffScan:
@@ -114,6 +119,9 @@ public class Ma extends AppCompatActivity {
 						case OffDevInfo:
 						case OffDevBorrow:
 							sendUrl(EmUrl.OffScan);
+							break;
+						case TestWrt:
+							sendUrl(EmUrl.Test);
 							break;
 					}
 				} else {
