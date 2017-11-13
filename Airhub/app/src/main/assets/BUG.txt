@@ -1,4 +1,4 @@
-﻿V0.1.5 ：
+﻿V0.1.6 ：
     详情页的回退问题
     多个计划盘点和多个非计划盘点同时保存时发生sqlite 数据库异常：[SQLITE_MISUSE] Library used incorrectly (out of memory) jdbc java sqlite
     入库单信息具体显示什么？
