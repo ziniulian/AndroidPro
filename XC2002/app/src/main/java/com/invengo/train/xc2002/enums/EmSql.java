@@ -24,7 +24,7 @@ public enum EmSql {
 	DelAll("delete from tbMotor"),
 
 	// 修改修程
-	SetXiu("update tbMotor set readtime = '<2>', repairclass = '<1>' where mid = <0>"),
+	SetXiu("update tbMotor set repairclass = '<1>' where mid = <0>"),
 
 	// 获取记录总数
 	GetCount("select count(*) from tbMotor"),

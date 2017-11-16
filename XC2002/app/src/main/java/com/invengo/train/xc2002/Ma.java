@@ -1,18 +1,16 @@
 package com.invengo.train.xc2002;
 
 import android.content.IntentFilter;
-import android.hardware.Camera;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.invengo.train.xc2002.entity.FlLight;
 import com.invengo.train.xc2002.entity.Tim;
@@ -33,7 +31,6 @@ public class Ma extends AppCompatActivity {
 
 	// 时间
 	private Tim tim;	// 时间对象
-	private TextView timv;	// 显示界面
 	private SimpleDateFormat timFmtSql = new SimpleDateFormat("yyyyMMddHHmmss");	// 数据库时间格式
 	private SimpleDateFormat timFmtView = new SimpleDateFormat("yyyy-M-d HH:mm");	// 界面时间格式
 
@@ -43,15 +40,14 @@ public class Ma extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD, WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD); // 全屏、不锁屏
 		setContentView(R.layout.activity_ma);
 
 		// 时间
-		timv = (TextView) findViewById(R.id.tim);
 		tim = new Tim(this);
 		IntentFilter f = new IntentFilter();
 		f.addAction("com.invengo.train.xc2002.timrcv");
 		registerReceiver(tim.getRcv(), f);
-		tim.start();
 
 		// 手电筒
 		fl = new FlLight(this);
@@ -63,7 +59,7 @@ public class Ma extends AppCompatActivity {
 		ws.setJavaScriptEnabled(true);
 		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
-		sendUrl(EmUrl.Home);
+		sendUrl(EmUrl.Transition);
 
 		// 读写器
 		w.init(this);
@@ -123,7 +119,7 @@ public class Ma extends AppCompatActivity {
 					case Read:
 					case Info:
 					case Check:
-					case Chg:
+					case About:
 						sendUrl(EmUrl.Back);
 						break;
 					case Exit:
@@ -162,10 +158,11 @@ public class Ma extends AppCompatActivity {
 		public void handleMessage(Message msg) {
 			EmUh e = EmUh.values()[msg.what];
 			switch (e) {
+				case StartTim:
+					tim.start();
+					break;
 				case Tim:
-//					Calendar c = tim.getT();
-//					timv.setText(c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DATE) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
-					timv.setText(timFmtView.format(tim.getT().getTime()));
+					wv.loadUrl(meg(EmUrl.Tim.toString(), new String[] {timFmtView.format(tim.getT().getTime())}));
 					break;
 				case Url:
 					wv.loadUrl((String)msg.obj);

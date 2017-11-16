@@ -1,5 +1,5 @@
 function init() {
-	appnam.innerHTML = rfid.getAppNam();
+	rfid.flushTim();
 	dat.tag = JSON.parse(dat.getUrlReq().tag);
 	dat.flush();
 }

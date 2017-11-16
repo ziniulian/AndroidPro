@@ -1,7 +1,6 @@
 package com.invengo.train.xc2002.entity;
 
 import android.os.Environment;
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.invengo.train.rfid.EmCb;
@@ -10,11 +9,10 @@ import com.invengo.train.rfid.tag.BaseTag;
 import com.invengo.train.rfid.xc2002.Rd;
 import com.invengo.train.xc2002.Ma;
 import com.invengo.train.xc2002.dao.DbLocal;
+import com.invengo.train.xc2002.enums.EmUh;
 import com.invengo.train.xc2002.enums.EmUrl;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static com.invengo.train.rfid.tag.BaseTag.confAble;
 import static com.invengo.train.xc2002.Ma.sdDir;
@@ -108,7 +106,7 @@ public class Web {
 
 	@JavascriptInterface
 	public void dbSet(long id, String xiu) {
-		db.set(new String[] {id + "", xiu, ma.getTim()});
+		db.set(new String[] {id + "", xiu});
 	}
 
 	@JavascriptInterface
@@ -129,6 +127,21 @@ public class Web {
 	@JavascriptInterface
 	public boolean getFlashlight() {
 		return ma.fl.isFlb();
+	}
+
+	@JavascriptInterface
+	public void startTim() {
+		ma.sendUh(EmUh.StartTim);
+	}
+
+	@JavascriptInterface
+	public void flushTim() {
+		ma.sendUh(EmUh.Tim);
+	}
+
+	@JavascriptInterface
+	public void exit() {
+		ma.finish();
 	}
 
 }

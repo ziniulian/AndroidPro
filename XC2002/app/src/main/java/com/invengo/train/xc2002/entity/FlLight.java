@@ -6,6 +6,7 @@ import com.invengo.train.xc2002.Ma;
 import com.invengo.train.xc2002.enums.EmUrl;
 
 /**
+ * 手电筒
  * Created by ziniulian on 2017/10/27.
  */
 
@@ -35,8 +36,8 @@ public class FlLight {
 			flb = false;
 		} else if (!stop) {
 			// 打开手电筒
-			camera = Camera.open();
 			ma.sendUrl(EmUrl.FlashLight, "true");
+			camera = Camera.open();
 			Camera.Parameters params = camera.getParameters();
 			params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 			camera.setParameters(params);

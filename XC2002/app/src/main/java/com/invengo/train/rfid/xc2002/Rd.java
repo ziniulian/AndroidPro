@@ -1,8 +1,6 @@
 package com.invengo.train.rfid.xc2002;
 
 import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
 
 import com.atid.lib.system.ModuleControl;
 import com.invengo.train.rfid.Base;
@@ -74,6 +72,13 @@ public class Rd extends Base {
 								if (buf[2] == 7) {
 									// 没有搜索到标签
 									cb(EmCb.ReadNull);
+
+//									// 测试用
+//									onReadTag(BaseTag.parse("TC50   400000211A12C"));
+////									onReadTag(BaseTag.parse("!C64K  Q06505812A94C"));
+////									onReadTag(BaseTag.parse("KYW25T 677083E073 066"));
+////									onReadTag(BaseTag.parse("J10489001401AH  TK88188 "));
+////									onReadTag(BaseTag.parse("D3010000002101   G12345B"));
 								} else {
 									n = buf[2] - 6;
 									r = new byte[n];

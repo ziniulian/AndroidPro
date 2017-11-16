@@ -8,11 +8,6 @@
     android:layout_height="match_parent"
     tools:context="com.invengo.train.xc2002.Ma">
 
-    <TextView
-        android:id="@+id/tim"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <WebView
         android:id="@+id/wv"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
 
 dat.flush = function () {
-	cod.innerHTML = dat.tag.cod + "：";
+	content.innerHTML = "标签类型不符 ： " + dat.tag.cod;
 };

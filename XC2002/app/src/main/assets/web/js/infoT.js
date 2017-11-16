@@ -4,11 +4,11 @@ dat.setXiu = function (x) {
 		if (dat.tag.xiu.src === x) {
 			return;
 		} else {
-			dat.tag.xiu.dom.className = "xiu";
+			dat.tag.xiu.dom.className = "scan_xiu";
 		}
 	}
 	var d = document.getElementById("xiu" + x);
-	d.className = "xiu xiuScd";
+	d.className = "scan_xiu scan_xiuH";
 	dat.tag.xiu = {
 		src: x,
 		dom: d,

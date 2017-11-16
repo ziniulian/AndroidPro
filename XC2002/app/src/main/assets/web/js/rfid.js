@@ -44,6 +44,25 @@ rfid = {
 
 	getFlashlight: function () {
 		return rfdo.getFlashlight();
+	},
+
+	tim: function (t) {
+		var d = document.getElementById("homTim");
+		if (d) {
+			homTim.innerHTML = t;
+		}
+	},
+
+	startTim: function () {
+		rfdo.startTim();
+	},
+
+	flushTim: function () {
+		rfdo.flushTim();
+	},
+
+	exit: function () {
+		rfdo.exit();
 	}
 
 };

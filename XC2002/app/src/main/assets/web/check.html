@@ -4,97 +4,105 @@
 		<title>Check</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<link href="css/base.css" rel="stylesheet" type="text/css" />
-		<link href="css/demo.css" rel="stylesheet" type="text/css" />
+		<link href="css/s01.css" rel="stylesheet" type="text/css" />
 		<script src="js/rfid.js"></script>
 		<script src="js/check.js"></script>
 	</head>
 
 	<body>
-		<div id="boso" class="boso Lc_noadr">
-			<div class="barTop midOut">
-				<div class="midTop"></div><!--
-				--><div id="appnam" class="appnam midSub sfs"></div>
-			</div>
-			<div class="barOut">
-				<div id="content" class="barBody">
-					<!-- <div>
-						<div class="ctim">201702029999</div>
+		<div id="boso" class="boso Lc_noadr bg">
+			<div id="homTim" class="home_tim">00:00</div>
+			<div id="appnam" class="check_title mfs">数据管理</div>
+			<div id="content" class="home_body midOut">
+				<!-- <div class="check_out">
+					<div class="check_idbg">
+						<div class="check_id sfs">999</div>
+					</div>
+					<div class="check_out_body">
 						<div>
-							<div class="ckey">属性</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs check_key_space2">时间</div><div class="check_split sfs">:</div><div class="check_value sfs">5496549</div>
 						</div>
 						<div>
-							<div class="ckey">车种车型</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs">属性</div><div class="check_split sfs">:</div><div class="check_value sfs"></div>
 						</div>
 						<div>
-							<div class="ckey">车号</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs check_key_space4">车种车型</div><div class="check_split sfs">:</div><div class="check_value sfs"></div>
 						</div>
 						<div>
-							<div class="ckey">制造厂</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs">车号</div><div class="check_split sfs">:</div><div class="check_value sfs"></div>
 						</div>
 						<div>
-							<div class="ckey">制造年月</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs check_key_space3">制造厂</div><div class="check_split sfs">:</div><div class="check_value sfs"></div>
 						</div>
 						<div>
-							<div class="ckey">修程</div><div class="csplit">:</div><div class="cvalue">石狮市<a class=cbtn href=chg.html>修改</a></div>
-						</div>
-					</div><hr>
-					<div>
-						<div class="ctim">201702029999</div>
-						<div>
-							<div class="ckey">属性</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs">制造年月</div><div class="check_split sfs">:</div><div class="check_value sfs"></div>
 						</div>
 						<div>
-							<div class="ckey">车型</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs">客货</div><div class="check_split sfs">:</div><div class="check_value sfs"></div>
 						</div>
 						<div>
-							<div class="ckey">车号</div><div class="csplit">:</div><div class="cvalue"></div>
+							<div class="check_key sfs">修程</div><div class="check_split sfs">:</div><div class="check_value sfs">aaa<a class="check_set mfs" href="home.html">修改</a></div>
 						</div>
-						<div>
-							<div class="ckey">配属局段</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">车次</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">端码</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">客货</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-					</div><hr>
-					<div>
-						<div class="ctim">201702029999</div>
-						<div>
-							<div class="ckey">属性</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">车型</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">车号</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">制造厂</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">制造年月</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">端码</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-						<div>
-							<div class="ckey">定员</div><div class="csplit">:</div><div class="cvalue"></div>
-						</div>
-					</div> -->
+					</div>
 				</div>
-				<div class="bar">
-					<div class="btn btn1" onclick="dat.del();">
-						<div class="midTop"></div><!-- 
-						--><div class="midSub mfs">删除</div>
+				<div class="check_out check_outH"></div> -->
+			</div>
+			<div id="dialogSet" class="Lc_nosee">
+				<div class="home_body check_setbg">
+					<div class="check_idbg">
+						<div id="setId" class="check_id sfs">999</div>
+					</div>
+					<div class="check_out_body">
+						<div>
+							<div class="check_key sfs">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间</div><div class="check_split sfs">:</div><div id="setTim" class="check_value sfs"></div>
+						</div>
+						<div>
+							<div class="check_key sfs">属&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性</div><div class="check_split sfs">:</div><div id="setPro" class="check_value sfs"></div>
+						</div>
+						<div>
+							<div class="check_key sfs">车种车型</div><div class="check_split sfs">:</div><div id="setTyp" class="check_value sfs"></div>
+						</div>
+						<div>
+							<div class="check_key sfs">车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</div><div class="check_split sfs">:</div><div id="setNum" class="check_value sfs"></div>
+						</div>
+						<div>
+							<div class="check_key sfs">制&nbsp;&nbsp;造&nbsp;&nbsp;厂</div><div class="check_split sfs">:</div><div id="setFac" class="check_value sfs"></div>
+						</div>
+						<div>
+							<div class="check_key sfs">制造年月</div><div class="check_split sfs">:</div><div id="setTtim" class="check_value sfs"></div>
+						</div>
+						<div>
+							<div class="check_key sfs">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;程</div><div class="check_split sfs">:</div><div class="check_value sfs">
+								<div id="xiuC" class="check_xiu check_xiuH sfs" onclick="dat.setXiu('C');">厂修</div><!--
+								--><div id="xiuD" class="check_xiu sfs" onclick="dat.setXiu('D');">段修</div><!--
+								--><div id="xiuF" class="check_xiu sfs" onclick="dat.setXiu('F');">辅修</div><!--
+								--><div id="xiuL" class="check_xiu sfs" onclick="dat.setXiu('L');">临修</div><!--
+								--><div id="xiuZ" class="check_xiu sfs" onclick="dat.setXiu('Z');">轴修</div><!--
+								--><div id="xiuB" class="check_xiu sfs" onclick="dat.setXiu('B');">报废</div>
+							</div>
+						</div>
+					</div>
+					<div class="check_set_space">
+						<div class="home_btn check_sav" onclick="dat.savXiu();"></div><!--
+						--><div class="home_dialog_space"></div><!--
+						--><div class="home_btn" onclick="dat.hidDialog();"></div>
 					</div>
 				</div>
 			</div>
+			<div id="dialog" class="Lc_nosee">
+				<div class="midTop"></div><!--
+				--><div class="home_dialog_body midSub">
+					<div class="home_dialog_txt mfs">确定删除数据吗?</div>
+					<div>
+						<div class="home_btn home_btn_ok" onclick="dat.del();"></div><!--
+						--><div class="home_dialog_space"></div><!--
+						--><div class="home_btn" onclick="dat.hidDialog();"></div>
+					</div>
+				</div>
+			</div>
+			<div class="check_del" onclick="dat.showDialog();"></div>
+			<div id="count" class="check_count mfs"></div>
+			<div class="home_back" onclick="dat.back();"></div>
 		</div>
 	</body>
 

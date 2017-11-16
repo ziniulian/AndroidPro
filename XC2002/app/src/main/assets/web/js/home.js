@@ -1,4 +1,6 @@
 function init() {
+	rfid.startTim();
+	rfid.flushTim();
 	appnam.innerHTML = rfid.getAppNam();
 	dat.flashlight(rfid.getFlashlight());
 }
@@ -7,15 +9,15 @@ dat = {
 	// 手电筒
 	flashlight: function (b) {
 		if (b) {
-			fldom.className = "flashlight";
+			fldom.className = "home_block home_block_lightH";
 		} else {
-			fldom.className = "";
+			fldom.className = "home_block home_block_light";
 		}
 	},
 
 	// 显示对话框
 	showDialog: function () {
-		dialog.className = "dialog midOut";
+		dialog.className = "home_dialog";
 	},
 
 	// 关闭对话框
@@ -37,9 +39,17 @@ dat = {
 
 	// 退出页面
 	back: function () {
-		document.title = "Exit";
-		exit.className = "exit sfs";
-		setTimeout(dat.restore, 2000);
+		if (dialog.className !== "Lc_nosee") {
+			dat.hidDialog();
+		} else {
+			if (document.title === "Exit") {
+				rfid.exit();
+			} else {
+				document.title = "Exit";
+				exit.className = "home_exit mfs";
+				setTimeout(dat.restore, 2000);
+			}
+		}
 	}
 
 };

@@ -15,7 +15,7 @@ public class TagUn extends BaseTag {
 		StringBuilder s = new StringBuilder();
 		s.append("{\n\t\"cod\":\"");
 		s.append(getCod());
-		s.append("\",\n\t\"pro\":{\"src\":\"?\",\"nam\":\"未知标签\"}\n}");
+		s.append("\",\n\t\"pro\":{\"src\":\"?\",\"nam\":\"标签类型不符\"}\n}");
 		return s.toString();
 	}
 }

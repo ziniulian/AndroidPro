@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.invengo.train.xc2002.enums.EmSql;
 
-import static com.invengo.train.rfid.tag.BaseTag.getAble;
 import static com.invengo.train.rfid.tag.BaseTag.parse;
 import static com.invengo.train.xc2002.enums.UtStrMegEm.meg;
 
@@ -88,6 +87,8 @@ public class DbLocal extends SQLiteOpenHelper {
 			r.append(c.getString(3));
 			r.append("\",\"tag\":");
 			r.append(parse(c.getString(2)).toJson());
+			r.append(",\"enb\":");
+			r.append(c.getLong(4));
 			r.append("},");
 		}
 		if (r.length() > 1) {

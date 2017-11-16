@@ -3,7 +3,6 @@ package com.invengo.train.xc2002.entity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Environment;
 
 import com.invengo.train.xc2002.Ma;

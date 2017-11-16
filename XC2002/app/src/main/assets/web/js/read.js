@@ -1,5 +1,5 @@
 function init() {
-	appnam.innerHTML = rfid.getAppNam();
+	rfid.flushTim();
 	if (dat.getUrlReq().read) {
 		rfid.read();
 	}
@@ -31,32 +31,6 @@ rfid.hdRead = function (tag) {
 };
 
 dat = {
-
-	crtAjax: function () {
-		var xmlHttp = null;
-		try{
-			xmlHttp = new XMLHttpRequest();
-		} catch (MSIEx) {
-			var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-			for (var i=0; i < activeX.length; i++) {
-				try {
-					xmlHttp = new ActiveXObject( activeX[i] );
-				} catch (e) {}
-			}
-		}
-		return xmlHttp;
-	},
-
-	getAjax: function () {
-		if (!this.ajx) {
-			this.ajx = this.crtAjax();
-			if (!this.ajx) {
-				return false;
-			}
-		}
-		return true;
-	},
-
 	getUrlReq: function () {
 		var url = location.search;
 		var theRequest = {};
@@ -71,11 +45,15 @@ dat = {
 	},
 
 	reading: function () {
-		content.innerHTML = "正在读取电子标签......";
+		boso.className = "boso Lc_noadr bg scan_bg_i";
+		btn.className = "Lc_nosee";
+		scaning.className = "scan_ing";
 	},
 
 	readNull: function () {
-		content.innerHTML = "读取电子标签超时......";
+		boso.className = "boso Lc_noadr bg scan_bg_e";
+		scaning.className = "Lc_nosee";
+		btn.className = "scan_btn scan_btn_e";
 	},
 
 	// 退出页面

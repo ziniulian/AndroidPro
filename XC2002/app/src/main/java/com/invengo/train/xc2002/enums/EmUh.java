@@ -7,5 +7,6 @@ package com.invengo.train.xc2002.enums;
 public enum EmUh {
 	Url,
 	Tim,
+	StartTim,
 	Sound
 }

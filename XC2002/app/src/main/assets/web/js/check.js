@@ -1,7 +1,8 @@
 function init() {
-	appnam.innerHTML = rfid.getAppNam();
-	dat.count = rfid.dbCount();
 	content.onscroll = dat.toNext;
+	rfid.flushTim();
+	dat.count = rfid.dbCount();
+	count.innerHTML = "共 " + dat.count + " 条";
 	dat.nextPage();
 
 	// 测试
@@ -35,7 +36,8 @@ function init() {
 	// 				num:"716",
 	// 				fac:{src:"A",snam:"齐厂"},
 	// 				tim:{src:"075",nam:"2017年5月"}
-	// 			}
+	// 			},
+	// 			enb: 1
 	// 		},
 	// 		{
 	// 			id:18,
@@ -125,6 +127,8 @@ dat = {
 	count: 0,	// 数据库的记录总数
 	ts: {},
 	scds: {},
+	xiu: "C",
+	setTag: null,
 
 	getUrlReq: function () {
 		var url = location.search;
@@ -157,11 +161,13 @@ dat = {
 
 	flush: function (a) {
 		for(var i = 0; i < a.length; i ++) {
+			a[i].dom = dat.domOut(a[i]);
 			switch (a[i].tag.pro.src) {
 				case "T":
 				case "Q":
 				case "!":
 					dat.domT(a[i]);
+					a[i].xiuDom = a[i].dom.lastChild.lastChild.lastChild;
 					break;
 				case "J":
 					dat.domJ(a[i]);
@@ -173,7 +179,6 @@ dat = {
 					dat.domK(a[i]);
 					break;
 			}
-			dat.setDom(a[i]);
 			content.appendChild(a[i].dom);
 			dat.ts[a[i].id] = a[i];
 			dat.total ++;
@@ -181,26 +186,35 @@ dat = {
 		dat.busy = false;
 	},
 
-	setDom: function (t) {
-		var d = t.dom;
-		d.appendChild(document.createElement("hr"));
-		t.scd = false;
-		d.onclick = function (e) {
-			dat.scd(t);
-		};
-	},
-
-	scd: function (t) {
+	scd: function (id) {
+		var t = dat.ts[id]
 		var d = t.dom;
 		if (t.scd) {
-			d.className = "";
-			delete (dat.scds[t.id]);
+			d.className = "check_out";
+			delete (dat.scds[id]);
 			t.scd = false;
 		} else {
-			d.className = "cscd";
-			dat.scds[t.id] = true;
+			d.className = "check_out check_outH";
+			dat.scds[id] = true;
 			t.scd = true;
 		}
+	},
+
+	// 显示对话框
+	showDialog: function () {
+		var i = 0;
+		for (var s in dat.scds) {
+			i ++;
+		}
+		if (i > 0) {
+			dialog.className = "home_dialog";
+		}
+	},
+
+	// 关闭对话框
+	hidDialog: function () {
+		dialog.className = "Lc_nosee";
+		dialogSet.className = "Lc_nosee";
 	},
 
 	del: function () {
@@ -223,82 +237,99 @@ dat = {
 				dat.nextPage();
 			}
 		}
+		count.innerHTML = "共 " + dat.count + " 条";
+		dat.hidDialog();
 	},
 
-	chg: function (t) {
-		location.href = "chg.html?t=" + encodeURIComponent(JSON.stringify(t));
+	domOut: function (t) {
+		var d = document.createElement("div");
+		t.iddom = document.createElement("div");
+		t.scd = false;
+		d.className = "check_out";
+		d.appendChild(dat.domId(t.id, t.iddom));	// id
+		d.onclick = function (e) {
+			dat.scd(t.id);
+		};
+		return d;
 	},
 
 	domT: function (t) {
 		var d = document.createElement("div");
-		d.appendChild(dat.domTim(t.tim));	// 时间
-		d.appendChild(dat.domLine("属性", t.tag.pro.src + "[" + t.tag.pro.nam + "]"));
+		d.appendChild(dat.domLine("时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间", dat.parseTim(t.tim)));	// 时间
+		d.appendChild(dat.domLine("属&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性", t.tag.pro.src + "[" + t.tag.pro.nam + "]"));
 		d.appendChild(dat.domLine("车种车型", t.tag.typ.src + " " + t.tag.mod));
-		d.appendChild(dat.domLine("车号", t.tag.num));
-		d.appendChild(dat.domLine("制造厂", t.tag.fac.src + "[" + t.tag.fac.snam + "]"));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号", t.tag.num));
+		d.appendChild(dat.domLine("制&nbsp;&nbsp;造&nbsp;&nbsp;厂", t.tag.fac.src + "[" + t.tag.fac.snam + "]"));
 		d.appendChild(dat.domLine("制造年月", t.tag.tim.src + "[" + t.tag.tim.nam + "]"));
-		d.appendChild(dat.domLine("修程", dat.parseXiu(t)));
-		t.dom = d;
+		d.appendChild(dat.domLine("修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;程", dat.parseXiu(t)));
+		d.className = "check_out_body";
+		t.dom.appendChild(d);
 	},
 
 	domJ: function (t) {
 		var d = document.createElement("div");
-		d.appendChild(dat.domTim(t.tim));	// 时间
-		d.appendChild(dat.domLine("属性", t.tag.pro.src));
-		d.appendChild(dat.domLine("车型", t.tag.mod.src + "[" + t.tag.mod.nam + "]"));
-		d.appendChild(dat.domLine("车号", t.tag.num));
+		d.appendChild(dat.domLine("时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间", dat.parseTim(t.tim)));	// 时间
+		d.appendChild(dat.domLine("属&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性", t.tag.pro.src));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型", t.tag.mod.src + "[" + t.tag.mod.nam + "]"));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号", t.tag.num));
 		d.appendChild(dat.domLine("配属局段", t.tag.ju.src + t.tag.suo.src + "[" + t.tag.ju.nam + t.tag.suo.nam + "]"));
-		d.appendChild(dat.domLine("车次", t.tag.tnoLet + t.tag.tnoNum));
-		d.appendChild(dat.domLine("端码", t.tag.pot));
-		d.appendChild(dat.domLine("客货", t.tag.kh));
-		t.dom = d;
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;次", t.tag.tnoLet + t.tag.tnoNum));
+		d.appendChild(dat.domLine("端&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码", t.tag.pot));
+		d.appendChild(dat.domLine("客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;货", t.tag.kh));
+		d.className = "check_out_body";
+		t.dom.appendChild(d);
 	},
 
 	domD: function (t) {
 		var d = document.createElement("div");
-		d.appendChild(dat.domTim(t.tim));	// 时间
-		d.appendChild(dat.domLine("属性", t.tag.pro.src));
-		d.appendChild(dat.domLine("车型", t.tag.mod.src + "[" + t.tag.mod.nam + "]"));
-		d.appendChild(dat.domLine("车号", t.tag.num));
+		d.appendChild(dat.domLine("时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间", dat.parseTim(t.tim)));	// 时间
+		d.appendChild(dat.domLine("属&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性", t.tag.pro.src));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型", t.tag.mod.src + "[" + t.tag.mod.nam + "]"));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号", t.tag.num));
 		d.appendChild(dat.domLine("配属局段", t.tag.ju.src + t.tag.suo.src + "[" + t.tag.ju.nam + t.tag.suo.nam + "]"));
-		d.appendChild(dat.domLine("车次", t.tag.tnoLet + t.tag.tnoNum));
-		d.appendChild(dat.domLine("端码", t.tag.pot));
-		t.dom = d;
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;次", t.tag.tnoLet + t.tag.tnoNum));
+		d.appendChild(dat.domLine("端&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码", t.tag.pot));
+		d.className = "check_out_body";
+		t.dom.appendChild(d);
 	},
 
 	domK: function (t) {
 		var d = document.createElement("div");
-		d.appendChild(dat.domTim(t.tim));	// 时间
-		d.appendChild(dat.domLine("属性", t.tag.pro.src));
-		d.appendChild(dat.domLine("车型", t.tag.typ.src + t.tag.mod + "[" + t.tag.typ.nam + "]"));
-		d.appendChild(dat.domLine("车号", t.tag.num));
-		d.appendChild(dat.domLine("制造厂", t.tag.fac.src + "[" + t.tag.fac.snam + "]"));
+		d.appendChild(dat.domLine("时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间", dat.parseTim(t.tim)));	// 时间
+		d.appendChild(dat.domLine("属&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性", t.tag.pro.src));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型", t.tag.typ.src + t.tag.mod + "[" + t.tag.typ.nam + "]"));
+		d.appendChild(dat.domLine("车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号", t.tag.num));
+		d.appendChild(dat.domLine("制&nbsp;&nbsp;造&nbsp;&nbsp;厂", t.tag.fac.src + "[" + t.tag.fac.snam + "]"));
 		d.appendChild(dat.domLine("制造年月", t.tag.tim.src + "[" + t.tag.tim.nam + "]"));
-		d.appendChild(dat.domLine("定员", t.tag.cap));
-		t.dom = d;
+		d.appendChild(dat.domLine("定&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员", t.tag.cap));
+		d.className = "check_out_body";
+		t.dom.appendChild(d);
 	},
 
 	domLine: function (n, v) {
 		var o = document.createElement("div");
 		var d = document.createElement("div");
-		d.className = "ckey";
+		// d.className = "check_key sfs check_key_space" + n.length;
+		d.className = "check_key sfs";
 		d.innerHTML = n;
 		o.appendChild(d);
 		d = document.createElement("div");
-		d.className = "csplit";
+		d.className = "check_split sfs";
 		d.innerHTML = ":";
 		o.appendChild(d);
 		d = document.createElement("div");
-		d.className = "cvalue";
+		d.className = "check_value sfs";
 		d.innerHTML = v;
 		o.appendChild(d);
 		return o;
 	},
 
-	domTim: function (t) {
+	domId: function (id, dom) {
 		var d = document.createElement("div");
-		d.className = "ctim";
-		d.innerHTML = dat.parseTim(t);
+		d.className = "check_idbg";
+		dom.className = "check_id sfs";
+		dom.innerHTML = id;
+		d.appendChild(dom);
 		return d;
 	},
 
@@ -345,13 +376,52 @@ dat = {
 				x += "[报废]";
 				break;
 		}
-		x += "<a class='cbtn' href='javascript: dat.chg(" + JSON.stringify(t) + ");'>修改</a>";
+		if (!t.enb) {
+			x += "<div class='check_set mfs' onclick='dat.chg(" + t.id + ");'>修改</div>";
+		}
 		return x;
+	},
+
+	chg: function (id) {
+		var e = arguments.callee.caller.arguments[0];
+		e.stopPropagation();
+		var t = dat.ts[id];
+		dat.setTag = t;
+		setId.innerHTML = id;
+		setTim.innerHTML = dat.parseTim(t.tim);
+		setPro.innerHTML = t.tag.pro.src + "[" + t.tag.pro.nam + "]";
+		setTyp.innerHTML = t.tag.typ.src + " " + t.tag.mod;
+		setNum.innerHTML = t.tag.num;
+		setFac.innerHTML = t.tag.fac.src + "[" + t.tag.fac.snam + "]";
+		setTtim.innerHTML = t.tag.tim.src + "[" + t.tag.tim.nam + "]";
+		dat.setXiu(t.xiu);
+		dialogSet.className = "home_dialog";
+	},
+
+	setXiu: function (x) {
+		if (dat.xiu !== x) {
+			document.getElementById("xiu" + dat.xiu).className = "check_xiu sfs";
+			document.getElementById("xiu" + x).className = "check_xiu check_xiuH sfs";
+			dat.xiu = x;
+		}
+	},
+
+	savXiu: function () {
+		if (dat.setTag.xiu !== dat.xiu) {
+			dat.setTag.xiu = dat.xiu;
+			dat.setTag.xiuDom.innerHTML = dat.parseXiu(dat.setTag);
+			rfid.dbSet(dat.setTag.id, dat.setTag.xiu);
+		}
+		dat.hidDialog();
 	},
 
 	// 退出页面
 	back: function () {
-		location.href = "home.html";
+		if (dialog.className === "Lc_nosee" && dialogSet.className === "Lc_nosee") {
+			location.href = "home.html";
+		} else {
+			dat.hidDialog();
+		}
 	}
 
 };
