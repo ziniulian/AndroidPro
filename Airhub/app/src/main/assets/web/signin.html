@@ -4,46 +4,22 @@
 		<title>Signin</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<link href="css/base.css" rel="stylesheet" type="text/css" />
-		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<link href="css/s01.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
 		<script src="js/signin.js"></script>
-
-		<style type="text/css">
-			.barBody {
-				width: 70%;
-				margin: 0 auto;
-			}
-			.top {
-				height: 10%;
-			}
-			.txtt {
-				display: block;
-				width: 100%;
-				margin: 0 auto 2rem auto;
-				border-bottom: solid 1px #999;
-			}
-			.note {
-				font-size: 1rem;
-				font-style: italic;
-				color: red;
-			}
-		</style>
 	</head>
 
 	<body>
-		<div id="boso" class="boso Lc_noadr">
-			<div id="ols" class="barBody">
-				<div class="top"></div>
-				<input id="user" class="mfs txtt" type="text" placeholder="请输入用户名"></input>
-				<input id="pwd" class="mfs txtt" type="password" placeholder="请输入密码"></input>
-				<div id="note" class="note"></div>
+		<div id="boso" class="boso Lc_noadr bg">
+			<div class="log_bar bfs">&nbsp;&nbsp;用户登录</div>
+			<div id="ols" class="log_body">
+				<div class="log_top"></div>
+				<input id="user" class="log_txtt mfs" type="text" placeholder="请输入用户名"></input>
+				<input id="pwd" class="log_txtt mfs" type="password" placeholder="请输入密码"></input>
+				<div id="note" class="log_note sfs"></div>
 			</div>
-			<div class="bar">
-				<div class="btn btn1" onclick="sig.signin();">
-					<div class="midTop"></div>
-					<div class="midSub mfs">登录</div>
-				</div>
+			<div class="log_bar log_bar_bottom">
+				<div class="log_btn mfs" onclick="sig.signin();">登&nbsp;录</div>
 			</div>
 		</div>
 	</body>

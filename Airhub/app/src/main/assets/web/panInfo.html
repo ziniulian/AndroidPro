@@ -4,69 +4,30 @@
 		<title>PanInfo</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<link href="css/base.css" rel="stylesheet" type="text/css" />
-		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<link href="css/s01.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
 		<script src="js/panInfo.js"></script>
 		<script src="js/panCon.js"></script>
-
-		<style type="text/css">
-			.barBody {
-				height: 88%;
-			}
-			.barSub {
-				width: 100%;
-				height: 12%;
-				text-align: center;
-			}
-			.btn3r {
-				position: absolute;
-				right: 0;
-			}
-			.btn3m {
-				position: absolute;
-				right: 33%;
-			}
-			.info {
-				padding: 1rem;
-			}
-			.r {
-				text-align: right;
-				margin-bottom: 1rem;
-				font-style: italic;
-				color: #999;
-			}
-		</style>
 	</head>
 
 	<body>
-		<div id="boso" class="boso Lc_noadr">
-			<div class="barOut">
-				<div class="barBody">
-					<div id="ridDom" class="mfs"></div>
-					<div class="info">
-						<div id="personDom" class="r sfs">创建人 ： </div>
-						<div id="timDom" class="r sfs">创建时间 ： </div>
-						<div id="memoDom" class="sfs"></div>
-					</div>
-				</div>
-				<div class="barSub">
-					<div class="subbtn" onclick="ol.ok();">提交</div>
+		<div id="boso" class="boso Lc_noadr bg">
+			<div class="log_bar bfs">
+				&nbsp;&nbsp;盘点信息
+				<div class="log_btn mfs" onclick="ol.ok();">提&nbsp;交</div>
+			</div>
+			<div id="devs" class="log_body">
+				<div id="ridDom" class="pan_info_title mfs"></div>
+				<div class="pan_info">
+					<div id="personDom" class="pan_info_r sfs">创建人 ： </div>
+					<div id="timDom" class="pan_info_r sfs">创建时间 ： </div>
+					<div id="memoDom" class="sfs"></div>
 				</div>
 			</div>
-			<div class="bar">
-				<div class="btn btn3 btns">
-					<div class="midTop"></div>
-					<div class="midSub mfs">信息</div>
-				</div>
-				<a id="detaila"><div class="btn btn3m">
-					<div class="midTop"></div>
-					<div class="midSub mfs">明细</div>
-				</div></a>
-				<a id="scana"><div class="btn btn3 btn3r">
-					<div class="midTop"></div>
-					<div class="midSub mfs">扫描</div>
-				</div></a>
+			<div class="log_bar log_bar_bottom">
+				<a id="infoa"><div class="log_btn mfs pan_left pan_scd">信&nbsp;息</div></a>
+				<a id="detaila"><div class="log_btn mfs pan_mid">明&nbsp;细</div></a>
+				<a id="scana"><div class="log_btn mfs">扫&nbsp;描</div></a>
 			</div>
 		</div>
 	</body>

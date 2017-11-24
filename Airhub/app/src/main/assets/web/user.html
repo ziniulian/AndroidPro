@@ -5,17 +5,29 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 		<script src="js/user.js"></script>
-		<link href="css/base.css" rel="stylesheet" type="text/css" />
-		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<link href="css/s01.css" rel="stylesheet" type="text/css" />
 	</head>
 
 	<body>
-		<div id = "boso" class="boso Lc_noadr midOut mfs">
-			<div id = "userDom" class="bfs userLeft"></div>
-			<br><br><a class="subbtn" href="inList.html">入库</a>
-			<br><br><br><a class="subbtn" href="outList.html">出库</a>
-			<br><br><br><a class="subbtn" href="panList.html">盘点</a>
-			<br><br><br><br><br><a class="sfs" href="javascript:signOut();">登出</a>
+		<div id="boso" class="boso Lc_noadr bg">
+			<div id="userDom" class="log_bar bfs">&nbsp;&nbsp;</div>
+			<div id="devs" class="log_body">
+				<div class="user_btn_body"><a href="inList.html">
+					<div class="user_btn user_btn_in"></div>
+					<div class="mfs">入&nbsp;库</div>
+				</a></div><!--
+				--><div class="user_btn_body"><a href="outList.html">
+					<div class="user_btn user_btn_out"></div>
+					<div class="mfs">出&nbsp;库</div>
+				</a></div><!--
+				--><div class="user_btn_body"><a href="panList.html">
+					<div class="user_btn"></div>
+					<div class="mfs">盘&nbsp;点</div>
+				</a></div>
+			</div>
+			<div class="log_bar log_bar_bottom">
+				<div class="log_btn mfs" onclick="signOut();">登&nbsp;出</div>
+			</div>
 		</div>
 	</body>
 

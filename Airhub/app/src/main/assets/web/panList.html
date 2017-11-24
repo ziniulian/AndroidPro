@@ -4,30 +4,18 @@
 		<title>PanList</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<link href="css/base.css" rel="stylesheet" type="text/css" />
-		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<link href="css/s01.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
 		<script src="js/panList.js"></script>
 		<script src="js/panCon.js"></script>
-
-		<style type="text/css">
-			.mark {
-				width: 5%;
-			}
-			.txt {
-				width: 75%;
-			}
-		</style>
 	</head>
 
 	<body>
-		<div id="boso" class="boso Lc_noadr">
-			<div id="ols" class="barBody"></div>
-			<div class="bar">
-				<div class="btn btn1" onclick="ol.add();">
-					<div class="midTop"></div>
-					<div class="midSub mfs">新建盘点计划</div>
-				</div>
+		<div id="boso" class="boso Lc_noadr bg">
+			<div class="log_bar bfs">&nbsp;&nbsp;未提交的盘点表</div>
+			<div id="ols" class="log_body"></div>
+			<div class="log_bar log_bar_bottom">
+				<div class="log_btn mfs" onclick="ol.add();">新&nbsp;建</div>
 			</div>
 		</div>
 	</body>

@@ -85,7 +85,7 @@ ol = {
 
 	flushDom: function (o) {
 		var d = document.createElement("div");
-		d.className = "b sfs";
+		d.className = "pan_info_title sfs";
 		var s = "领用时间：" + ol.timStr(o.tim) + "</br>";
 		s += "单位名称：" + o.dep + "</br>";
 		s += "领用人：" + o.person + "</br>";

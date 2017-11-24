@@ -1,0 +1,364 @@
+
+html, body {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	font-family: "Microsoft YaHei";
+	font-size: 20px;
+	color: #222;
+}
+
+/*取消输入框的默认样式*/
+input{
+	border: none;
+	outline: medium;
+}
+
+/*取消a链接默认样式*/
+a{
+	text-decoration:none;
+	color: #222;
+}
+
+.boso {
+	position: relative;
+	font-size: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+/*---------------------- 公共样式库 ----------------------*/
+
+/*设置元素不可见*/
+.Lc_nosee {
+	display: none !important;
+}
+
+.Lc_hid {
+	visibility: hidden;
+}
+
+/*设置元素不能被选中*/
+.Lc_noselect {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/*取消安卓的默认选项*/
+.Lc_noadr {
+	outline: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	-webkit-focus-ring-color: rgba(0, 0, 0, 0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+/*居中父容器*/
+.midOut {
+	text-align: center;
+}
+
+/*居中头*/
+.midTop {
+	display: inline-block;
+	height: 100%;
+	width: 0;
+	vertical-align: middle;
+}
+
+/*居中子容器*/
+.midSub {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/*大字体*/
+.bfs {
+	font-size: 1.8rem;
+}
+
+/*中字体*/
+.mfs {
+	font-size: 1.2rem;
+}
+
+/*小字体*/
+.sfs {
+	font-size: 1rem;
+}
+
+/*背景*/
+.bg {
+	background-color: #EAFDFF;
+}
+
+/*首页背景*/
+.bgh {
+	background-repeat: no-repeat;
+	background-position: center center;
+	/*background-size: contain;*/
+	background-size: cover;
+	background-image: url(../img/bgh.png);
+}
+
+/*首页背景*/
+.bgh2 {
+	background-image: url(../img/bgh2.png);
+}
+
+/*---------------------- 首页 ----------------------*/
+
+.home_title {
+	color: #FFF;
+	text-align: center;
+	line-height: 2.5;
+	letter-spacing: 0.2rem;
+}
+
+.home_bottom {
+	position: absolute;
+	left: 0;
+	bottom: 1rem;
+	width: 100%;
+	text-align: center;
+}
+
+.home_btn {
+	padding: 0.5rem 0.5rem;
+	text-align: center;
+	line-height: 2.5;
+	/*background-color: #4F9CF2;*/
+	/*background-color: #39D;*/
+	background-color: #BDF;
+	border-radius: 0.5rem;
+	border: solid 1px #AAA;
+	/*box-shadow: inset 0 0.6rem 2rem 0 #FFF;*/
+}
+
+.home_a {
+	display: block;
+	margin-top: 3rem;
+}
+
+/*---------------------- 登录页 ----------------------*/
+
+.log_txtt {
+	display: block;
+	width: 70%;
+	margin: 0 auto 2rem auto;
+	border-bottom: solid 1px #999;
+	background-color: inherit;
+}
+
+.log_bar {
+	position: relative;
+	height: 10%;
+	color: #FFF;
+	line-height: 1.7;
+	background-color: #2AE;
+	background-image: url(../img/bg.png);
+}
+
+.log_bar_bottom {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.log_body {
+	position: relative;
+	height: 80%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.log_note {
+	width: 70%;
+	margin: 0 auto;
+	font-style: italic;
+	color: #F00;
+}
+
+.log_top {
+	height: 10%;
+}
+
+.log_btn {
+	position: absolute;
+	right: 3%;
+	top: 15%;
+	width: 22%;
+	height: 78%;
+	line-height: 1.8;
+	text-align: center;
+	color: #222;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	background-image: url(../img/btn.png);
+}
+
+/*---------------------- 用戶页 ----------------------*/
+
+.user_btn_body {
+	display: inline-block;
+	width: 50%;
+	text-align: center;
+}
+
+.user_btn {
+	width: 100%;
+	height: 5rem;
+	margin-top: 2rem;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: contain;
+	background-image: url(../img/pan.png);
+}
+
+.user_btn_in {
+	background-image: url(../img/in.png);
+}
+
+.user_btn_out {
+	background-image: url(../img/out.png);
+}
+
+/*---------------------- 盘点页 ----------------------*/
+
+.pan_left {
+	left: 3%;
+}
+
+.pan_mid {
+	left: 39%;
+}
+
+.pan_scd {
+	color: #25F;
+	font-weight: bold;
+}
+
+.pan_info {
+	padding: 1rem;
+}
+
+.pan_info_title {
+	margin: 1rem 0 0 1rem;
+}
+
+.pan_info_r {
+	text-align: right;
+	margin-bottom: 1rem;
+	font-style: italic;
+	color: #999;
+}
+
+.pan_sub {
+	position: absolute;
+}
+
+/*---------------------- 列表样式 ----------------------*/
+
+.mark {
+	display: inline-block;
+	vertical-align: middle;
+	width: 15%;
+	height: 3rem;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
+.txt {
+	display: inline-block;
+	vertical-align: middle;
+	width: 65%;
+	overflow: hidden;
+	margin-bottom: 0.5rem;
+}
+
+.op {
+	display: inline-block;
+	vertical-align: middle;
+	width: 20%;
+	overflow: hidden;
+	text-align: center;
+	color: red;
+	font-style: italic;
+	cursor: pointer;
+}
+.op:hover {
+	font-weight: bold;
+}
+
+.tim {
+	width: 90%;
+	font-style: italic;
+	color: #999;
+	margin: 0 auto;
+}
+
+.cover {
+	background-color: #EEE;
+}
+
+.cover a {
+	color: #999;
+}
+
+/*---------------------- 状态样式 ----------------------*/
+
+/*计划扫描的 3 蓝色的问号*/
+.stplan {
+	background-image: url(../img/stplan.png);
+}
+
+/*与计划扫描相匹配的 1 绿色的勾勾*/
+.stmatch {
+	background-image: url(../img/stmatch.png);
+}
+
+/*已扫描到再覆盖的 1 灰色的绿色勾勾*/
+.stcover {
+	background-image: url(../img/stcover.png);
+}
+
+/*计划外扫描到的 2 黄色的灯泡或感叹号*/
+.sttmp {
+	background-image: url(../img/sttmp.png);
+}
+
+/*纯粹不存在的 0 红色的叉叉或问号*/
+.stno {
+	background-image: url(../img/stno.png);
+}
+
+/*---------------------- 设备详情 ----------------------*/
+
+.dev_prompt {
+	text-align: right;
+	font-style: italic;
+	margin: 0 1rem 1rem 0;
+	color: #F88;
+}
+.dev_k {
+	display: inline-block;
+	vertical-align: top;
+	width: 40%;
+	text-align: right;
+	line-height: 2;
+}
+.dev_v {
+	display: inline-block;
+	vertical-align: top;
+	width: 55%;
+	word-break: break-all;
+	margin-top: 0.4rem;
+}

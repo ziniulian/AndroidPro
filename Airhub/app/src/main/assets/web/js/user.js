@@ -4,7 +4,7 @@ if (!user) {
 }
 
 function init() {
-    userDom.innerHTML = user;
+    userDom.innerHTML += user;
 }
 
 function signOut() {

@@ -4,115 +4,77 @@
 		<title>DevInfo</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<link href="css/base.css" rel="stylesheet" type="text/css" />
-		<link href="css/demo1.css" rel="stylesheet" type="text/css" />
+		<link href="css/s01.css" rel="stylesheet" type="text/css" />
 		<script src="js/srvurl.js"></script>
 		<script src="js/devInfo.js"></script>
 		<script src="js/devCon.js"></script>
-
-		<style type="text/css">
-			.btn3r {
-				position: absolute;
-				right: 0;
-			}
-			.btn3m {
-				position: absolute;
-				right: 33%;
-			}
-			.prompt {
-				text-align: right;
-				font-style: italic;
-				margin: 0 1rem 1rem 0;
-				color: #F88;
-			}
-			.k {
-				display: inline-block;
-				vertical-align: top;
-				width: 40%;
-				text-align: right;
-				line-height: 2;
-			}
-			.v {
-				display: inline-block;
-				vertical-align: top;
-				width: 60%;
-				word-break: break-all;
-				margin-top: 0.4rem;
-			}
-		</style>
 	</head>
 
 	<body>
-		<div id="boso" class="boso Lc_noadr">
-			<div id="devs" class="barBody">
+		<div id="boso" class="boso Lc_noadr bg">
+			<div class="log_bar bfs">
+				&nbsp;&nbsp;物品基本信息
+			</div>
+			<div id="devs" class="log_body">
 				<div id = "didDom" class="mfs"></div>
-				<div id = "mptDom" class="sfs prompt"></div>
+				<div id = "mptDom" class="sfs dev_prompt"></div>
 				<div>
-					<div class="sfs k">名称：</div><!--
-					--><div id = "nam" class="sfs v"></div>
+					<div class="sfs dev_k">名称：</div><!--
+					--><div id = "nam" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">品牌：</div><!--
-					--><div id = "brand" class="sfs v"></div>
+					<div class="sfs dev_k">品牌：</div><!--
+					--><div id = "brand" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">型号：</div><!--
-					--><div id = "mod" class="sfs v"></div>
+					<div class="sfs dev_k">型号：</div><!--
+					--><div id = "mod" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">序列号：</div><!--
-					--><div id = "sn" class="sfs v"></div>
+					<div class="sfs dev_k">序列号：</div><!--
+					--><div id = "sn" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">单位：</div><!--
-					--><div id = "unit" class="sfs v"></div>
+					<div class="sfs dev_k">单位：</div><!--
+					--><div id = "unit" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">采购价值：</div><!--
-					--><div id = "price" class="sfs v"></div>
+					<div class="sfs dev_k">采购价值：</div><!--
+					--><div id = "price" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">级别：</div><!--
-					--><div id = "level" class="sfs v"></div>
+					<div class="sfs dev_k">级别：</div><!--
+					--><div id = "level" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">存储库位：</div><!--
-					--><div id = "location" class="sfs v"></div>
+					<div class="sfs dev_k">存储库位：</div><!--
+					--><div id = "location" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">出库次数：</div><!--
-					--><div id = "cont" class="sfs v"></div>
+					<div class="sfs dev_k">出库次数：</div><!--
+					--><div id = "cont" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">到货时间：</div><!--
-					--><div id = "tim" class="sfs v"></div>
+					<div class="sfs dev_k">到货时间：</div><!--
+					--><div id = "tim" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">入库时间：</div><!--
-					--><div id = "intim" class="sfs v"></div>
+					<div class="sfs dev_k">入库时间：</div><!--
+					--><div id = "intim" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">定检周期：</div><!--
-					--><div id = "fegularcycle" class="sfs v"></div>
+					<div class="sfs dev_k">定检周期：</div><!--
+					--><div id = "fegularcycle" class="sfs dev_v"></div>
 				</div>
 				<div>
-					<div class="sfs k">备注：</div><!--
-					--><div id = "remark" class="sfs v"></div>
+					<div class="sfs dev_k">备注：</div><!--
+					--><div id="remark" class="sfs dev_v"></div>
 				</div>
 			</div>
-			<div class="bar">
-				<div class="btn btn3 btns">
-					<div class="midTop"></div>
-					<div class="midSub sfs">基本信息</div>
-				</div>
-				<a id="logOut"><div class="btn btn3m">
-					<div class="midTop"></div>
-					<div class="midSub sfs">出库记录</div>
-				</div></a>
-				<a id="logFix"><div class="btn btn3 btn3r">
-					<div class="midTop"></div>
-					<div class="midSub sfs">维修记录</div>
-				</div></a>
+			<div class="log_bar log_bar_bottom">
+				<a id="devInf"><div class="log_btn mfs pan_left pan_scd">信&nbsp;息</div></a>
+				<a id="logOut"><div class="log_btn mfs pan_mid">出&nbsp;库</div></a>
+				<a id="logFix"><div class="log_btn mfs">维&nbsp;修</div></a>
 			</div>
 		</div>
 	</body>
