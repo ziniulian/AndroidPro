@@ -238,6 +238,13 @@ dat = {
 			}
 		}
 		count.innerHTML = "共 " + dat.count + " 条";
+
+		// 重新排序
+		var cs = content.children;
+		for (var i = 0; i < cs.length; i ++) {
+			cs[i].dat.iddom.innerHTML = (i + 1);
+		}
+
 		dat.hidDialog();
 	},
 
@@ -246,7 +253,8 @@ dat = {
 		t.iddom = document.createElement("div");
 		t.scd = false;
 		d.className = "check_out";
-		d.appendChild(dat.domId(t.id, t.iddom));	// id
+		d.appendChild(dat.domId((dat.total + 1), t.iddom));	// id
+		d.dat = t;
 		d.onclick = function (e) {
 			dat.scd(t.id);
 		};

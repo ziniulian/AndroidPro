@@ -339,8 +339,8 @@ a{
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 2rem;
-	height: 2rem;
+	width: 2.5rem;
+	height: 1.1rem;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-size: contain;
@@ -348,11 +348,9 @@ a{
 }
 
 .check_id {
-	width: 70%;
-	height: 100%;
 	color: #FFF;
 	font-family: Arial;
-	transform: rotate(-45deg);
+	/* transform: rotate(-45deg); */
 }
 
 .check_set {
@@ -369,7 +367,7 @@ a{
 
 .check_out_body {
 	padding-left: 8%;
-	padding-top: 5%;
+	padding-top: 7%;
 	text-align: left;
 }
 

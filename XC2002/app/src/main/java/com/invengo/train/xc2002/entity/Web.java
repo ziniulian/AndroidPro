@@ -1,13 +1,17 @@
 package com.invengo.train.xc2002.entity;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Environment;
 import android.webkit.JavascriptInterface;
 
 import com.invengo.train.rfid.EmCb;
 import com.invengo.train.rfid.InfCallBack;
 import com.invengo.train.rfid.tag.BaseTag;
+import com.invengo.train.rfid.tag.TagUn;
 import com.invengo.train.rfid.xc2002.Rd;
 import com.invengo.train.xc2002.Ma;
+import com.invengo.train.xc2002.R;
 import com.invengo.train.xc2002.dao.DbLocal;
 import com.invengo.train.xc2002.enums.EmUh;
 import com.invengo.train.xc2002.enums.EmUrl;
@@ -30,13 +34,30 @@ public class Web {
 	private String appNam;
 	private DbLocal db;
 
+	// 声音
+	private SoundPool sp = null;
+	private int music_success;
+	private int music_err;
+	private int music_null;
+
 	public void init (Ma m) {
 		ma = m;
+
+		// 声音
+		sp = new SoundPool(3, AudioManager.STREAM_SYSTEM, 5);
+		music_success = sp.load(m, R.raw.ok, 1);
+		music_err = sp.load(m, R.raw.error, 1);
+		music_null = sp.load(m, R.raw.click, 1);
 
 		// 设置监听
 		rfd.setCallBackListenter(new InfCallBack() {
 			@Override
 			public void onReadTag(BaseTag tag) {
+				if (tag instanceof TagUn) {
+					sp.play(music_null, 1, 1, 0, 0, 1);	// 发出类型不符的声音
+				} else {
+					sp.play(music_success, 1, 1, 0, 0, 1);	// 发出扫描成功的声音
+				}
 				ma.sendUrl(EmUrl.HdRead, tag.toJson());
 			}
 
@@ -49,6 +70,7 @@ public class Web {
 						break;
 					case ErrRead:
 					case ReadNull:
+						sp.play(music_err, 1, 1, 0, 0, 1);	// 发出扫描失败的声音
 						ma.sendUrl(EmUrl.ReadNull);
 						break;
 					case Reading:
