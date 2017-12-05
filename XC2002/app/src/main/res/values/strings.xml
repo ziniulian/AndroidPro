@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">XC2002便携式标签读出器</string>
+    <string name="app_name">XC2002-RHC读出器</string>
+    <!--<string name="app_name">XC2002-RKC读出器</string>-->
+    <!--<string name="app_name">XC2002-RJC读出器</string>-->
 </resources>
