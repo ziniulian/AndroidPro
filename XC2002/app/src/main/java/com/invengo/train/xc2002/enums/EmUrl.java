@@ -9,6 +9,7 @@ public enum EmUrl {
 	Read("file:///android_asset/web/read.html"),
 	Info("file:///android_asset/web/infoT.html"),
 	Check("file:///android_asset/web/check.html"),
+	Clear("file:///android_asset/web/clear.html"),
 	ReRead("file:///android_asset/web/read.html?read=1"),
 	HdRead("javascript: rfid.hdRead(<0>);"),
 	Tim("javascript: rfid.tim(\"<0>\");"),
@@ -18,6 +19,8 @@ public enum EmUrl {
 	Back("javascript: dat.back();"),
 	About("file:///android_asset/web/about.html"),
 	Transition("file:///android_asset/web/transition.html"),
+	Trt("file:///android_asset/web/readTrt.html"),
+	TrtInfo("file:///android_asset/web/readTrtInfo.html"),
 	Exit("file:///android_asset/web/home.html"),
 	Err("file:///android_asset/web/err.html");
 

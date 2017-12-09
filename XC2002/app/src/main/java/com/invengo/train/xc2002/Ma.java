@@ -23,7 +23,9 @@ import java.text.SimpleDateFormat;
 import static com.invengo.train.xc2002.enums.UtStrMegEm.meg;
 
 public class Ma extends AppCompatActivity {
-	public static final String sdDir = "Invengo/Train/XC2002/";	// SD卡路径
+	public static final String sdDir = "Invengo/Train/XC2002/RHC/";	// SD卡路径
+//	public static final String sdDir = "Invengo/Train/XC2002/RKC/";	// SD卡路径
+//	public static final String sdDir = "Invengo/Train/XC2002/RJC/";	// SD卡路径
 
 	private Web w = new Web();	// 读写器
 	private WebView wv;
@@ -59,7 +61,9 @@ public class Ma extends AppCompatActivity {
 		ws.setJavaScriptEnabled(true);
 		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
+
 		sendUrl(EmUrl.Transition);
+//		sendUrl(EmUrl.Trt);	// 位标标签解析测试
 
 		// 读写器
 		w.init(this);
@@ -104,6 +108,7 @@ public class Ma extends AppCompatActivity {
 					EmUrl e = getCurUi();
 					switch (getCurUi()) {
 						case Read:
+						case Trt:
 							w.read();
 							break;
 						case Info:
@@ -119,11 +124,14 @@ public class Ma extends AppCompatActivity {
 					case Read:
 					case Info:
 					case Check:
+					case Clear:
 					case About:
+					case TrtInfo:
 						sendUrl(EmUrl.Back);
 						break;
 					case Exit:
 					case Err:
+					case Trt:
 						return super.onKeyDown(keyCode, event);
 				}
 				return true;

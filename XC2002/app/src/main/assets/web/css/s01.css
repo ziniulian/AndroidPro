@@ -579,3 +579,16 @@ a{
 	vertical-align: top;
 	word-break:break-all;
 }
+
+/*---------------------- 清空页 ----------------------*/
+
+.clear_btn {
+	color: #0790E3;
+	font-size: 1rem;
+	line-height: 2.2rem;
+	text-align: center;
+	background-image: url(../img/sbtn.png);
+}
+.clear_btn:hover {
+	background-image: url(../img/sbtnH.png);
+}

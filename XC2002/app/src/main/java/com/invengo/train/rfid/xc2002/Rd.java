@@ -73,12 +73,18 @@ public class Rd extends Base {
 									// 没有搜索到标签
 									cb(EmCb.ReadNull);
 
-//									// 测试用
+									// 位标标签解析测试：
+//									n = 1;
+//									r = new byte[n];
+//									i = 2;
+//									j = 0;
+
+									// 测试用
 //									onReadTag(BaseTag.parse("TC50   400000211A12C"));
-////									onReadTag(BaseTag.parse("!C64K  Q06505812A94C"));
-////									onReadTag(BaseTag.parse("KYW25T 677083E073 066"));
-////									onReadTag(BaseTag.parse("J10489001401AH  TK88188 "));
-////									onReadTag(BaseTag.parse("D3010000002101   G12345B"));
+//									onReadTag(BaseTag.parse("!C64K  Q06505812A94C"));
+//									onReadTag(BaseTag.parse("KYW25T 677083E073 066"));
+//									onReadTag(BaseTag.parse("J10489001401AH  TK88188 "));
+//									onReadTag(BaseTag.parse("D3010000002101   G12345B"));
 								} else {
 									n = buf[2] - 6;
 									r = new byte[n];
@@ -95,7 +101,14 @@ public class Rd extends Base {
 									if (j == n) {
 										j = 0;
 										n = 0;
+
 										onReadTag(BaseTag.parse(r));
+
+//										// 位标标签解析测试：
+//										TagUn ut = new TagUn();
+//										ut.setCod(ParseTag.parse(r));
+//										onReadTag(ut);
+
 										break;
 									}
 								}
