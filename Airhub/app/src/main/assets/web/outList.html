@@ -16,7 +16,7 @@
 			<div class="log_bar bfs">&nbsp;&nbsp;未提交的出库单</div>
 			<div id="ols" class="log_body"></div>
 			<div class="log_bar log_bar_bottom">
-				<div class="log_btn mfs" onclick="ol.flush();">刷&nbsp;新</div>
+				<div class="log_btn mfs" onclick="ol.flush();" ontouchstart="this.className += ' btn_d';" ontouchend="this.className = this.className.replace(' btn_d', '');">刷&nbsp;新</div>
 			</div>
 		</div>
 	</body>

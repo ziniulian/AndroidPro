@@ -7,10 +7,11 @@ ol.constant = {
 		dev: "devInfo.html?devid="
 	},
 	srv: {
+		goods: "srv=getAllGoods&rid=",
 		devs: "srv=getDevsByOut&rid=",
 		mark: "srv=markBorrow&rid=",		// ...
 		clr: "srv=clearBorrow&rid=",		// ...
-		crt: "srv=crtOutSlave&rid=",
+		crt: "srv=crtOutSlaveFid&rid=",
 		del: "srv=delOneSlaveOut&rid=",
 		// 清单
 		crtR: "srv=crtOut&rid=",	// ...

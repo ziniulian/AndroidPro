@@ -14,7 +14,6 @@
 		<div id="boso" class="boso Lc_noadr bg">
 			<div class="log_bar bfs">
 				&nbsp;&nbsp;盘点信息
-				<div class="log_btn mfs" onclick="ol.ok();">提&nbsp;交</div>
 			</div>
 			<div id="devs" class="log_body">
 				<div id="ridDom" class="pan_info_title mfs"></div>
@@ -25,9 +24,9 @@
 				</div>
 			</div>
 			<div class="log_bar log_bar_bottom">
-				<a id="infoa"><div class="log_btn mfs pan_left pan_scd">信&nbsp;息</div></a>
-				<a id="detaila"><div class="log_btn mfs pan_mid">明&nbsp;细</div></a>
-				<a id="scana"><div class="log_btn mfs">扫&nbsp;描</div></a>
+				<a id="infoa" ontouchstart="this.className += ' btn_d';" ontouchend="this.className = this.className.replace(' btn_d', '');"><div class="log_btn mfs pan_left pan_scd">信&nbsp;息</div></a>
+				<a id="detaila" ontouchstart="this.className += ' btn_d';" ontouchend="this.className = this.className.replace(' btn_d', '');"><div class="log_btn mfs pan_mid">明&nbsp;细</div></a>
+				<a id="scana" ontouchstart="this.className += ' btn_d';" ontouchend="this.className = this.className.replace(' btn_d', '');"><div class="log_btn mfs">扫&nbsp;描</div></a>
 			</div>
 		</div>
 	</body>
