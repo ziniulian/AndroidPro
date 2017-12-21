@@ -49,6 +49,7 @@ ol = {
 				var o = JSON.parse(a.responseText);
 				if (o.ok) {
 					var i, s, d = "";
+					ols.innerHTML = "";
 					for (i = 0; i < o.dat.length; i ++) {
 						s = o.dat[i].rid;
 						if (s) {
