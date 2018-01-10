@@ -1,7 +1,5 @@
 package com.invengo.train.rfid.tag;
 
-import android.util.Log;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -120,14 +118,20 @@ public abstract class BaseTag {
 					}
 					src[i - 1] = 0;
 				}
-				String s = Conver(src, 0);
+				try {
+					// 虽在 parse 处已作异常处理，但不知为何还会死机，故在此处再做一次异常处理看是否能解决该问题。
+					// 可能 Conver 接口传回了空值，也可能是 Conver 接口死机造成的。
+					String s = Conver(src, 0);
 //Log.i("---------", s);
 //				tag = parse("TC50   400000211A12C");
 //				tag = parse("!C64K  Q06505812A94C");
 //				tag = parse("KYW25T 677083E073 066");
 //				tag = parse("J10489001401AH  TK88188 ");
 //				tag = parse("D3010000002101   G12345B");
-				tag = parse(s);
+					tag = parse(s);
+				} catch (Exception e) {
+					tag = parse("?");
+				}
 			} else {
 				tag = parse("?");
 			}

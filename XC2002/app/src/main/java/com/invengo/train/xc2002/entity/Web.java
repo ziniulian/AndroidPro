@@ -162,6 +162,11 @@ public class Web {
 	}
 
 	@JavascriptInterface
+	public String getTim() {
+		return ma.getTimV();
+	}
+
+	@JavascriptInterface
 	public void exit() {
 		ma.finish();
 	}

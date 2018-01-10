@@ -74,6 +74,10 @@ public class Ma extends AppCompatActivity {
 		return timFmtSql.format(tim.getT().getTime());
 	}
 
+	public String getTimV () {
+		return timFmtView.format(tim.getT().getTime());
+	}
+
 	@Override
 	protected void onResume() {
 		w.open();
@@ -113,6 +117,9 @@ public class Ma extends AppCompatActivity {
 							break;
 						case Info:
 							sendUrl(EmUrl.ReRead);
+							break;
+						case Home:
+							sendUrl(EmUrl.Read);
 							break;
 					}
 				}
@@ -170,7 +177,7 @@ public class Ma extends AppCompatActivity {
 					tim.start();
 					break;
 				case Tim:
-					wv.loadUrl(meg(EmUrl.Tim.toString(), new String[] {timFmtView.format(tim.getT().getTime())}));
+					wv.loadUrl(meg(EmUrl.Tim.toString(), new String[] {getTimV()}));
 					break;
 				case Url:
 					wv.loadUrl((String)msg.obj);
