@@ -167,6 +167,11 @@ public class Web {
 	}
 
 	@JavascriptInterface
+	public void callTim() {
+		ma.callTim();
+	}
+
+	@JavascriptInterface
 	public void exit() {
 		ma.finish();
 	}

@@ -90,6 +90,22 @@ public class Tim implements Runnable {
 		this.t.setTimeInMillis(Calendar.getInstance().getTimeInMillis() + this.offset);
 	}
 
+	// 时间差清零
+	public void reset() {
+		this.stop();
+		this.offset = 0;
+		this.setT();
+		this.start();
+		try {
+			// 保存时间差
+			FileOutputStream fs = this.ma.openFileOutput(path, Context.MODE_PRIVATE);
+			fs.write((this.offset + "\n").getBytes());
+			fs.close();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+	}
+
 	public Calendar getT() {
 		setT();
 		return this.t;

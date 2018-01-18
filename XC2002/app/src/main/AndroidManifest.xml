@@ -20,7 +20,8 @@
             android:name=".Ma">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
+                <category android:name="android.intent.category.HOME"/>     <!--开机自启动-->
+                <category android:name="android.intent.category.DEFAULT"/>  <!--开机自启动-->
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

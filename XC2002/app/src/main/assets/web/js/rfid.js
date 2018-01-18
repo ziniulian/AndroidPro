@@ -65,6 +65,10 @@ rfid = {
 		return rfdo.getTim();
 	},
 
+	callTim: function () {
+		rfdo.callTim();
+	},
+
 	exit: function () {
 		rfdo.exit();
 	}

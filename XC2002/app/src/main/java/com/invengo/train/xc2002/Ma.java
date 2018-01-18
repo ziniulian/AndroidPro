@@ -1,9 +1,11 @@
 package com.invengo.train.xc2002;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -68,6 +70,20 @@ public class Ma extends AppCompatActivity {
 		// 读写器
 		w.init(this);
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1) {
+			sendUh(EmUh.Tim);	// 刷新页面时间
+		}
+	}
+
+	// 手动设置时间
+	public void callTim () {
+		tim.reset();
+		startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 1);
 	}
 
 	public String getTim () {
