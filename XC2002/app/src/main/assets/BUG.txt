@@ -1,7 +1,4 @@
-﻿V0.2.8 ：
-	写设计说明书
-	写一份自测试报告
-
+﻿V0.2.9 ：
 	GPS校时功能
 	时间改为读标签的时间
 	手电筒延时问题
@@ -9,3 +6,13 @@
 
 	按住scan键，要能够循环扫描标签
 	确认照片是否能保存到自定义路径下
+
+------- 改版步骤 ------
+LOG.txt 更新版本信息
+BUG.txt 版本修改
+build.gradle(Module:app) 版本修改 ， versionCode ++
+assets/web/js/about.js 版本修改
+
+xc2002/Ma.java 修改 sdDir 属性
+assets/conf.xml 修改 use 属性
+res/values/strings.xml 修改 app_name 属性
