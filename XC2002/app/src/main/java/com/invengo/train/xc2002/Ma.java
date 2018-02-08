@@ -149,6 +149,7 @@ public class Ma extends AppCompatActivity {
 					case Check:
 					case Clear:
 					case About:
+					case Skin:
 					case TrtInfo:
 						sendUrl(EmUrl.Back);
 						break;

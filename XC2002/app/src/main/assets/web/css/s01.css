@@ -248,6 +248,8 @@ a{
 	height: 2.8rem;
 	color: #0790E3;
 	font-size: 1rem;
+	font-weight: bold;
+	text-shadow: 0 0 3px #FFF;
 	line-height: 2.8rem;
 	text-align: center;
 	background-repeat: no-repeat;
@@ -266,7 +268,7 @@ a{
 
 .home_dialog_space {
 	display: inline-block;
-	width: 9%;
+	margin-left: 1rem;
 }
 
 .home_btn {
@@ -614,4 +616,41 @@ a{
 }
 .clear_btn:hover {
 	background-image: url(../img/sbtnH.png);
+}
+
+/*---------------------- 换肤页 ----------------------*/
+
+.skin_block {
+	display: inline-block;
+	width: 49%;
+	height: 38%;
+}
+
+.skin_pic {
+	height: 80%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
+.skin_pic_s01 {
+	background-image: url(../img/s01.jpg);
+}
+
+.skin_pic_s02 {
+	background-image: url(../img/s02.jpg);
+}
+
+.skin_pic_txt {
+	font-size: 1rem;
+	line-height: 1.7;
+	text-align: left;
+	padding-left: 3.2rem;
+	background-repeat: no-repeat;
+	background-position: 2rem center;
+	background-size: 1rem 1rem;
+	background-image: url(../img/scd.png);
+}
+.skin_pic_txtH {
+	background-image: url(../img/scdH.png);
 }

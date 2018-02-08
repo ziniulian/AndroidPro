@@ -18,6 +18,7 @@ public enum EmUrl {
 	FlashLight("javascript: dat.flashlight(<0>);"),
 	Back("javascript: dat.back();"),
 	About("file:///android_asset/web/about.html"),
+	Skin("file:///android_asset/web/skin.html"),
 	Transition("file:///android_asset/web/transition.html"),
 	Trt("file:///android_asset/web/readTrt.html"),
 	TrtInfo("file:///android_asset/web/readTrtInfo.html"),

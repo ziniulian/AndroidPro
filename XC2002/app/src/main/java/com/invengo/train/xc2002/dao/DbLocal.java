@@ -16,6 +16,8 @@ import static com.invengo.train.xc2002.enums.UtStrMegEm.meg;
  */
 
 public class DbLocal extends SQLiteOpenHelper {
+	private int max = 999;
+
 	public DbLocal(Context c) {
 		super(new SdDb(c), EmSql.DbNam.toString(), null, 1);
 	}
@@ -54,6 +56,11 @@ public class DbLocal extends SQLiteOpenHelper {
 	// 保存数据
 	public void sav (String[] arg) {
 		exe(EmSql.AddOne.toString(), arg);
+		long n = this.count();
+		if (n > this.max) {
+			n -= this.max;
+			exe(EmSql.DelOut.toString(), new String[] {n + ""});
+		}
 	}
 
 	// 删除数据

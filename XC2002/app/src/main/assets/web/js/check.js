@@ -208,13 +208,16 @@ dat = {
 		}
 		if (i > 0) {
 			dialog.className = "home_dialog";
+		} else {
+			noDialog.className = "home_dialog";
 		}
 	},
 
 	// 关闭对话框
 	hidDialog: function () {
-		dialog.className = "Lc_nosee";
 		dialogSet.className = "Lc_nosee";
+		noDialog.className = "Lc_nosee";
+		dialog.className = "Lc_nosee";
 	},
 
 	del: function () {

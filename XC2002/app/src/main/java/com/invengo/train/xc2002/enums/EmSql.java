@@ -23,6 +23,9 @@ public enum EmSql {
 	// 全部删除
 	DelAll("delete from tbMotor"),
 
+	// 删除多余数据
+	DelOut("delete from tbMotor where mid in (select mid from tbMotor order by readtime asc limit <0>)"),
+
 	// 修改修程
 	SetXiu("update tbMotor set repairclass = '<1>' where mid = <0>"),
 

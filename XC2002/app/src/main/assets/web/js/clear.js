@@ -25,11 +25,16 @@ dat.del = function () {
 
 // 显示对话框
 dat.showDialog = function () {
-	dialog.className = "home_dialog";
+	if (dat.count) {
+		dialog.className = "home_dialog";
+	} else {
+		noDialog.className = "home_dialog";
+	}
 };
 
 // 关闭对话框
 dat.hidDialog = function () {
+	noDialog.className = "Lc_nosee";
 	dialog.className = "Lc_nosee";
 };
 
