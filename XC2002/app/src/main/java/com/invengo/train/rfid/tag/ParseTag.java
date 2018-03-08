@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ParseTag {
 	public static String parse (byte[] src) {
-//		src = Hex2Bytes.hex2Byt("A8162C092C01B2230123456789AB");	// 测试数据
+//		src = Hex2Bytes.hex2Byt("2A69A8162C092C01B2230123456789AB");	// 测试数据
 
 		if ((src[0] != 0x2A) || (src[1] != 0x69)) {
 			return "<br />不符合2A69的数据 ： " + Hex2Bytes.byt2Hex(src) + "<br />";
